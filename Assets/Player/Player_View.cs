@@ -1,13 +1,9 @@
-﻿// PlayerView.cs
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class Player_View : MonoBehaviour
 {
-    [SerializeField] private PlayerData playerData;
-    private Player_Model model;
-
-    private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
 
     void Awake()
     {
@@ -26,15 +22,14 @@ public class Player_View : MonoBehaviour
 
     public void JumpImpulse(float speed)
     {
-        // 기존 속도를 깔끔히 초기화하고
+        if (rb == null) return;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-        // 한 번만 임펄스
         rb.AddForce(Vector2.up * speed, ForceMode2D.Impulse);
     }
 
     public void ContinueJump(float speed)
     {
-        // 등속 상승: 매 프레임마다 y축 속도 고정
+        if (rb == null) return;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, speed);
     }
 }

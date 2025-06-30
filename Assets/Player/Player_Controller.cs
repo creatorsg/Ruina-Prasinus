@@ -18,11 +18,15 @@ public class Player_Controller : MonoBehaviour
     [Header("— 대시 (Dash) —")]
     private float dashTimer = 0f;
     private int dashDirection = 0;
-    bool dashKeyHeld = false;
 
     [Header("— 점프 (Jump) —")]
     private float jumpTimer = 0f;
+    private bool isGrounded = false;
+    private bool isJumping = false;
 
+    [Header("- 키 입력 (Press) -")]
+    bool dashKeyHeld = false;
+    bool jumpKeyHeld = false;
     void Awake()
     {
         // ScriptableObject 참조와 뷰 컴포넌트 체크
@@ -38,9 +42,9 @@ public class Player_Controller : MonoBehaviour
     {
         var m = model;
 
-        if (model.isGrounded && Input.GetButtonDown("Jump"))
+        if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            model.isJumping = true;
+            isJumping = true;
         }
 
         // 대시 입력
@@ -65,23 +69,13 @@ public class Player_Controller : MonoBehaviour
         HandleWalk();
         HandleDash();
         HandleJump();
-        HandleFall();
     }
 
     void HandleInput()
     {
-        if (model.isGrounded && !model.isJumping && !model.isFalling && Input.GetKeyDown(KeyCode.Space))
-        {
-            StartJump();
-        }
-
-        else if (model.isDashing && Input.GetKeyDown(KeyCode.Space) && model.canDash)
-        {
-            StartJump();
-        }
-
         dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
     }
+
     void HandleWalk()
     {
         var m = model;
@@ -90,13 +84,11 @@ public class Player_Controller : MonoBehaviour
 
         if (moveInput != 0)
         {
-            // 방향 전환
             facingDirection = moveInput > 0 ? 1 : -1;
             Vector3 scale = transform.localScale;
             scale.x = Mathf.Abs(scale.x) * facingDirection;
             transform.localScale = scale;
 
-            // 가속
             walkAccelTimer += Time.fixedDeltaTime;
             float t = Mathf.Clamp01(walkAccelTimer / playerData.walkAccelTime);
             playerData.currentWalkSpeed = Mathf.Lerp(0f, playerData.walkMaxSpeed, t);
@@ -105,7 +97,6 @@ public class Player_Controller : MonoBehaviour
         }
         else
         {
-            // 멈춤
             walkAccelTimer = 0f;
             playerData.currentWalkSpeed = 0f;
             view.UpdateWalk(moveInput * playerData.currentWalkSpeed);
@@ -115,6 +106,7 @@ public class Player_Controller : MonoBehaviour
     void HandleDash()
     {
         var m = model;
+
         // 대시 시작
         dashTimer += Time.fixedDeltaTime;
 
@@ -143,62 +135,35 @@ public class Player_Controller : MonoBehaviour
         view.UpdateDash(dashDirection * playerData.currentDashSpeed);
     }
 
-    IEnumerator DashCooldownRoutine()
-    {
-        yield return new WaitForSeconds(playerData.dashCooldown);
-        model.canDash = true;
-    }
-
     void HandleJump()
     {
-        if (!model.isJumping) return;
+        if (!isJumping)
+            return;
 
-        jumpTimer += Time.fixedDeltaTime;
 
-        // 스페이스 키를 누르고 있는 동안, 그리고 최대 홀드 시간 이하라면
-        if (Input.GetKey(KeyCode.Space) && jumpTimer <= playerData.jumpHoldTime)
+        if (isJumping && isGrounded)
         {
+            view.JumpImpulse(playerData.jumpSpeed);
+
             view.ContinueJump(playerData.jumpSpeed);
         }
-        else
+
+        isJumping = false;
+        isGrounded = false;
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            // 홀드 타임 초과 또는 키 놓으면 바로 낙하 모드로
-            model.isJumping = false;
-            model.isFalling = true;
+            isGrounded = true;
         }
     }
 
-    void StartJump()
+    void OnCollisionExit2D(Collision2D collision)
     {
-        model.isJumping = true;
-        model.isGrounded = false;
-        model.isFalling = false;
-        jumpTimer = 0f;
-        view.JumpImpulse(playerData.jumpSpeed);
-    }
-
-    void HandleFall()
-    {
-        var m = model;
-        if (!m.isGrounded && !m.isJumping)
-            m.isFalling = true;
-        else if (m.isGrounded)
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            m.isFalling = false;
-            m.isJumping = false;
+            isGrounded = false;
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        // 바닥 태그 + 노말 검사
-        if (col.gameObject.CompareTag("Ground") && col.contacts[0].normal.y > 0.5f)
-            model.isGrounded = true;
-    }
-
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Ground"))
-            model.isGrounded = false;
     }
 }

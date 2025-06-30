@@ -1,15 +1,18 @@
+ï»¿using UnityEngine;
+
 public class Player_Model
 {
-    //ÇÃ·¹ÀÌ¾î ÇöÀç »óÅÂ 
-    public bool canDash = true;         // ´ë½¬°¡´É¿©ºÎ(ÄğÅ¸ÀÓ µî)
-    public bool isGrounded = false;     // ¶¥¿¡ ´ê¾Ò´ÂÁö ¿©ºÎ
-    public bool isWalking = false;      // °È±âÁß
-    public bool isDashing = false;      // ´ë½¬Áß
-    public bool isJumping = false;      // Á¡ÇÁÁß
-    public bool isFalling = false;      // ¶³¾îÁö´Â Áß 
-    public bool isHit = false;          // ÇÇ°İ´çÇÔ 
-    public bool inCinematic = false;    // ¿¬ÃâÁß
-    public bool inGearSetting = false;  // ±â¾î¼Â ¼³Á¤Áß
-    public bool inGearAction = false;   // ±â¾î¼Â ¹ßµ¿Áß 
-    public bool inUIControl = false;    // UI ¼¼ÆÃÁß 
+    [Header("â€” ì¡°ê±´ì— ë”°ë¥¸ ì‚¬ìš© ê°€ëŠ¥ ì—¬ë¶€ â€”")]
+    public bool canDash = true;         // ëŒ€ì‰¬ê°€ëŠ¥ì—¬ë¶€(ì¿¨íƒ€ì„ ë“±)
+    public bool canWalk = true;         // ê±·ê¸°ê°€ëŠ¥ì—¬ë¶€
+    public bool canJump = true;         // ì í”„ê°€ëŠ¥ì—¬ë¶€
+
+    [Header("â€” í”Œë ˆì´ì–´ í˜„ì¬ ìƒíƒœ â€”")]
+    public bool isDashing = false;      // ëŒ€ì‰¬ì¤‘
+    public bool isHit = false;          // í”¼ê²©ë‹¹í•¨ 
+    public bool inCinematic = false;    // ì—°ì¶œì¤‘
+    public bool inGearSetting = false;  // ê¸°ì–´ì…‹ ì„¤ì •ì¤‘
+    public bool inGearAction = false;   // ê¸°ì–´ì…‹ ë°œë™ì¤‘ 
+    public bool inUIControl = false;    // UI ì„¸íŒ…ì¤‘ 
+    public bool isFalling = false;      // ë–¨ì–´ì§€ëŠ” ì¤‘
 }
