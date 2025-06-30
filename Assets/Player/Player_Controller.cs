@@ -3,61 +3,112 @@ using System.Collections;
 
 public class Player_Controller : MonoBehaviour
 {
-    // 상태와 스탯을 분리한 두 클래스
+    // 모델(상태)과 뷰는 코드로 생성/할당
     private Player_Model model = new Player_Model();
-    private PlayerData playerData;
     private Player_View view;
 
+    [Header("Data (ScriptableObject)")]
+    [SerializeField] private PlayerData playerData;
+
+    [Header("— 걷기 (Walking) —")]
+    private float moveInput = 0f;
     private float walkAccelTimer = 0f;
-    private float dashAccelTimer = 0f;
+    private int facingDirection = 1;
+
+    [Header("— 대시 (Dash) —")]
     private float dashTimer = 0f;
+    private int dashDirection = 0;
+    bool dashKeyHeld = false;
+
+    [Header("— 점프 (Jump) —")]
     private float jumpTimer = 0f;
 
     void Awake()
     {
-        // 같은 게임오브젝트에 붙어 있는 컴포넌트 자동 할당
-        playerData = GetComponent<PlayerData>();
-        view = GetComponent<Player_View>();
+        // ScriptableObject 참조와 뷰 컴포넌트 체크
+        if (playerData == null)
+            Debug.LogError("PlayerData 에셋이 할당되지 않았습니다!", this);
 
-        // 없으면 에디터 콘솔에 오류 출력
-        if (playerData == null) Debug.LogError(" PlayerData 컴포넌트가 없습니다!", this);
-        if (view == null) Debug.LogError(" Player_View 컴포넌트가 없습니다!", this);
+        view = GetComponent<Player_View>();
+        if (view == null)
+            Debug.LogError("Player_View 컴포넌트가 없습니다!", this);
     }
 
     void Update()
     {
         var m = model;
-        // 공통 동작 불가 조건
+
+        if (model.isGrounded && Input.GetButtonDown("Jump"))
+        {
+            model.isJumping = true;
+        }
+
+        // 대시 입력
+        dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
+
+        if (!model.isDashing && dashKeyHeld && Input.GetAxisRaw("Horizontal") != 0)
+        {
+            model.isDashing = true;
+            dashTimer = 0f;
+            dashDirection = Input.GetAxisRaw("Horizontal") > 0 ? 1 : -1;
+        }
+
         if (m.isHit || m.inCinematic || m.inGearSetting || m.inGearAction || m.inUIControl)
             return;
 
+
+        HandleInput();
+    }
+
+    void FixedUpdate()
+    {
         HandleWalk();
         HandleDash();
         HandleJump();
         HandleFall();
     }
 
+    void HandleInput()
+    {
+        if (model.isGrounded && !model.isJumping && !model.isFalling && Input.GetKeyDown(KeyCode.Space))
+        {
+            StartJump();
+        }
+
+        else if (model.isDashing && Input.GetKeyDown(KeyCode.Space) && model.canDash)
+        {
+            StartJump();
+        }
+
+        dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
+    }
     void HandleWalk()
     {
         var m = model;
-        if (m.isDashing || m.isJumping || m.isFalling) return;
 
-        float input = Input.GetAxisRaw("Horizontal");
-        if (input != 0f)
+        moveInput = Input.GetAxisRaw("Horizontal");
+
+        if (moveInput != 0)
         {
-            m.isWalking = true;
-            walkAccelTimer += Time.deltaTime;
-            playerData.currentWalkSpeed = Mathf.Lerp(
-                0f, playerData.walkMaxSpeed, walkAccelTimer / playerData.walkAccelTime
-            );
-            view.UpdateWalk(playerData.currentWalkSpeed, (int)Mathf.Sign(input));
+            // 방향 전환
+            facingDirection = moveInput > 0 ? 1 : -1;
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Abs(scale.x) * facingDirection;
+            transform.localScale = scale;
+
+            // 가속
+            walkAccelTimer += Time.fixedDeltaTime;
+            float t = Mathf.Clamp01(walkAccelTimer / playerData.walkAccelTime);
+            playerData.currentWalkSpeed = Mathf.Lerp(0f, playerData.walkMaxSpeed, t);
+
+            view.UpdateWalk(moveInput * playerData.currentWalkSpeed);
         }
         else
         {
-            m.isWalking = false;
+            // 멈춤
             walkAccelTimer = 0f;
             playerData.currentWalkSpeed = 0f;
-            view.UpdateWalk(0f, 1);
+            view.UpdateWalk(moveInput * playerData.currentWalkSpeed);
         }
     }
 
@@ -65,34 +116,31 @@ public class Player_Controller : MonoBehaviour
     {
         var m = model;
         // 대시 시작
-        if (Input.GetKeyDown(KeyCode.LeftShift) && m.canDash && !m.isDashing)
+        dashTimer += Time.fixedDeltaTime;
+
+        if (dashTimer < playerData.dashAccelTime)
         {
-            m.isDashing = true;
-            m.canDash = false;
-            dashTimer = 0f;
-            dashAccelTimer = 0f;
+            float t = dashTimer / playerData.dashAccelTime;
+            playerData.currentDashSpeed = Mathf.Lerp(0f, playerData.dashMaxSpeed, t);
         }
-
-        if (m.isDashing)
+        else if (dashTimer < playerData.dashDuration)
         {
-            dashTimer += Time.deltaTime;
-            dashAccelTimer += Time.deltaTime;
-            float addedSpeed = Mathf.Lerp(
-                0f, playerData.dashMaxSpeed, dashAccelTimer / playerData.dashAccelTime
-            );
-            playerData.currentDashSpeed = addedSpeed;
+            playerData.currentDashSpeed = playerData.dashMaxSpeed;
 
-            int dir = (int)Mathf.Sign(transform.localScale.x);
-            view.UpdateDash(addedSpeed, dir);
-
-            if (dashTimer >= playerData.dashDuration || Input.GetKeyUp(KeyCode.LeftShift))
+            if (!Input.GetKey(KeyCode.LeftShift))
             {
-                m.isDashing = false;
-                dashTimer = 0f;
+                model.isDashing = false;
                 playerData.currentDashSpeed = 0f;
-                StartCoroutine(DashCooldownRoutine());
+                return;
             }
         }
+        else
+        {
+            model.isDashing = false;
+            playerData.currentDashSpeed = 0f;
+            return;
+        }
+        view.UpdateDash(dashDirection * playerData.currentDashSpeed);
     }
 
     IEnumerator DashCooldownRoutine()
@@ -103,33 +151,20 @@ public class Player_Controller : MonoBehaviour
 
     void HandleJump()
     {
-        var m = model;
+        if (!model.isJumping) return;
 
-        // 대시 중 점프 (관성 유지)
-        if (m.isDashing && Input.GetKeyDown(KeyCode.Space))
+        jumpTimer += Time.fixedDeltaTime;
+
+        // 스페이스 키를 누르고 있는 동안, 그리고 최대 홀드 시간 이하라면
+        if (Input.GetKey(KeyCode.Space) && jumpTimer <= playerData.jumpHoldTime)
         {
-            StartJump();
-            return;
+            view.ContinueJump(playerData.jumpSpeed);
         }
-
-        // 땅에 있을 때만 일반 점프
-        if (!m.isGrounded || m.isJumping || m.isFalling) return;
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            StartJump();
-
-        if (m.isJumping)
+        else
         {
-            jumpTimer += Time.deltaTime;
-            if (Input.GetKey(KeyCode.Space) && jumpTimer <= playerData.jumpHoldTime)
-            {
-                view.Jump(playerData.jumpSpeed);
-            }
-            else
-            {
-                m.isJumping = false;
-                m.isFalling = true;
-            }
+            // 홀드 타임 초과 또는 키 놓으면 바로 낙하 모드로
+            model.isJumping = false;
+            model.isFalling = true;
         }
     }
 
@@ -139,7 +174,7 @@ public class Player_Controller : MonoBehaviour
         model.isGrounded = false;
         model.isFalling = false;
         jumpTimer = 0f;
-        view.Jump(playerData.jumpSpeed);
+        view.JumpImpulse(playerData.jumpSpeed);
     }
 
     void HandleFall()
@@ -156,7 +191,7 @@ public class Player_Controller : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        // 땅 태그만 땅으로 인식
+        // 바닥 태그 + 노말 검사
         if (col.gameObject.CompareTag("Ground") && col.contacts[0].normal.y > 0.5f)
             model.isGrounded = true;
     }

@@ -8,6 +8,8 @@ public class PlayerData : ScriptableObject
     public float walkAccelTime = 0.1f;
     public float currentWalkSpeed = 0f;
 
+
+
     [Space(10)]
     [Header("— 대시 (Dash) —")]
     public float dashMaxSpeed = 7.5f;

@@ -1,32 +1,40 @@
+﻿// PlayerView.cs
 using UnityEngine;
-using System.Collections;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class Player_View : MonoBehaviour
 {
-    public Rigidbody2D rb;
-    void Start()
+    [SerializeField] private PlayerData playerData;
+    private Player_Model model;
+
+    private Rigidbody2D rb;
+
+    void Awake()
     {
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
-    }
-    public void UpdateWalk(float speed, int direction)
-    {
-        Vector2 vel = rb.linearVelocity;
-        vel.x = speed * direction;
-        rb.linearVelocity = vel;
-        if (speed > 0) transform.localScale = new Vector3(direction, 1, 1);
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    public void UpdateDash(float addedSpeed, int direction)
+    public void UpdateWalk(float speed)
     {
-        Vector2 vel = rb.linearVelocity;
-        vel.x += addedSpeed * direction;
-        rb.linearVelocity = vel;
+        transform.position += Vector3.right * speed * Time.fixedDeltaTime;
     }
 
-    public void Jump(float speed)
+    public void UpdateDash(float speed)
     {
-        Vector2 vel = rb.linearVelocity;
-        vel.y = speed;
-        rb.linearVelocity = vel;
+        transform.position += Vector3.right * speed * Time.fixedDeltaTime;
+    }
+
+    public void JumpImpulse(float speed)
+    {
+        // 기존 속도를 깔끔히 초기화하고
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        // 한 번만 임펄스
+        rb.AddForce(Vector2.up * speed, ForceMode2D.Impulse);
+    }
+
+    public void ContinueJump(float speed)
+    {
+        // 등속 상승: 매 프레임마다 y축 속도 고정
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, speed);
     }
 }
