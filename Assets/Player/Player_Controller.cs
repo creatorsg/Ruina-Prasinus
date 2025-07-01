@@ -42,6 +42,10 @@ public class Player_Controller : MonoBehaviour
     {
         var m = model;
 
+
+        if (m.isHit || m.inCinematic || m.inGearSetting || m.inGearAction || m.inUIControl)
+            return;
+
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             isJumping = true;
@@ -50,18 +54,6 @@ public class Player_Controller : MonoBehaviour
         // 대시 입력
         dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
 
-        if (!model.isDashing && dashKeyHeld && Input.GetAxisRaw("Horizontal") != 0)
-        {
-            model.isDashing = true;
-            dashTimer = 0f;
-            dashDirection = Input.GetAxisRaw("Horizontal") > 0 ? 1 : -1;
-        }
-
-        if (m.isHit || m.inCinematic || m.inGearSetting || m.inGearAction || m.inUIControl)
-            return;
-
-
-        HandleInput();
     }
 
     void FixedUpdate()
@@ -69,11 +61,6 @@ public class Player_Controller : MonoBehaviour
         HandleWalk();
         HandleDash();
         HandleJump();
-    }
-
-    void HandleInput()
-    {
-        dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
     }
 
     void HandleWalk()
