@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   walkMaxSpeed: 5
-  walkAccelTime: 0.1
+  walkAccelTime: 0.5
   currentWalkSpeed: 0
   dashMaxSpeed: 7.5
   dashAccelTime: 0.2
   dashDuration: 0.3
-  dashCooldown: 0.2
+  dashCooldown: 5
   currentDashSpeed: 0
   jumpSpeed: 5
   jumpHoldTime: 0.25

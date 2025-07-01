@@ -18,15 +18,14 @@ public class Player_Controller : MonoBehaviour
     [Header("— 대시 (Dash) —")]
     private float dashTimer = 0f;
     private int dashDirection = 0;
+    private float cooltime = 0f;
 
     [Header("— 점프 (Jump) —")]
-    private float jumpTimer = 0f;
     private bool isGrounded = false;
     private bool isJumping = false;
 
     [Header("- 키 입력 (Press) -")]
     bool dashKeyHeld = false;
-    bool jumpKeyHeld = false;
     void Awake()
     {
         // ScriptableObject 참조와 뷰 컴포넌트 체크
@@ -42,10 +41,6 @@ public class Player_Controller : MonoBehaviour
     {
         var m = model;
 
-
-        if (m.isHit || m.inCinematic || m.inGearSetting || m.inGearAction || m.inUIControl)
-            return;
-
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             isJumping = true;
@@ -54,6 +49,20 @@ public class Player_Controller : MonoBehaviour
         // 대시 입력
         dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
 
+        if (!model.isDashing && dashKeyHeld && Input.GetAxisRaw("Horizontal") != 0 && isGrounded && m.canDash != false)
+        {
+            model.isDashing = true;
+            dashTimer = 0f;
+            dashDirection = Input.GetAxisRaw("Horizontal") > 0 ? 1 : -1;
+        }
+
+        handleDashCoolDown();
+
+        if (m.isHit || m.inCinematic || m.inGearSetting || m.inGearAction || m.inUIControl)
+            return;
+
+
+        HandleInput();
     }
 
     void FixedUpdate()
@@ -61,6 +70,11 @@ public class Player_Controller : MonoBehaviour
         HandleWalk();
         HandleDash();
         HandleJump();
+    }
+
+    void HandleInput()
+    {
+        dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
     }
 
     void HandleWalk()
@@ -120,6 +134,23 @@ public class Player_Controller : MonoBehaviour
             return;
         }
         view.UpdateDash(dashDirection * playerData.currentDashSpeed);
+        m.canDash = false;
+    }
+
+    void handleDashCoolDown()
+    {
+        var m = model;
+
+        if(cooltime <= 0f)
+        {
+            cooltime = playerData.dashCooldown;
+            m.canDash = true;
+        }
+
+        if (m.canDash == false)
+        {
+            cooltime  -= Time.fixedDeltaTime;
+        }
     }
 
     void HandleJump()
@@ -138,6 +169,7 @@ public class Player_Controller : MonoBehaviour
         isJumping = false;
         isGrounded = false;
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
