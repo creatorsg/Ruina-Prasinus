@@ -2,12 +2,27 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.UIElements;
 
-public class DynamicComponentGraphWindow : EditorWindow
+public class DynamicComponentGraphWindow : EditorWindow, ISerializationCallbackReceiver
 {
+    // 노드 정보를 담는 직렬화 가능한 내부 클래스
+    [Serializable]
+    private class NodeData
+    {
+        public string label;
+        public string assetPath;
+        public Vector2 position;
+    }
+
+    [SerializeField]
+    private List<NodeData> savedNodes = new List<NodeData>();
+
     private ComponentGraphView graphView;
+    private bool isRestoring = false;
 
     [MenuItem("Window/Dynamic Component Graph")]
     public static void OpenWindow()
@@ -18,8 +33,20 @@ public class DynamicComponentGraphWindow : EditorWindow
 
     private void OnEnable()
     {
+        isRestoring = true;
         ConstructGraphView();
         GenerateToolbar();
+
+        // 직렬화된 데이터 복사본으로 순회
+        var nodesToRestore = new List<NodeData>(savedNodes);
+        foreach (var data in nodesToRestore)
+        {
+            var node = graphView.AddNode(data.label);
+            node.objectField.value = AssetDatabase.LoadAssetAtPath<ScriptableObject>(data.assetPath);
+            node.SetPosition(new Rect(data.position, node.layout.size));
+        }
+
+        isRestoring = false;
     }
 
     private void OnDisable()
@@ -29,7 +56,7 @@ public class DynamicComponentGraphWindow : EditorWindow
 
     private void ConstructGraphView()
     {
-        graphView = new ComponentGraphView { name = "Component Graph" };
+        graphView = new ComponentGraphView(OnNodeChanged, OnNodeRemoved);
         graphView.StretchToParentSize();
         rootVisualElement.Add(graphView);
     }
@@ -37,86 +64,140 @@ public class DynamicComponentGraphWindow : EditorWindow
     private void GenerateToolbar()
     {
         var toolbar = new Toolbar();
-        var addButton = new Button(() => graphView.AddNode()) { text = "Add Node" };
+        var addButton = new Button(() =>
+        {
+            var node = graphView.AddNode("Slot");
+            if (!isRestoring) RecordNode(node);
+        })
+        { text = "Add Node" };
         toolbar.Add(addButton);
         rootVisualElement.Add(toolbar);
     }
+
+    private void OnNodeChanged(ComponentNode node)
+    {
+        if (!isRestoring)
+            RecordNode(node);
+    }
+
+    private void OnNodeRemoved(ComponentNode node)
+    {
+        if (!isRestoring)
+            RemoveSavedNodeData(node);
+    }
+
+    private void RecordNode(ComponentNode node)
+    {
+        var path = AssetDatabase.GetAssetPath(node.objectField.value);
+        var data = new NodeData
+        {
+            label = node.labelField.text,
+            assetPath = path,
+            position = node.GetPosition().position
+        };
+
+        var existing = savedNodes.FirstOrDefault(n => n.assetPath == data.assetPath && n.label == data.label);
+        if (existing != null)
+            savedNodes[savedNodes.IndexOf(existing)] = data;
+        else
+            savedNodes.Add(data);
+    }
+
+    private void RemoveSavedNodeData(ComponentNode node)
+    {
+        var path = AssetDatabase.GetAssetPath(node.objectField.value);
+        var label = node.labelField.text;
+        var existing = savedNodes.FirstOrDefault(n => n.assetPath == path && n.label == label);
+        if (existing != null)
+            savedNodes.Remove(existing);
+    }
+
+    public void OnBeforeSerialize() { }
+    public void OnAfterDeserialize() { }
 }
 
 public class ComponentGraphView : GraphView
 {
-    public new List<ComponentNode> nodes = new List<ComponentNode>();
+    private Action<ComponentNode> onNodeChanged;
+    private Action<ComponentNode> onNodeRemoved;
 
-    public ComponentGraphView()
+    public ComponentGraphView(Action<ComponentNode> onNodeChanged, Action<ComponentNode> onNodeRemoved)
     {
+        this.onNodeChanged = onNodeChanged;
+        this.onNodeRemoved = onNodeRemoved;
+
         var grid = new GridBackground();
         Insert(0, grid);
         grid.StretchToParentSize();
         style.flexGrow = 1;
 
+        AddManipulators();
+    }
+
+    private void AddManipulators()
+    {
         this.AddManipulator(new ContentZoomer());
         this.AddManipulator(new ContentDragger());
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
     }
 
-    public void AddNode()
+    public ComponentNode AddNode(string title)
     {
-        var node = new ComponentNode();
-        node.title = "Slot";
-        node.Initialize();
-        node.SetPosition(new Rect(100, 100 + nodes.Count * 160, 300, 400));
+        var node = new ComponentNode(title);
+        node.Initialize(onNodeChanged, onNodeRemoved);
         AddElement(node);
-        nodes.Add(node);
+        return node;
     }
 }
 
 public class ComponentNode : Node
 {
-    private TextField labelField;
-    private ObjectField objectField;
+    public TextField labelField;
+    public ObjectField objectField;
     private ScriptableObject assignedSO;
     private UnityEditor.Editor inspectorEditor;
     private IMGUIContainer imguiContainer;
 
-    public void Initialize()
+    private Action<ComponentNode> onChanged;
+    private Action<ComponentNode> onRemoved;
+
+    public ComponentNode(string title)
     {
-        // 슬롯 라벨 입력
+        this.title = title;
+    }
+
+    public void Initialize(Action<ComponentNode> onChanged, Action<ComponentNode> onRemoved)
+    {
+        this.onChanged = onChanged;
+        this.onRemoved = onRemoved;
+
         labelField = new TextField("Label");
+        labelField.value = title;
+        labelField.RegisterValueChangedCallback(evt => onChanged(this));
         mainContainer.Add(labelField);
 
-        // ScriptableObject 할당 필드
-        objectField = new ObjectField("SO Asset")
-        {
-            objectType = typeof(ScriptableObject),
-            allowSceneObjects = false
-        };
+        objectField = new ObjectField("SO Asset") { objectType = typeof(ScriptableObject), allowSceneObjects = false };
         objectField.RegisterValueChangedCallback(evt =>
         {
             assignedSO = evt.newValue as ScriptableObject;
+            onChanged(this);
 
-            // 이전 IMGUI 컨테이너 및 에디터 제거
-            if (imguiContainer != null)
-                mainContainer.Remove(imguiContainer);
-            if (inspectorEditor != null)
-                UnityEngine.Object.DestroyImmediate(inspectorEditor);
+            if (imguiContainer != null) mainContainer.Remove(imguiContainer);
+            if (inspectorEditor != null) UnityEngine.Object.DestroyImmediate(inspectorEditor);
 
             if (assignedSO != null)
             {
-                // 새 에디터 및 IMGUI 컨테이너 생성
                 inspectorEditor = UnityEditor.Editor.CreateEditor(assignedSO);
-                imguiContainer = new IMGUIContainer(() =>
-                {
-                    if (inspectorEditor != null)
-                        inspectorEditor.OnInspectorGUI();
-                });
+                imguiContainer = new IMGUIContainer(() => inspectorEditor.OnInspectorGUI());
                 imguiContainer.style.marginTop = 4;
                 mainContainer.Add(imguiContainer);
             }
         });
         mainContainer.Add(objectField);
 
-        // 노드 삭제 버튼
+        this.RegisterCallback<GeometryChangedEvent>(_ => onChanged(this));
+
         var removeBtn = new Button(() => RemoveNode()) { text = "Remove" };
         titleButtonContainer.Add(removeBtn);
 
@@ -126,16 +207,10 @@ public class ComponentNode : Node
 
     private void RemoveNode()
     {
+        onRemoved(this);
         var graph = this.GetFirstAncestorOfType<ComponentGraphView>();
-        if (graph != null)
-        {
-            graph.RemoveElement(this);
-            graph.nodes.Remove(this);
+        graph?.RemoveElement(this);
 
-            // 에디터 정리
-            if (inspectorEditor != null)
-                UnityEngine.Object.DestroyImmediate(inspectorEditor);
-        }
+        if (inspectorEditor != null) UnityEngine.Object.DestroyImmediate(inspectorEditor);
     }
 }
-

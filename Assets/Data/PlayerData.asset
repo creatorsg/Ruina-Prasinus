@@ -15,9 +15,9 @@ MonoBehaviour:
   walkMaxSpeed: 5
   walkAccelTime: 0.5
   currentWalkSpeed: 0
-  dashMaxSpeed: 7.5
+  dashMaxSpeed: 20
   dashAccelTime: 0.2
-  dashDuration: 0.3
+  dashDuration: 0.6
   dashCooldown: 5
   currentDashSpeed: 0
   jumpSpeed: 5

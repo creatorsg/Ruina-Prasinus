@@ -129,9 +129,20 @@ public class Player_Controller : MonoBehaviour
         }
         else
         {
-            model.isDashing = false;
-            playerData.currentDashSpeed = 0f;
-            return;
+            if (isGrounded)
+            {
+                model.isDashing = false;
+                playerData.currentDashSpeed = 0f;
+                return;
+            }
+
+            if(!isGrounded)
+            {
+                model.isDashing = false;
+                playerData.currentDashSpeed = playerData.dashMaxSpeed;
+                return;
+            }
+
         }
         view.UpdateDash(dashDirection * playerData.currentDashSpeed);
         m.canDash = false;
