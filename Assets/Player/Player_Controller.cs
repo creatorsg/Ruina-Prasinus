@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -21,14 +23,12 @@ public class Player_Controller : MonoBehaviour
     private float cooltime = 0f;
 
     [Header("— 점프 (Jump) —")]
-    private bool isGrounded = false;
     private bool isJumping = false;
 
     [Header("- 키 입력 (Press) -")]
     bool dashKeyHeld = false;
     void Awake()
     {
-        // ScriptableObject 참조와 뷰 컴포넌트 체크
         if (playerData == null)
             Debug.LogError("PlayerData 에셋이 할당되지 않았습니다!", this);
 
@@ -37,11 +37,12 @@ public class Player_Controller : MonoBehaviour
             Debug.LogError("Player_View 컴포넌트가 없습니다!", this);
     }
 
+
     void Update()
     {
         var m = model;
 
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        if (model.isGrounded && Input.GetButtonDown("Jump"))
         {
             isJumping = true;
         }
@@ -49,7 +50,7 @@ public class Player_Controller : MonoBehaviour
         // 대시 입력
         dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
 
-        if (!model.isDashing && dashKeyHeld && Input.GetAxisRaw("Horizontal") != 0 && isGrounded && m.canDash != false)
+        if (!model.isDashing && dashKeyHeld && Input.GetAxisRaw("Horizontal") != 0 && model.isGrounded && m.canDash != false)
         {
             model.isDashing = true;
             dashTimer = 0f;
@@ -129,14 +130,14 @@ public class Player_Controller : MonoBehaviour
         }
         else
         {
-            if (isGrounded)
+            if (model.isGrounded)
             {
                 model.isDashing = false;
                 playerData.currentDashSpeed = 0f;
                 return;
             }
 
-            if(!isGrounded)
+            if(!model.isGrounded)
             {
                 model.isDashing = false;
                 playerData.currentDashSpeed = playerData.dashMaxSpeed;
@@ -170,7 +171,7 @@ public class Player_Controller : MonoBehaviour
             return;
 
 
-        if (isJumping && isGrounded)
+        if (isJumping && model.isGrounded)
         {
             view.JumpImpulse(playerData.jumpSpeed);
 
@@ -178,22 +179,6 @@ public class Player_Controller : MonoBehaviour
         }
 
         isJumping = false;
-        isGrounded = false;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
+        model.isGrounded = false;
     }
 }

@@ -18,7 +18,7 @@ MonoBehaviour:
   dashMaxSpeed: 20
   dashAccelTime: 0.2
   dashDuration: 0.6
-  dashCooldown: 5
+  dashCooldown: 20
   currentDashSpeed: 0
   jumpSpeed: 5
   jumpHoldTime: 0.25

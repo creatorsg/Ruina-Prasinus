@@ -3,12 +3,15 @@
 [CreateAssetMenu(fileName = "PlayerData", menuName = "Scriptable Objects/PlayerData")]
 public class PlayerData : ScriptableObject
 {
+    [Header("— 스탯 (Status) —")]
+    public float hp = 500;
+    public float attack_power = 5f;
+
+    [Space(10)]
     [Header("— 걷기 (Walking) —")]
     public float walkMaxSpeed = 5f;
     public float walkAccelTime = 0.1f;
     public float currentWalkSpeed = 0f;
-
-
 
     [Space(10)]
     [Header("— 대시 (Dash) —")]
@@ -22,4 +25,8 @@ public class PlayerData : ScriptableObject
     [Header("— 점프 (Jump) —")]
     public float jumpSpeed = 5f;
     public float jumpHoldTime = 0.25f;
+
+    [Space(10)]
+    [Header("— 피격 (isHit) —")]
+    public float NoHitedTime = 5f;
 }
