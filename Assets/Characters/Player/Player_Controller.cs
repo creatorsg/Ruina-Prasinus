@@ -29,11 +29,10 @@ namespace Player
 
         [Header("- 키 입력 (Press) -")]
         bool dashKeyHeld = false;
+
+        private float previousHp;
         void Awake()
         {
-            if (playerData == null)
-                Debug.LogError("PlayerData 에셋이 할당되지 않았습니다!", this);
-
             view = GetComponent<Player_View>();
             if (view == null)
                 Debug.LogError("Player_View 컴포넌트가 없습니다!", this);
@@ -41,7 +40,8 @@ namespace Player
 
         void Start()
         {
-            playerData.hp = 500f;    
+            playerData.hp = 500f;
+            previousHp = playerData.hp;
         }
 
 
@@ -54,8 +54,6 @@ namespace Player
                 isJumping = true;
             }
 
-            // 대시 입력
-            dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
 
             if (!model.isDashing && dashKeyHeld && Input.GetAxisRaw("Horizontal") != 0 && model.isGrounded && m.canDash != false)
             {
@@ -66,15 +64,53 @@ namespace Player
 
             handleDashCoolDown();
 
+            if (playerData.hp < previousHp && !model.isHit && !model.isInvincible)
+            {
+                OnHit();
+            }
+
+            if (m.isHit)
+            {
+                transform.position += new Vector3(0, 0.005f, 0); // 밀림 연출
+                playerData.freezeTimer += Time.deltaTime;
+
+                if (playerData.freezeTimer >= playerData.freezeDuration)
+                {
+                    m.isHit = false;
+                    playerData.freezeTimer = 0f;
+
+                    // 무적 시작
+                    m.isInvincible = true;
+                    playerData.invincibleTimer = 0f;
+                }
+            }
+
+            if (m.isInvincible)
+            {
+                playerData.invincibleTimer += Time.deltaTime;
+                if (playerData.invincibleTimer >= playerData.invincibleDuration)
+                {
+                    m.isInvincible = false;
+                    playerData.invincibleTimer = 0f;
+                    view.StopBlink(); // 무적 해제 시 깜빡임 중지
+                }
+            }
+
             if (m.isHit || m.inCinematic || m.inGearSetting || m.inGearAction || m.inUIControl)
                 return;
 
+            previousHp = playerData.hp;
 
             HandleInput();
         }
 
         void FixedUpdate()
         {
+            var m = model;
+
+            if (m.isHit || m.inCinematic || m.inGearSetting || m.inGearAction || m.inUIControl)
+                return;
+
             HandleWalk();
             HandleDash();
             HandleJump();
@@ -189,14 +225,14 @@ namespace Player
             model.isGrounded = false;
         }
 
-        void HandleEnvincible()
+        public void OnHit()
         {
-
-        }
-
-        void Attack()
-        {
-
+            if (!model.isHit)
+            {
+                model.isHit = true;
+                playerData.freezeTimer = 0f;
+                view.StartBlink(); 
+            }
         }
 
         void OnCollisionEnter2D(Collision2D collision)
