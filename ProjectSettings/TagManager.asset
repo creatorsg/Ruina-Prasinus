@@ -9,6 +9,8 @@ TagManager:
   - Portal
   - Room
   - RoomBound
+  - Enemy
+  - Bullet
   layers:
   - Default
   - TransparentFX
