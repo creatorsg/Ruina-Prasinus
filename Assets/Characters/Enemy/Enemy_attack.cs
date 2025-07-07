@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 namespace enemy
@@ -8,7 +9,11 @@ namespace enemy
         [SerializeField] private Enemy enemy;
         [SerializeField] private PlayerData playerData;
 
+        private Player_Model model = new Player_Model();
         private Transform player;
+
+        private float attackCooldown = 1f; // 공격 쿨타임(초)
+        private float attackTimer = 0f;
 
         void Awake()
         {
@@ -24,22 +29,32 @@ namespace enemy
             
         }
 
-        private void FixedUpdate()
+        void FixedUpdate()
         {
             if (enemy == null || player == null) return;
+
+            attackTimer -= Time.fixedDeltaTime;
+
             float dist = Vector3.Distance(transform.position, player.position);
-            if (dist <= enemy.attackRange)
+            if (dist <= enemy.attackRange && attackTimer <= 0f)
+            {
                 Attack();
+                attackTimer = attackCooldown; // 쿨타임 초기화
+            }
         }
+
 
         private void Attack()
         {
             if(enemy == null) return;
 
-            if (playerData.hp > 0)
+            var m = model;
+
+            if(!m.isHit && !m.isInvincible)
             {
+                if(playerData.hp > 0)
                 Debug.Log($"플레이어에게 {enemy.attackPower}만큼 공격!");
-                playerData.hp -= 5f;
+                playerData.hp -= 3f;
             }
         }
 

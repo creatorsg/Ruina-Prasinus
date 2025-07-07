@@ -8,12 +8,10 @@ namespace Player
     {
         private Player_Model model = new Player_Model();
 
+        private float Hitcount = 0f;
         void Start()
         {
-            GameObject player = GameObject.Find("Player");
-            Color color = player.GetComponent<Image>().color;
-            color.a = 0.5f;
-            player.GetComponent<Image>().color = color;
+            GameObject player = GameObject.FindWithTag("Player");
         }
 
         // Update is called once per frame
@@ -24,19 +22,22 @@ namespace Player
 
         void FixedUpdate()
         {
-
+            if (Hitcount > 0f)
+            {
+                Hitcount -= 1f;
+            }
         }
         void HandleHit()
         {
             var m = model;
 
-            if (m.isHit)
+            if (Hitcount > 0f)
             {
-                Color color = GetComponent<Image>().color;
+                {
 
-
+                }
             }
-        }
 
+        }
     }
 }

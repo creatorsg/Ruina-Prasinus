@@ -18,5 +18,6 @@ namespace Player
         public bool inGearAction = false;   // 기어셋 발동중 
         public bool inUIControl = false;    // UI 세팅중 
         public bool isFalling = false;      // 떨어지는 중
+        public bool isInvincible = false;
     }
 }
