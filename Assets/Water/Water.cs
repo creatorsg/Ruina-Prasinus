@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(BoxCollider2D))]
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(BoxCollider2D))] // 박스 콜라이더 생성@@@@@@@@@@@@@@@
 public class Water : MonoBehaviour
 {
     // 물의 표면 정점(픽셀?) 갯수, 이 값이 높을수록 물결이 부드럽게 표현됨(300~600 추천쓰)
@@ -79,9 +79,10 @@ public class Water : MonoBehaviour
         if (col == null) col = GetComponent<BoxCollider2D>();
         col.isTrigger = true;
         if (IsMeshUpdateNeeded()) UpdateMesh();
+        FindNeighbors();
     }
 
-    // 물체가 활성화 될때, 버텍스를 초기화합니다.
+    // 물체가 활성화 될때, 버텍스를 초기화
     private void OnEnable()
     {
         vertices = GetVertices();
@@ -89,18 +90,19 @@ public class Water : MonoBehaviour
         meshFilter.mesh.SetVertices(vertices);
     }
 
-    public void FixedUpdate()
+    void FixedUpdate()
     {
         if (IsWaveCalculationNeeded())
         {
             CalculateTension();
             CalculateRestoringForce();
+            PropagateWaveToNeighbors(); // 파동을 이웃에게 전달
             meshFilter.mesh.SetVertices(vertices);
         }
     }
 
 
-    // 물체가 충돌했을때, 물의 표면을 이루는 정점들에 힘을 가합니다.
+    // 물체가 충돌했을때, 물의 표면을 이루는 정점들에 힘을 가함
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.isTrigger || other.attachedRigidbody == null) return;
@@ -109,6 +111,7 @@ public class Water : MonoBehaviour
         var otherRb = other.attachedRigidbody;
         float forceY = otherRb.linearVelocity.y * otherRb.mass * 0.06f;
         if (Math.Abs(forceY) < 0.03f) return;
+            
 
         // 물체의 위치에 따라 힘을 가하는 정점의 인덱스를 계산
         float interval = _width / _quality;
@@ -124,6 +127,38 @@ public class Water : MonoBehaviour
             velocities[j] += forceY;
         }
     }
+
+    [SerializeField, Range(0f, 1f)] private float _horizontalForceMultiplier = 0.05f; // 좌우 속도에 따른 파동 강도
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        
+        if (other.isTrigger || other.attachedRigidbody == null) return;
+
+        var rb = other.attachedRigidbody;
+
+        // 수평 이동 감지
+        float forceX = rb.linearVelocity.x * rb.mass * _horizontalForceMultiplier;
+        Debug.Log($"forceX = {forceX}");
+        if (Mathf.Abs(forceX) < 0.01f) return;
+        
+
+        float interval = _width / _quality;
+        float xMin = transform.position.x - _width / 2;
+        int xPosIndex = (int)((other.transform.position.x - xMin) / interval);
+
+        int startIndex = Mathf.Max(xPosIndex - 5, 0);
+        int endIndex = Mathf.Min(xPosIndex + 5, _quality);
+
+        for (int i = startIndex; i <= endIndex; i++)
+        {
+            velocities[i] += forceX;
+        }
+    }
+
+
+
+
+
 
 #if UNITY_EDITOR
 
@@ -405,4 +440,72 @@ public class Water : MonoBehaviour
         }
         return result;
     }
+
+    public Water LeftNeighbor { get; set; }
+    public Water RightNeighbor { get; set; }
+    private void PropagateWaveToNeighbors()
+    {
+        int range = 5; // 양 옆 경계에서 몇 개 정점을 평균낼지
+        int lastIndex = _quality;
+
+        if (LeftNeighbor != null)
+        {
+            int leftNeighborLast = LeftNeighbor._quality;
+
+            for (int i = 0; i < range; i++)
+            {
+                int thisIndex = i;
+                int neighborIndex = leftNeighborLast - (range - 1) + i;
+
+                if (neighborIndex < 0 || thisIndex >= velocities.Length) continue;
+
+                float avgVelocity = (velocities[thisIndex] + LeftNeighbor.velocities[neighborIndex]) * 0.5f;
+                float avgY = (vertices[thisIndex * 2].y + LeftNeighbor.vertices[neighborIndex * 2].y) * 0.5f;
+
+                velocities[thisIndex] = avgVelocity;
+                vertices[thisIndex * 2].y = avgY;
+
+                LeftNeighbor.velocities[neighborIndex] = avgVelocity;
+                LeftNeighbor.vertices[neighborIndex * 2].y = avgY;
+            }
+        }
+
+        if (RightNeighbor != null)
+        {
+            for (int i = 0; i < range; i++)
+            {
+                int thisIndex = lastIndex - (range - 1) + i;
+                int neighborIndex = i;
+
+                if (thisIndex < 0 || neighborIndex >= RightNeighbor.velocities.Length) continue;
+
+                float avgVelocity = (velocities[thisIndex] + RightNeighbor.velocities[neighborIndex]) * 0.5f;
+                float avgY = (vertices[thisIndex * 2].y + RightNeighbor.vertices[neighborIndex * 2].y) * 0.5f;
+
+                velocities[thisIndex] = avgVelocity;
+                vertices[thisIndex * 2].y = avgY;
+
+                RightNeighbor.velocities[neighborIndex] = avgVelocity;
+                RightNeighbor.vertices[neighborIndex * 2].y = avgY;
+            }
+        }
+    }
+
+
+
+
+    private void FindNeighbors()
+    {
+        foreach (var water in FindObjectsOfType<Water>())
+        {
+            if (water == this) continue;
+
+            float dx = water.transform.position.x - transform.position.x;
+            if (Mathf.Approximately(dx, -_width))
+                LeftNeighbor = water;
+            else if (Mathf.Approximately(dx, _width))
+                RightNeighbor = water;
+        }
+    }
+
 }
