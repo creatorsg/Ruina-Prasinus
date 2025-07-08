@@ -39,5 +39,5 @@ public class PlayerData : ScriptableObject
 
     [Space(10)]
     [Header("- 상태 (State) -")]
-    public Tilemap room = null;
+    public GameObject room = null;
 }

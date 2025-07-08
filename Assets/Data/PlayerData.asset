@@ -12,19 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6d0e58b7c1a21418408f45fc0c5e6b, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  hp: 491
+  hp: 500
   walkMaxSpeed: 5
   walkAccelTime: 0.1
   currentWalkSpeed: 0
   dashMaxSpeed: 7.5
   dashAccelTime: 0.2
-  dashDuration: 0.3
-  dashCooldown: 0.2
+  dashDuration: 0.5
+  dashCooldown: 5
   currentDashSpeed: 0
   jumpSpeed: 5
   jumpHoldTime: 0.25
-  invincibleTimer: 2.4332325
+  invincibleTimer: 0
   invincibleDuration: 5
   freezeTimer: 0
   freezeDuration: 0.5
   attack_power: 5
+  room: {fileID: 0}

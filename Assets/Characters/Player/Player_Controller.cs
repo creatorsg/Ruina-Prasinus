@@ -7,7 +7,6 @@ namespace Player
 {
     public class Player_Controller : MonoBehaviour
     {
-        // 모델(상태)과 뷰는 코드로 생성/할당
         private Player_Model model = new Player_Model();
         private Player_View view;
 
@@ -179,14 +178,6 @@ namespace Player
                     playerData.currentDashSpeed = 0f;
                     return;
                 }
-
-                if (!model.isGrounded)
-                {
-                    model.isDashing = false;
-                    playerData.currentDashSpeed = playerData.dashMaxSpeed;
-                    return;
-                }
-
             }
             view.UpdateDash(dashDirection * playerData.currentDashSpeed);
             m.canDash = false;
