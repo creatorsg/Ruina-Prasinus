@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class PlayerRoomManager : MonoBehaviour
+public class PlayerRoomDetector : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Following_Player cameraFollow;
+
+    void Awake()
     {
-        
+        cameraFollow = Camera.main.GetComponent<Following_Player>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.CompareTag("RoomBound"))
+        {
+            cameraFollow.cameraBounds = other.GetComponent<BoxCollider2D>();
+        }
     }
 }
