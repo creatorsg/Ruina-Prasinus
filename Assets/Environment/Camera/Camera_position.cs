@@ -3,7 +3,7 @@ using UnityEngine;
 public class Following_Player : MonoBehaviour
 {
     public Transform player;
-    public BoxCollider2D cameraBounds; // 방 경계용 박스 콜라이더
+    public BoxCollider2D cameraBounds; 
 
     private float halfHeight;
     private float halfWidth;
