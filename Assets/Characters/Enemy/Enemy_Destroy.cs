@@ -6,6 +6,12 @@ public class Enemy_Destroy : MonoBehaviour
 {
     [Header("Data (ScriptableObject)")]
     [SerializeField] private Enemy enemy;
+    [SerializeField] private Map map;
+
+    void Awake()
+    {
+        enemy.hp = 30f;
+    }
 
     [Header("— 스폰 관리용 (RoomEnemyRespawner에서 세팅) —")]
     [HideInInspector] public RoomEnemyRespawner roomRespawner;
@@ -27,6 +33,10 @@ public class Enemy_Destroy : MonoBehaviour
                     roomRespawner.MarkDestroyed(destroyCheck);
 
                 Destroy(gameObject);
+                if (map != null)
+                {
+                    map.enemy_num -= 1;
+                }
             }
         }
     }
