@@ -41,7 +41,6 @@ namespace Player
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, speed);
         }
 
-        // 피격 및 공격 애니메이션 부분 
         public void StartBlink()
         {
             if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
