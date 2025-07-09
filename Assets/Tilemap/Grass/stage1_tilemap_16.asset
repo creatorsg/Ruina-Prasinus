@@ -10,15 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-<<<<<<<< HEAD:Assets/Tilemap/Grass/stage1Tilemap_f_11.asset
-  m_Name: stage1Tilemap_f_11
+  m_Name: stage1_tilemap_16
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 404213026, guid: 18e7753ddc6fca347af1ddcdf07b6c8a, type: 3}
-========
-  m_Name: stage1_tilemap_0
-  m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -1410782330, guid: 8bd561bfd04cee545b9be9fdd81e7011, type: 3}
->>>>>>>> 821f23f (동현이가 쓸 타일셋):Assets/Tilemap/Grass/stage1_tilemap_0.asset
+  m_Sprite: {fileID: -1335896691, guid: 8bd561bfd04cee545b9be9fdd81e7011, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

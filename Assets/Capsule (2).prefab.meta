@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Capsule (2).prefab.meta
 guid: 717f02ed3c2ed8d40a8bc0e205465e9e
+========
+guid: 0cb5404437bfcab4f86a757e1c1ce79a
+>>>>>>>> 821f23f (동현이가 쓸 타일셋):Assets/Tilemap/test_tileset.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
