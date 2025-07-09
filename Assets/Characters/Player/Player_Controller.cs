@@ -48,7 +48,7 @@ namespace Player
         {
             var m = model;
 
-            if (model.isGrounded && Input.GetButtonDown("Jump"))
+            if (model.isGrounded && InputManager.GetKeyDown("Jump"))
             {
                 isJumping = true;
             }
@@ -117,7 +117,7 @@ namespace Player
 
         void HandleInput()
         {
-            dashKeyHeld = Input.GetKey(KeyCode.LeftShift);
+            dashKeyHeld = InputManager.GetKey("Dash");
         }
 
         void HandleWalk()
