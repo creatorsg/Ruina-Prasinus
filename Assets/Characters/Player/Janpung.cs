@@ -1,6 +1,5 @@
-using Player;
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class Jangpung : MonoBehaviour
 {
@@ -11,17 +10,14 @@ public class Jangpung : MonoBehaviour
 
     bool isLaunchStandby = false;
     bool isLaunch = false;
-    bool isDownLaunch = false;
     bool isOnCooldown = false;
 
-    private Player_Model model = new Player_Model();
-
-    // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ù¶óº¸´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (-1: ï¿½ï¿½ï¿½ï¿½, +1: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+    // ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸´Â ¹æÇâ ÀúÀå (-1: ¿ÞÂÊ, +1: ¿À¸¥ÂÊ)
     int Direction = 1;
 
     void Update()
     {
-        // A/D ï¿½Ç´ï¿½ ï¿½Â¿ï¿½ È­ï¿½ï¿½Ç¥ Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+        // A/D ¶Ç´Â ÁÂ¿ì È­»ìÇ¥ Å°·Î ¹æÇâ ±â¾ï
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Direction = -1;
@@ -31,50 +27,35 @@ public class Jangpung : MonoBehaviour
             Direction = 1;
         }
 
-        // W Å° ï¿½Ç´ï¿½ ï¿½ï¿½ È­ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // W Å° ¶Ç´Â À§ È­»ìÇ¥ ´­¸² ¿©ºÎ
         isLaunchStandby = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
 
-        isDownLaunch = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
-
-        // ï¿½ï¿½ï¿½ì½º Å¬ï¿½ï¿½ ï¿½Ç´ï¿½ C Å° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // ¸¶¿ì½º Å¬¸¯ ¶Ç´Â C Å° ´­¸² ¿©ºÎ
         isLaunch = Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.C);
 
 
-
-        if (!model.isGrounded)
-        {
-            if (isLaunch && !isOnCooldown)
-            {
-                ShootJangpung(isLaunchStandby, isDownLaunch);
-                StartCoroutine(JangpungCooldown());
-            }
-        }
-
-        // ë°œì‚¬ ì¡°ê±´
+        // ¹ß»ç Á¶°Ç
         if (isLaunch && !isOnCooldown)
         {
-            ShootJangpung(isLaunchStandby, isDownLaunch);
+            ShootJangpung(isLaunchStandby);
             StartCoroutine(JangpungCooldown());
         }
-
     }
 
-
-    void ShootJangpung(bool upward, bool downward)
+    void ShootJangpung(bool upward)
     {
         Vector3 spawnPosition = transform.position;
+
         Vector2 direction;
 
         if (upward)
         {
-            direction = Vector2.up;
-        }
-        else if (downward)
-        {
-            direction = Vector2.down;
+            // À§ ¹æÁl ¹ß»ç
+            direction = new Vector2(0, 1).normalized;
         }
         else
         {
+            // ÁÂ/¿ì ¹æÇâ ¹ß»ç
             direction = new Vector2(Direction, 0);
         }
 
@@ -88,7 +69,6 @@ public class Jangpung : MonoBehaviour
 
         Destroy(jangpung, destroyTime);
     }
-
 
     IEnumerator JangpungCooldown()
     {
