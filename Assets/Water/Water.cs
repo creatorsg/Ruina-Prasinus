@@ -90,16 +90,34 @@ public class Water : MonoBehaviour
         meshFilter.mesh.SetVertices(vertices);
     }
 
+
+    [SerializeField, Range(0.01f, 1f)]
+    private float _timeScale = 1.0f;  // 1.0 = 정상, 0.1 = 10배 느림
+
+    private float _localTime = 0f;
+    private float _fixedStep = 0.02f; // FixedUpdate와 동일한 시간 간격
+
+
     void FixedUpdate()
     {
-        if (IsWaveCalculationNeeded())
+        // 로컬 시간 누적 (전체 시간은 그대로 유지)
+        _localTime += Time.fixedDeltaTime * _timeScale;
+
+        // 느려진 시간에 맞춰 계산 실행 (고정 간격으로 처리)
+        if (_localTime >= _fixedStep)
         {
-            CalculateTension();
-            CalculateRestoringForce();
-            PropagateWaveToNeighbors(); // 파동을 이웃에게 전달
-            meshFilter.mesh.SetVertices(vertices);
+            _localTime -= _fixedStep;
+
+            if (IsWaveCalculationNeeded())
+            {
+                CalculateTension();
+                CalculateRestoringForce();
+                PropagateWaveToNeighbors();
+                meshFilter.mesh.SetVertices(vertices);
+            }
         }
     }
+
 
 
     // 물체가 충돌했을때, 물의 표면을 이루는 정점들에 힘을 가함
