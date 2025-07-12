@@ -29,7 +29,7 @@ public class Following_Player : MonoBehaviour
         float maxY = bounds.max.y - halfHeight;
 
         float clampedX = Mathf.Clamp(player.position.x, minX, maxX);
-        float clampedY = Mathf.Clamp(player.position.y + 1f, minY, maxY); // 위로 1만큼 올리기
+        float clampedY = Mathf.Clamp(player.position.y + 1f, minY, maxY); 
 
         transform.position = new Vector3(clampedX, clampedY, -10f);
     }
