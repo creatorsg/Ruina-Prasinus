@@ -18,10 +18,13 @@ namespace Player
         }
 
         // 이동 관련 부분 
-        public void UpdateWalk(float speed)
+        public void UpdateWalk(float inputX, float speed)
         {
-            transform.position += Vector3.right * speed * Time.fixedDeltaTime;
+            var v = rb.linearVelocity;
+            v.x = inputX * speed;
+            rb.linearVelocity = v;
         }
+
 
         public void UpdateDash(float speed)
         {

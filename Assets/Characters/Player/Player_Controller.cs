@@ -122,29 +122,31 @@ namespace Player
 
         void HandleWalk()
         {
-            var m = model;
+            // 1) 입력 받기
+            float moveInput = Input.GetAxisRaw("Horizontal"); // -1,0,+1
 
-            moveInput = Input.GetAxisRaw("Horizontal");
-
-            if (moveInput != 0)
+            // 2) 방향 플립
+            if (moveInput != 0f)
             {
-                facingDirection = moveInput > 0 ? 1 : -1;
+                int facingDirection = moveInput > 0f ? 1 : -1;
                 Vector3 scale = transform.localScale;
                 scale.x = Mathf.Abs(scale.x) * facingDirection;
                 transform.localScale = scale;
 
+                // 3) 가속 타이머
                 walkAccelTimer += Time.fixedDeltaTime;
                 float t = Mathf.Clamp01(walkAccelTimer / playerData.walkAccelTime);
                 playerData.currentWalkSpeed = Mathf.Lerp(0f, playerData.walkMaxSpeed, t);
-
-                view.UpdateWalk(moveInput * playerData.currentWalkSpeed);
             }
             else
             {
+                // 정지 시 리셋
                 walkAccelTimer = 0f;
                 playerData.currentWalkSpeed = 0f;
-                view.UpdateWalk(moveInput * playerData.currentWalkSpeed);
             }
+
+            // 4) View에 입력과 속도 전달
+            view.UpdateWalk(moveInput, playerData.currentWalkSpeed);
         }
 
         void HandleDash()
