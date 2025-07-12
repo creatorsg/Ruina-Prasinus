@@ -14,9 +14,7 @@ namespace Player
         [SerializeField] private PlayerData playerData;
 
         [Header("— 걷기 (Walking) —")]
-        private float moveInput = 0f;
         private float walkAccelTimer = 0f;
-        private int facingDirection = 1;
 
         [Header("— 대시 (Dash) —")]
         private float dashTimer = 0f;
@@ -122,10 +120,8 @@ namespace Player
 
         void HandleWalk()
         {
-            // 1) 입력 받기
             float moveInput = Input.GetAxisRaw("Horizontal"); // -1,0,+1
 
-            // 2) 방향 플립
             if (moveInput != 0f)
             {
                 int facingDirection = moveInput > 0f ? 1 : -1;
@@ -133,19 +129,16 @@ namespace Player
                 scale.x = Mathf.Abs(scale.x) * facingDirection;
                 transform.localScale = scale;
 
-                // 3) 가속 타이머
                 walkAccelTimer += Time.fixedDeltaTime;
                 float t = Mathf.Clamp01(walkAccelTimer / playerData.walkAccelTime);
                 playerData.currentWalkSpeed = Mathf.Lerp(0f, playerData.walkMaxSpeed, t);
             }
             else
             {
-                // 정지 시 리셋
                 walkAccelTimer = 0f;
                 playerData.currentWalkSpeed = 0f;
             }
 
-            // 4) View에 입력과 속도 전달
             view.UpdateWalk(moveInput, playerData.currentWalkSpeed);
         }
 

@@ -1,3 +1,5 @@
+﻿using Player;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy_Destroy : MonoBehaviour
@@ -5,6 +7,10 @@ public class Enemy_Destroy : MonoBehaviour
     [Header("Data (ScriptableObject)")]
     [SerializeField] private Enemy enemy;
     [SerializeField] private Map map;
+
+    [Header("— 스폰 관리용 (RoomEnemyRespawner에서 세팅) —")]
+    [HideInInspector] public RoomEnemyRespawner roomRespawner;
+    [HideInInspector] public int spawnIndex;
 
     void Awake()
     {
@@ -16,14 +22,15 @@ public class Enemy_Destroy : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             enemy.hp -= 10;
-
             if (enemy.hp <= 0)
             {
-                Destroy(gameObject);
+                if (roomRespawner != null)
+                    roomRespawner.MarkDestroyed(spawnIndex);
+
                 if (map != null)
-                {
                     map.enemy_num -= 1;
-                }
+
+                Destroy(gameObject);
             }
         }
     }
