@@ -1,13 +1,17 @@
+using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Following_Player : MonoBehaviour
 {
     public Transform player;
-    public BoxCollider2D cameraBounds; 
+    public BoxCollider2D cameraBounds;
 
     private float halfHeight;
     private float halfWidth;
     private Camera cam;
+
+    public GameObject boundParent;
 
     void Start()
     {
@@ -15,23 +19,30 @@ public class Following_Player : MonoBehaviour
         UpdateCameraHalfSize();
     }
 
+    private void FixedUpdate()
+    {
+        if (cameraBounds != null)
+        {
+            Transform parentTransform = cameraBounds.transform.parent;
+
+            boundParent = parentTransform != null
+                          ? parentTransform.gameObject
+                          : null;
+        }
+    }
+
     void LateUpdate()
     {
         if (player == null || cameraBounds == null) return;
-
         UpdateCameraHalfSize();
 
-        Bounds bounds = cameraBounds.bounds;
+        Bounds b = cameraBounds.bounds;
+        float minX = b.min.x + halfWidth, maxX = b.max.x - halfWidth;
+        float minY = b.min.y + halfHeight, maxY = b.max.y - halfHeight;
 
-        float minX = bounds.min.x + halfWidth;
-        float maxX = bounds.max.x - halfWidth;
-        float minY = bounds.min.y + halfHeight;
-        float maxY = bounds.max.y - halfHeight;
-
-        float clampedX = Mathf.Clamp(player.position.x, minX, maxX);
-        float clampedY = Mathf.Clamp(player.position.y + 1f, minY, maxY); 
-
-        transform.position = new Vector3(clampedX, clampedY, -10f);
+        float cx = Mathf.Clamp(player.position.x, minX, maxX);
+        float cy = Mathf.Clamp(player.position.y + 1f, minY, maxY);
+        transform.position = new Vector3(cx, cy, -10f);
     }
 
     void UpdateCameraHalfSize()
@@ -40,4 +51,3 @@ public class Following_Player : MonoBehaviour
         halfWidth = halfHeight * cam.aspect;
     }
 }
-

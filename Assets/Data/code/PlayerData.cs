@@ -37,7 +37,4 @@ public class PlayerData : ScriptableObject
     [Header("- 공격 (Attack) -")]
     public float attack_power = 5f;
 
-    [Space(10)]
-    [Header("- 상태 (State) -")]
-    public Tilemap room;
 }
