@@ -1,9 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
-
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
+
 
 public class UIManager : MonoBehaviour
 {
@@ -59,7 +56,6 @@ public class UIManager : MonoBehaviour
     public void QuitGame()
     {
         Time.timeScale = 1f;  
-        EditorApplication.isPlaying = false;
         Application.Quit();
 
     }
