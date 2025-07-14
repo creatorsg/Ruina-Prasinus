@@ -14,6 +14,7 @@ namespace Player
         [SerializeField] private PlayerData playerData;
 
         [Header("— 걷기 (Walking) —")]
+        private int facingDirection = 1;
         private float walkAccelTimer = 0f;
 
         [Header("— 대시 (Dash) —")]
@@ -52,11 +53,11 @@ namespace Player
             }
 
 
-            if (!model.isDashing && dashKeyHeld && Input.GetAxisRaw("Horizontal") != 0 && model.isGrounded && m.canDash != false)
+            if (!m.isDashing && InputManager.GetKeyDown("Dash") && m.isGrounded && m.canDash)
             {
-                model.isDashing = true;
+                m.isDashing = true;
                 dashTimer = 0f;
-                dashDirection = Input.GetAxisRaw("Horizontal") > 0 ? 1 : -1;
+                dashDirection = facingDirection;  
             }
 
             handleDashCoolDown();
@@ -118,16 +119,19 @@ namespace Player
             dashKeyHeld = InputManager.GetKey("Dash");
         }
 
-        void HandleWalk()
+        private void HandleWalk()
         {
-            float moveInput = Input.GetAxisRaw("Horizontal"); // -1,0,+1
+            float moveInput = 0f;
+            if (InputManager.GetKey("MoveLeft"))  moveInput -= 1f;
+            if (InputManager.GetKey("MoveRight")) moveInput += 1f;
 
             if (moveInput != 0f)
             {
-                int facingDirection = moveInput > 0f ? 1 : -1;
-                Vector3 scale = transform.localScale;
-                scale.x = Mathf.Abs(scale.x) * facingDirection;
-                transform.localScale = scale;
+                int dir = moveInput > 0 ? 1 : -1;
+                facingDirection = dir;
+                var s = transform.localScale;
+                s.x = Mathf.Abs(s.x) * dir;
+                transform.localScale = s;
 
                 walkAccelTimer += Time.fixedDeltaTime;
                 float t = Mathf.Clamp01(walkAccelTimer / playerData.walkAccelTime);
