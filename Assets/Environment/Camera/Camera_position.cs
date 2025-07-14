@@ -1,6 +1,4 @@
-using UnityEditor.EditorTools;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Following_Player : MonoBehaviour
 {
