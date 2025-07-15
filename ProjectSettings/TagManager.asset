@@ -11,6 +11,7 @@ TagManager:
   - RoomBound
   - Enemy
   - Bullet
+  - Water
   layers:
   - Default
   - TransparentFX
