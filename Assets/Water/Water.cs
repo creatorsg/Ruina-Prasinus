@@ -6,7 +6,7 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     // 물의 표면 정점(픽셀?) 갯수, 이 값이 높을수록 물결이 부드럽게 표현됨(300~600 추천쓰)
-    [Range(100, 1200), SerializeField] private int _quality;
+    [Range(10, 1200), SerializeField] private int _quality;
     public int Quality
     {
         get => _quality;
@@ -74,24 +74,35 @@ public class Water : MonoBehaviour
 
     private void Awake()
     {
-        if (meshFilter == null) meshFilter = GetComponent<MeshFilter>();
-        if (meshRenderer == null) meshRenderer = GetComponent<MeshRenderer>();
-        if (col == null) col = GetComponent<BoxCollider2D>();
+        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponent<MeshRenderer>();
+        col = GetComponent<BoxCollider2D>();
         col.isTrigger = true;
-        if (IsMeshUpdateNeeded()) UpdateMesh();
-        FindNeighbors();
+
+        UpdateMesh(); // 반드시 실행하여 meshFilter.mesh를 보장
+
+
     }
 
     // 물체가 활성화 될때, 버텍스를 초기화
     private void OnEnable()
     {
+        if (meshFilter.mesh == null)
+            UpdateMesh(); // 메시가 없는 경우 새로 생성
+
         vertices = GetVertices();
         velocities = new float[_quality + 1];
-        meshFilter.mesh.SetVertices(vertices);
+
+        var mesh = meshFilter.mesh;
+        mesh.vertices = vertices;
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
+        meshFilter.mesh = mesh;
     }
 
 
-    [SerializeField, Range(0.01f, 1f)]
+
+    [SerializeField, Range(0.01f, 4f)]
     private float _timeScale = 1.0f;  // 1.0 = 정상, 0.1 = 10배 느림
 
     private float _localTime = 0f;
@@ -100,6 +111,7 @@ public class Water : MonoBehaviour
 
     void FixedUpdate()
     {
+
         // 로컬 시간 누적 (전체 시간은 그대로 유지)
         _localTime += Time.fixedDeltaTime * _timeScale;
 
@@ -112,12 +124,32 @@ public class Water : MonoBehaviour
             {
                 CalculateTension();
                 CalculateRestoringForce();
-                PropagateWaveToNeighbors();
-                meshFilter.mesh.SetVertices(vertices);
+
+
+
+
+                var mesh = meshFilter.mesh;
+                mesh.vertices = vertices;
+                mesh.RecalculateNormals();
+                mesh.RecalculateBounds();
+                meshFilter.mesh = mesh;
             }
         }
     }
 
+    private void Start()
+    {
+        if (meshFilter.mesh == null)
+            UpdateMesh();
+
+        vertices = GetVertices();
+        velocities = new float[_quality + 1];
+
+        meshFilter.mesh.vertices = vertices;
+        meshFilter.mesh.RecalculateNormals();
+        meshFilter.mesh.RecalculateBounds();
+
+    }
 
 
     // 물체가 충돌했을때, 물의 표면을 이루는 정점들에 힘을 가함
@@ -128,8 +160,9 @@ public class Water : MonoBehaviour
         // 물체가 가하는 힘이 미미할때는 무시
         var otherRb = other.attachedRigidbody;
         float forceY = otherRb.linearVelocity.y * otherRb.mass * 0.06f;
+
         if (Math.Abs(forceY) < 0.03f) return;
-            
+
 
         // 물체의 위치에 따라 힘을 가하는 정점의 인덱스를 계산
         float interval = _width / _quality;
@@ -149,7 +182,7 @@ public class Water : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float _horizontalForceMultiplier = 0.05f; // 좌우 속도에 따른 파동 강도
     private void OnTriggerStay2D(Collider2D other)
     {
-        
+
         if (other.isTrigger || other.attachedRigidbody == null) return;
 
         var rb = other.attachedRigidbody;
@@ -158,7 +191,7 @@ public class Water : MonoBehaviour
         float forceX = rb.linearVelocity.x * rb.mass * _horizontalForceMultiplier;
         Debug.Log($"forceX = {forceX}");
         if (Mathf.Abs(forceX) < 0.01f) return;
-        
+
 
         float interval = _width / _quality;
         float xMin = transform.position.x - _width / 2;
@@ -186,17 +219,23 @@ public class Water : MonoBehaviour
     // 인스펙터의 값을 변경할때, 메시가 재생성되어야 하는지 확인합니다.
     private void _OnValidate()
     {
+        if (this == null || gameObject == null) return;
+
         if (meshFilter == null) meshFilter = GetComponent<MeshFilter>();
         if (col == null) col = GetComponent<BoxCollider2D>();
         if (meshRenderer == null) meshRenderer = GetComponent<MeshRenderer>();
+
         if (_width < 0.01f) _width = 0.1f;
         if (_height < 0.01f) _height = 0.1f;
-        if (_quality < 100) _quality = 100;
+        if (_quality < 20) _quality = 20;
+
         if (!IsMeshUpdateNeeded()) return;
 
         UpdateMesh();
-        col.size = new Vector2(_width, _height);
+        if (col != null)
+            col.size = new Vector2(_width, _height);
     }
+
 #endif
 
 
@@ -204,11 +243,16 @@ public class Water : MonoBehaviour
     // 메시의 정점 갯수와, 폭 그리고 높이가 현재 설정된 값과 다른지 확인합니다.
     private bool IsMeshUpdateNeeded()
     {
+        if (meshFilter == null || meshFilter.sharedMesh == null) return true;
+
         if (meshFilter.sharedMesh.vertexCount != (_quality + 1) * 2) return true;
+
         var bounds = meshFilter.sharedMesh.bounds;
         if (!Mathf.Approximately(bounds.size.x, _width) || !Mathf.Approximately(bounds.size.y, _height)) return true;
+
         return false;
     }
+
 
     // 물결 계산이 필요한지 확인합니다.
     // 모든 정점의 속력이 0이면, 표면에 물결이 없다고 판단합니다.
@@ -268,7 +312,7 @@ public class Water : MonoBehaviour
 
     [SerializeField, Range(1, 10)] private int _waveSpreadRange = 2; // 전파 거리 (몇 칸까지 영향 주는지)
     [SerializeField, Range(0.01f, 10f)] private float _waveSpreadSpeed = 1.0f;
-    private float waveStep = 0f;
+
 
     private void CalculateTension()
     {
@@ -396,7 +440,7 @@ public class Water : MonoBehaviour
 
 
     // 메시를 업데이트 합니다.
-    private void UpdateMesh()
+    public void UpdateMesh()
     {
         var mesh = new Mesh();
         vertices = GetVertices();
@@ -459,71 +503,6 @@ public class Water : MonoBehaviour
         return result;
     }
 
-    public Water LeftNeighbor { get; set; }
-    public Water RightNeighbor { get; set; }
-    private void PropagateWaveToNeighbors()
-    {
-        int range = 5; // 양 옆 경계에서 몇 개 정점을 평균낼지
-        int lastIndex = _quality;
-
-        if (LeftNeighbor != null)
-        {
-            int leftNeighborLast = LeftNeighbor._quality;
-
-            for (int i = 0; i < range; i++)
-            {
-                int thisIndex = i;
-                int neighborIndex = leftNeighborLast - (range - 1) + i;
-
-                if (neighborIndex < 0 || thisIndex >= velocities.Length) continue;
-
-                float avgVelocity = (velocities[thisIndex] + LeftNeighbor.velocities[neighborIndex]) * 0.5f;
-                float avgY = (vertices[thisIndex * 2].y + LeftNeighbor.vertices[neighborIndex * 2].y) * 0.5f;
-
-                velocities[thisIndex] = avgVelocity;
-                vertices[thisIndex * 2].y = avgY;
-
-                LeftNeighbor.velocities[neighborIndex] = avgVelocity;
-                LeftNeighbor.vertices[neighborIndex * 2].y = avgY;
-            }
-        }
-
-        if (RightNeighbor != null)
-        {
-            for (int i = 0; i < range; i++)
-            {
-                int thisIndex = lastIndex - (range - 1) + i;
-                int neighborIndex = i;
-
-                if (thisIndex < 0 || neighborIndex >= RightNeighbor.velocities.Length) continue;
-
-                float avgVelocity = (velocities[thisIndex] + RightNeighbor.velocities[neighborIndex]) * 0.5f;
-                float avgY = (vertices[thisIndex * 2].y + RightNeighbor.vertices[neighborIndex * 2].y) * 0.5f;
-
-                velocities[thisIndex] = avgVelocity;
-                vertices[thisIndex * 2].y = avgY;
-
-                RightNeighbor.velocities[neighborIndex] = avgVelocity;
-                RightNeighbor.vertices[neighborIndex * 2].y = avgY;
-            }
-        }
-    }
-
-
-
-
-    private void FindNeighbors()
-    {
-        foreach (var water in FindObjectsOfType<Water>())
-        {
-            if (water == this) continue;
-
-            float dx = water.transform.position.x - transform.position.x;
-            if (Mathf.Approximately(dx, -_width))
-                LeftNeighbor = water;
-            else if (Mathf.Approximately(dx, _width))
-                RightNeighbor = water;
-        }
-    }
+    
 
 }
