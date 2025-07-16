@@ -11,7 +11,7 @@ namespace enemy
         private Player_Model model = new Player_Model();
         private Transform player;
 
-        private float attackCooldown = 1f; // ���� ��Ÿ��(��)
+        private float attackCooldown = 1f; 
         private float attackTimer = 0f;
 
         void Awake()
@@ -52,8 +52,8 @@ namespace enemy
             if (!m.isHit && !m.isInvincible)
             {
                 if (playerData.hp > 0)
-                    Debug.Log($"�÷��̾�� {enemy.attackPower}��ŭ ����!");
-                playerData.hp -= 3f;
+                    Debug.Log($"플레이어에게 {enemy.attackPower}의 피해를 입혔습니다.");
+                playerData.hp -= enemy.attackPower;
             }
         }
 

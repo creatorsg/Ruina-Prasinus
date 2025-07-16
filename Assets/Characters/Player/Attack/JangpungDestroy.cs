@@ -9,7 +9,6 @@ public class JangpungDestroy : MonoBehaviour
         Destroy(gameObject, autoDestroyTime);
     }
 
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Ground") || other.CompareTag("Enemy"))
