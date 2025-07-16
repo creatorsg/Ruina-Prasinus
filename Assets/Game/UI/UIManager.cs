@@ -6,7 +6,6 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    [Header("Panels")]
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject mainOptionPanel;
     [SerializeField] private GameObject keySettingsPanel;
@@ -45,13 +44,18 @@ public class UIManager : MonoBehaviour
     {
         keySettingsPanel.SetActive(true);
         mainOptionPanel.SetActive(false);
-        
     }
 
     public void CloseKeySettings()
     {
         keySettingsPanel.SetActive(false);
+        mainOptionPanel.SetActive(false);
+    }
+
+    public void ReturnOption()
+    {
         mainOptionPanel.SetActive(true);
+        keySettingsPanel.SetActive(false) ;
     }
     public void QuitGame()
     {
