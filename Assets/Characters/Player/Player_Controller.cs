@@ -7,8 +7,6 @@ namespace Player
 {
     public class Player_Controller : MonoBehaviour
     {
-        public static Player_Controller Instance { get; private set; }
-
         private Player_Model model = new Player_Model();
         private Player_View view;
 
