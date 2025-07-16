@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Button))]
 public class KeyRebindButton : MonoBehaviour, IPointerClickHandler
 {
-    [Tooltip("KeybindManager에 등록된 액션 이름과 동일하게 입력하세요.")]
+    [Tooltip("KeybindManager에 등록된 액션 이름과 동일하게 입력")]
     public string actionName;
     private Text label;
     private bool isWaiting = false;
