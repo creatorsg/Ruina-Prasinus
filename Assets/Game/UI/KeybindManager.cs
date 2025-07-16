@@ -17,6 +17,8 @@ public static class KeybindManager
 
         AddOrLoad("MoveLeft", KeyCode.A);
         AddOrLoad("MoveRight", KeyCode.D);
+        AddOrLoad("LookUP", KeyCode.W);
+        AddOrLoad("LieDown", KeyCode.S);
         AddOrLoad("Jump", KeyCode.Space);
         AddOrLoad("Dash", KeyCode.LeftShift);
         AddOrLoad("Attack", KeyCode.Mouse0);
