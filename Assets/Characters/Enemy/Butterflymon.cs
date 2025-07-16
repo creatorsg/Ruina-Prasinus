@@ -3,12 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
 public class SporeButterfly : MonoBehaviour
 {
-
-    [Header("추적 설정")]
-    [Tooltip("플레이어를 감지하는 반경")]
+    [Header("공격 반경")]
     public float detectionRange = 5f;
-    [Tooltip("이동 속도")]
+    [Header("이동 속도")]
     public float speed = 3f;
+
     private Transform player;
     private bool isChasing = false;
 
@@ -48,8 +47,7 @@ public class SporeButterfly : MonoBehaviour
     }
 
     void OnDrawGizmosSelected()
-    {
-
+    { 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
     }

@@ -69,13 +69,8 @@ public class RoomEnemyRespawner : MonoBehaviour
     [Serializable]
     private class SpawnInfo
     {
-        [Header("몬스터 프리팹")]
         public GameObject enemyPrefab;
-
-        [Header("스폰 위치 (월드 좌표)")]
         public Vector3 spawnPosition;
-
-        [Header("이미 파괴됐나요? (외부에서 세팅)")]
         public bool isDestroyed = false;
     }
 }

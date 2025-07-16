@@ -5,7 +5,6 @@ namespace enemy
 {
     public class EnemyAttack : MonoBehaviour
     {
-        [Header("�������� ���� �� ������")]
         [SerializeField] private Enemy enemy;
         [SerializeField] private PlayerData playerData;
 
