@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c16d740245a129418d146b8b939c428, type: 3}
   m_Name: Jangpung
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 5499186310743337842, guid: 0a27e779f7255e9468733c8b755036be, type: 3}
   speed: 20
   standbyTime: 0.2

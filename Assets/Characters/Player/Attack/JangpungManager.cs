@@ -1,8 +1,8 @@
-using System.Collections;
+    using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerState))]
-public class JangpungLauncher : MonoBehaviour
+public class JangpungManager : MonoBehaviour
 {
     [SerializeField] private Jangpung jangpung;
     private PlayerState playerState;
