@@ -1,25 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "PlayerData", menuName = "Scriptable Objects/PlayerData")]
-public class PlayerData : ScriptableObject
+[CreateAssetMenu(fileName = "PlayerState", menuName = "Scriptable Objects/PlayerState")]
+public class PlayerState : ScriptableObject
 {
     [Header("— 스탯 (Status) —")]
     public float hp = 500f;
 
-    [Space(10)]
-    [Header("— 걷기 (Walking) —")]
+    [Header("걷기")]
+    public float walkAccelTime = 0.1f;  
     public float walkMaxSpeed = 5f;
-    public float walkAccelTime = 0.1f;
-    public float currentWalkSpeed = 0f;
 
-    [Space(10)]
-    [Header("— 대시 (Dash) —")]
+    [Header("대쉬")]
+    public float dashAccelTime = 0.2f; 
+    public float dashMaintainTime = 0.3f;  
     public float dashMaxSpeed = 7.5f;
-    public float dashAccelTime = 0.2f;
-    public float dashDuration = 0.3f;
-    public float dashCooldown = 0.2f;
-    public float currentDashSpeed = 0f;
+    public float dashCooldownTime = 0.2f;  
+    public float dashDuration => dashAccelTime + dashMaintainTime;
 
     [Space(10)]
     [Header("— 점프 (Jump) —")]

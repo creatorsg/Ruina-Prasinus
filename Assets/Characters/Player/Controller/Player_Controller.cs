@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿/*
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 namespace Player
 {
     public class Player_Controller : MonoBehaviour
     {
         private Player_Model model = new Player_Model();
+        Rigidbody2D rb = null;
         private Player_View view;
 
         [Header("Data (ScriptableObject)")]
-        [SerializeField] private PlayerData playerData;
+        [SerializeField] private PlayerState state;
 
         [Header("— 걷기 (Walking) —")]
         private int facingDirection = 1;
@@ -34,12 +37,14 @@ namespace Player
             view = GetComponent<Player_View>();
             if (view == null)
                 Debug.LogError("Player_View 컴포넌트가 없습니다!", this);
+            rb = GetComponent<Rigidbody2D>();
+            
         }
 
         void Start()
         {
-            playerData.hp = 500f;
-            previousHp = playerData.hp;
+            state.hp = 500f;
+            previousHp = state.hp;
         }
 
 
@@ -62,7 +67,7 @@ namespace Player
 
             handleDashCoolDown();
 
-            if (playerData.hp < previousHp && !model.isHit && !model.isInvincible)
+            if (state.hp < previousHp && !model.isHit && !model.isInvincible)
             {
                 OnHit();
             }
@@ -70,26 +75,26 @@ namespace Player
             if (m.isHit)
             {
                 transform.position += new Vector3(0, 0.005f, 0); // 밀림 연출
-                playerData.freezeTimer += Time.deltaTime;
+                state.freezeTimer += Time.deltaTime;
 
-                if (playerData.freezeTimer >= playerData.freezeDuration)
+                if (state.freezeTimer >= state.freezeDuration)
                 {
                     m.isHit = false;
-                    playerData.freezeTimer = 0f;
+                    state.freezeTimer = 0f;
 
                     // 무적 시작
                     m.isInvincible = true;
-                    playerData.invincibleTimer = 0f;
+                    state.invincibleTimer = 0f;
                 }
             }
 
             if (m.isInvincible)
             {
-                playerData.invincibleTimer += Time.deltaTime;
-                if (playerData.invincibleTimer >= playerData.invincibleDuration)
+                state.invincibleTimer += Time.deltaTime;
+                if (state.invincibleTimer >= state.invincibleDuration)
                 {
                     m.isInvincible = false;
-                    playerData.invincibleTimer = 0f;
+                    state.invincibleTimer = 0f;
                     view.StopBlink(); // 무적 해제 시 깜빡임 중지
                 }
             }
@@ -97,7 +102,7 @@ namespace Player
             if (m.isHit || m.inCinematic || m.inGearSetting || m.inGearAction || m.inUIControl)
                 return;
 
-            previousHp = playerData.hp;
+            previousHp = state.hp;
 
             HandleInput();
         }
@@ -134,16 +139,16 @@ namespace Player
                 transform.localScale = s;
 
                 walkAccelTimer += Time.fixedDeltaTime;
-                float t = Mathf.Clamp01(walkAccelTimer / playerData.walkAccelTime);
-                playerData.currentWalkSpeed = Mathf.Lerp(0f, playerData.walkMaxSpeed, t);
+                float t = Mathf.Clamp01(walkAccelTimer / state.walkAccelTime);
+                state.currentWalkSpeed = Mathf.Lerp(0f, state.walkMaxSpeed, t);
             }
             else
             {
                 walkAccelTimer = 0f;
-                playerData.currentWalkSpeed = 0f;
+                state.currentWalkSpeed = 0f;
             }
 
-            view.UpdateWalk(moveInput, playerData.currentWalkSpeed);
+            view.UpdateWalk(moveInput, state.currentWalkSpeed);
         }
 
         void HandleDash()
@@ -153,19 +158,19 @@ namespace Player
             // 대시 시작
             dashTimer += Time.fixedDeltaTime;
 
-            if (dashTimer < playerData.dashAccelTime)
+            if (dashTimer < state.dashAccelTime)
             {
-                float t = dashTimer / playerData.dashAccelTime;
-                playerData.currentDashSpeed = Mathf.Lerp(0f, playerData.dashMaxSpeed, t);
+                float t = dashTimer / state.dashAccelTime;
+                state.currentDashSpeed = Mathf.Lerp(0f, state.dashMaxSpeed, t);
             }
-            else if (dashTimer < playerData.dashDuration)
+            else if (dashTimer < state.dashDuration)
             {
-                playerData.currentDashSpeed = playerData.dashMaxSpeed;
+                state.currentDashSpeed = state.dashMaxSpeed;
 
                 if (!Input.GetKey(KeyCode.LeftShift))
                 {
                     model.isDashing = false;
-                    playerData.currentDashSpeed = 0f;
+                    state.currentDashSpeed = 0f;
                     return;
                 }
             }
@@ -174,11 +179,11 @@ namespace Player
                 if (model.isGrounded)
                 {
                     model.isDashing = false;
-                    playerData.currentDashSpeed = 0f;
+                    state.currentDashSpeed = 0f;
                     return;
                 }
             }
-            view.UpdateDash(dashDirection * playerData.currentDashSpeed);
+            view.UpdateDash(dashDirection * state.currentDashSpeed);
             m.canDash = false;
         }
 
@@ -188,7 +193,7 @@ namespace Player
 
             if (cooltime <= 0f)
             {
-                cooltime = playerData.dashCooldown;
+                cooltime = state.dashCooldown;
                 m.canDash = true;
             }
 
@@ -206,9 +211,9 @@ namespace Player
 
             if (isJumping && model.isGrounded)
             {
-                view.JumpImpulse(playerData.jumpSpeed);
+                view.JumpImpulse(state.jumpSpeed);
 
-                view.ContinueJump(playerData.jumpSpeed);
+                view.ContinueJump(state.jumpSpeed);
             }
 
             isJumping = false;
@@ -220,7 +225,7 @@ namespace Player
             if (!model.isHit)
             {
                 model.isHit = true;
-                playerData.freezeTimer = 0f;
+                state.freezeTimer = 0f;
                 view.StartBlink(); 
             }
         }
@@ -241,3 +246,4 @@ namespace Player
         }
     }
 }
+*/
