@@ -119,31 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &102264084 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6713303143445985151, guid: 8617ba6c125df2c4ab0342a7173181f1, type: 3}
-  m_PrefabInstance: {fileID: 158607792}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &102264094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4371689963129356281, guid: 8617ba6c125df2c4ab0342a7173181f1, type: 3}
   m_PrefabInstance: {fileID: 158607792}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &102264095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102264084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e44912cce19e9544bd152e3bfa09986, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 102264094}
-  cameraBounds: {fileID: 1083180638}
-  boundParent: {fileID: 0}
 --- !u!1001 &158607792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -203,10 +183,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6713303143445985151, guid: 8617ba6c125df2c4ab0342a7173181f1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 102264095}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8617ba6c125df2c4ab0342a7173181f1, type: 3}
 --- !u!1 &264109086
 GameObject:
