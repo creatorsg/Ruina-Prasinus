@@ -6,7 +6,7 @@ namespace enemy
     public class EnemyAttack : MonoBehaviour
     {
         [SerializeField] private Enemy enemy;
-        [SerializeField] private PlayerData playerData;
+        [SerializeField] private PlayerState state;
 
         private Player_Model model = new Player_Model();
         private Transform player;
@@ -51,9 +51,9 @@ namespace enemy
 
             if (!m.isHit && !m.isInvincible)
             {
-                if (playerData.hp > 0)
+                if (state.hp > 0)
                     Debug.Log($"플레이어에게 {enemy.attackPower}의 피해를 입혔습니다.");
-                playerData.hp -= enemy.attackPower;
+                state.hp -= enemy.attackPower;
             }
         }
 
