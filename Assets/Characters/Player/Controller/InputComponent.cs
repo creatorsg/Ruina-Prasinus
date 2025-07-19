@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class InputComponent : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class InputComponent : MonoBehaviour
     void Update()
     {
         float h = 0f;
-        if (Input.GetKey(KeyCode.A))
+        if (InputManager.GetKey("MoveLeft"))
         {
             h -= 1f;
             Debug.Log("좌측키 입력 완료");

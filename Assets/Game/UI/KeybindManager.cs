@@ -45,10 +45,10 @@ public static class KeybindManager
         return KeyCode.None;
     }
 
-    public static void SetKey(string action, KeyCode newKey)
+    public static void SetKey(string action, KeyCode key)
     {
-        bindings[action] = newKey;
-        PlayerPrefs.SetString(Prefix + action, newKey.ToString());
+        bindings[action] = key;
+        PlayerPrefs.SetString(Prefix + action, key.ToString());
         PlayerPrefs.Save();
     }
 }
