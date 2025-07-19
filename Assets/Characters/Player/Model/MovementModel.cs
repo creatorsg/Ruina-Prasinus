@@ -5,13 +5,14 @@ public class MovementModel
     public float CurrentSpeed { get; private set; }
     public float CurrentDashSpeed { get; private set; }
     public int FacingDirection { get; private set; } = 1;
+    public bool isDashing { get; private set; }
 
     public Vector2 Velocity => new Vector2((CurrentSpeed + CurrentDashSpeed) * FacingDirection, 0f);
     public bool CanDash;
 
+    private Rigidbody2D rb;
     float walkTimer, dashTimer, dashCooldownTimer;
     int  reaminspeed;
-    bool isDashing;
     bool dashHeld;
 
 
@@ -27,7 +28,7 @@ public class MovementModel
                           : reaminspeed;
         dashHeld = dashIsHeld;
 
-        if ( dashPressed && !isDashing && dashCooldownTimer >= state.dashCooldownTime && isGrounded)
+        if ( dashPressed && CanDash && isGrounded)
         {
             isDashing = true;
             dashTimer = 0f;
