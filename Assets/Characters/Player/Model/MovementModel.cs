@@ -9,11 +9,9 @@ public class MovementModel
     public Vector2 Velocity => new Vector2((CurrentSpeed + CurrentDashSpeed) * FacingDirection, 0f);
     public bool CanDash;
 
-
     float walkTimer, dashTimer, dashCooldownTimer;
     int  reaminspeed;
     bool isDashing;
-
     bool dashHeld;
 
 
@@ -38,7 +36,7 @@ public class MovementModel
         }
 
         if (isDashing)
-            UpdateDash(state, dt);
+            UpdateDash(state, dt, isGrounded);
         else
             UpdateWalk(moveInput, state, dt);
     }
@@ -61,7 +59,7 @@ public class MovementModel
         }
     }
 
-    void UpdateDash(PlayerState state, float dt)
+    void UpdateDash(PlayerState state, float dt, bool isGround)
     {
         dashTimer += dt;
 
@@ -71,7 +69,6 @@ public class MovementModel
             CurrentDashSpeed = Mathf.Lerp(CurrentSpeed, state.dashMaxSpeed, t);
             return;
         }
-
         if (dashTimer < state.dashDuration)
         {
             CurrentDashSpeed = state.dashMaxSpeed;
@@ -82,7 +79,19 @@ public class MovementModel
             return;
         }
 
-        EndDash(state);
+        if (isGround)
+        {
+            EndDash(state);
+        }
+        else
+        {
+            CurrentDashSpeed = state.dashMaxSpeed;
+            if (!dashHeld)
+            {
+                EndDash(state);
+            }
+            return;
+        }
     }
 
     void EndDash(PlayerState state)

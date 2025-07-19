@@ -1,48 +1,54 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerStatus), typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(PlayerStatus))]
 public class GravityController : MonoBehaviour
 {
-    private PlayerStatus status;
+    [SerializeField] private float gravity = -20f;
+    [SerializeField] private float maxFallSpeed = -30f;
+    [SerializeField] private float jumpVelocity = 15f;
 
-    [SerializeField] private float jumpVelocity = 5f;
-    [SerializeField] private float maxFallSpeed = 50f;
-    [SerializeField] private float accelTime = 0.25f;
-    [SerializeField] private float gravityScale = 20f;
-
-    private float fallTimer = 2.5f;
-    public float Gravity { get; private set; }
-
+    private Rigidbody2D rb;
+    private PlayerStatus status;  
+    private float verticalVelocity; 
+    public float VerticalVelocity => verticalVelocity;
     void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         status = GetComponent<PlayerStatus>();
+        rb.gravityScale = 0f;
+    }
+
+    void FixedUpdate()
+    {
+        UpdateGravity(Time.fixedDeltaTime);
+        ApplyVelocity();
     }
 
     public void Jump()
     {
         if (status.isGrounded)
         {
-            Gravity = jumpVelocity;
-            fallTimer = 0f;
+            verticalVelocity = jumpVelocity;
         }
     }
 
-    public void UpdateGravity(float dt)
+    private void UpdateGravity(float deltaTime)
     {
-        if (status.isGrounded)
+        if (status.isGrounded && verticalVelocity <= 0f)
         {
-            Gravity = 0f;
-            fallTimer = 0f;
+            verticalVelocity = 0f;
         }
         else
         {
-            fallTimer += dt;
-            float t = Mathf.Clamp01(fallTimer / accelTime);
-            float currMaxFall = Mathf.Lerp(0f, maxFallSpeed, t);
-
-            Gravity -= gravityScale * dt;
-            Gravity = Mathf.Max(Gravity, -currMaxFall);
+            verticalVelocity += gravity * deltaTime;
+            verticalVelocity = Mathf.Max(verticalVelocity, maxFallSpeed);
         }
     }
-}
 
+    private void ApplyVelocity()
+    {
+        Vector2 v = rb.linearVelocity;
+        v.y = verticalVelocity;
+        rb.linearVelocity = v;
+    }
+}

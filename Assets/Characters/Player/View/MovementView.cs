@@ -8,6 +8,7 @@ public class MovementView : MonoBehaviour
     private MovementModel model;
 
     public void SetModel(MovementModel m) => model = m;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -15,9 +16,13 @@ public class MovementView : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = model.Velocity;
+        Vector2 v = rb.linearVelocity;
 
-        if (spriteRenderer != null) 
+        v.x = model.Velocity.x;
+
+        rb.linearVelocity = v;
+        if (spriteRenderer != null)
             spriteRenderer.flipX = model.FacingDirection < 0;
     }
 }
+

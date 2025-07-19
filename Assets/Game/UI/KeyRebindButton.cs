@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Button))]
 public class KeyRebindButton : MonoBehaviour, IPointerClickHandler
 {
-    [Tooltip("KeybindManager에 등록된 액션 이름과 동일하게 입력")]
     public string actionName;
     private Text label;
     private bool isWaiting = false;
@@ -20,11 +19,11 @@ public class KeyRebindButton : MonoBehaviour, IPointerClickHandler
     {
         if (!isWaiting) return;
 
-        foreach (KeyCode kc in System.Enum.GetValues(typeof(KeyCode)))
+        foreach (KeyCode keycode in System.Enum.GetValues(typeof(KeyCode)))
         {
-            if (Input.GetKeyDown(kc))
+            if (Input.GetKeyDown(keycode))
             {
-                KeybindManager.SetKey(actionName, kc);
+                KeybindManager.SetKey(actionName, keycode);
                 isWaiting = false;
                 RefreshLabel();
                 break;

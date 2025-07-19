@@ -9,9 +9,9 @@ public class JangpungDestroy : MonoBehaviour
         Destroy(gameObject, autoDestroyTime);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Ground") || other.CompareTag("Enemy"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Enemy"))
         {
             Destroy(gameObject);
         }
