@@ -13,18 +13,17 @@ MonoBehaviour:
   m_Name: PlayerState
   m_EditorClassIdentifier: 
   hp: 500
-  walkMaxSpeed: 5
+  attack_power: 5
   walkAccelTime: 0.1
-  currentWalkSpeed: 0
-  dashMaxSpeed: 7.5
+  walkMaxSpeed: 5
   dashAccelTime: 0.2
-  dashDuration: 0.3
-  dashCooldown: 0.2
-  currentDashSpeed: 0
-  jumpSpeed: 5
+  dashMaintainTime: 0.3
+  dashMaxSpeed: 7.5
+  dashCooldownTime: 0.2
+  jumpPower: 5
   jumpHoldTime: 0.25
+  jumpDuration: 0.25
   invincibleTimer: 0
   invincibleDuration: 3
   freezeTimer: 0
   freezeDuration: 0.5
-  attack_power: 5
