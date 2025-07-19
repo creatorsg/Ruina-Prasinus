@@ -6,6 +6,7 @@ public class PlayerState : ScriptableObject
 {
     [Header("— 스탯 (Status) —")]
     public float hp = 500f;
+    public float attack_power = 5f;
 
     [Header("걷기")]
     public float walkAccelTime = 0.1f;  
@@ -20,8 +21,9 @@ public class PlayerState : ScriptableObject
 
     [Space(10)]
     [Header("— 점프 (Jump) —")]
-    public float jumpSpeed = 5f;
+    public float jumpPower = 5f;
     public float jumpHoldTime = 0.25f;
+    public float jumpDuration = 0.25f;
 
     [Space(10)]
     [Header("— 피격 (isHit) —")]
@@ -29,9 +31,4 @@ public class PlayerState : ScriptableObject
     public float invincibleDuration = 3f;
     public float freezeTimer = 0f;
     public float freezeDuration = 0.5f;
-
-    [Space(10)]
-    [Header("- 공격 (Attack) -")]
-    public float attack_power = 5f;
-
 }
