@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class MovementModel
+public class Modeldeldel
 {
     public float CurrentSpeed { get; private set; }
     public float CurrentDashSpeed { get; private set; }
     public int FacingDirection { get; private set; } = 1;
     public bool isDashing { get; private set; }
 
-    public Vector2 Velocity => new Vector2((CurrentSpeed + CurrentDashSpeed) * FacingDirection, 0f);
+    public float moveSpeed => CurrentSpeed + CurrentDashSpeed;
     public bool CanDash;
 
-    private Rigidbody2D rb;
     float walkTimer, dashTimer, dashCooldownTimer, dashDuration = 3f;
     int  reaminspeed;
     bool dashHeld;
@@ -113,4 +112,3 @@ public class MovementModel
         }
     }
 }
-
