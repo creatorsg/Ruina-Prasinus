@@ -42,12 +42,7 @@ public class newMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        view.Move(moveInput, model.moveSpeed, status.perp);
-
-        if (jumpRequested && status.isGround)
-        {
-            view.Jump();
-        }
+        view.Move(moveInput);
     }
 
     void Update()
@@ -59,6 +54,11 @@ public class newMovementController : MonoBehaviour
 
         status.Update(Player, checkRadius, groundMask);
         model.Update(moveInput, dashRequested, dashHeld, state, Time.deltaTime, status.isGround);
+
+        if (jumpRequested && status.isGround)
+        {
+            view.Jump();
+        }
 
         if (hit || fronthit)
         {
