@@ -12,7 +12,7 @@ public class newMovementController : MonoBehaviour
     [SerializeField] private InputComponent input;
     [SerializeField] private newPlayerView view;
     
-    private PlayerStatus2 status;
+    private Playerstatus2 status;
     private Modeldeldel model;
 
     [HideInInspector] public RaycastHit2D hit, fronthit;
@@ -26,7 +26,7 @@ public class newMovementController : MonoBehaviour
     void Awake()
     {
         model = new Modeldeldel();
-        status = new PlayerStatus2();
+        status = new Playerstatus2();
         groundMask = LayerMask.GetMask("Ground");
         input = GetComponent<InputComponent>();
 
@@ -42,7 +42,7 @@ public class newMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        view.Move(moveInput);
+        view.Move(moveInput, Time.deltaTime);
     }
 
     void Update()

@@ -1,17 +1,16 @@
-    using System.Collections;
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerStatus))]
 public class JangpungManager : MonoBehaviour
 {
     [SerializeField] private Jangpung jangpung;
-    private PlayerStatus playerState;
+    private Playerstatus2 status;
     private bool isOnCooldown = false;
     private int facingDirection = 1;
 
     void Awake()
     {
-        playerState = GetComponent<PlayerStatus>();
+        status = new Playerstatus2();
     }
 
     void Update()
@@ -37,7 +36,7 @@ public class JangpungManager : MonoBehaviour
         if (InputManager.GetKey("LookUP"))
             return Vector2.up;
 
-        if (InputManager.GetKey("LieDown") && !playerState.isGrounded)
+        if (InputManager.GetKey("LieDown") && !status.isGround)
             return (Vector2.down + (facingDirection == 1 ? Vector2.right : Vector2.left)).normalized;
 
         return facingDirection == 1 ? Vector2.right : Vector2.left;
