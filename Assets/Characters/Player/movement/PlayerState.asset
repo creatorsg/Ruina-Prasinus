@@ -19,11 +19,9 @@ MonoBehaviour:
   dashAccelTime: 0.2
   dashMaintainTime: 0.3
   dashMaxSpeed: 7.5
-  dashCooldownTime: 0.2
+  dashCooldownTime: 6
   jumpPower: 5
   jumpHoldTime: 0.25
   jumpDuration: 0.25
-  invincibleTimer: 0
   invincibleDuration: 3
-  freezeTimer: 0
   freezeDuration: 0.5

@@ -10,7 +10,7 @@ public class Modeldeldel
     public float moveSpeed => (CurrentSpeed + CurrentDashSpeed) * FacingDirection;
     public bool CanDash;
 
-    float walkTimer, dashTimer, dashCooldownTimer, dashDuration = 3f;
+    float walkTimer, dashTimer, dashCooldownTimer;
     int  reaminspeed;
     bool dashHeld;
 
@@ -69,7 +69,7 @@ public class Modeldeldel
             CurrentDashSpeed = Mathf.Lerp(CurrentSpeed, state.dashMaxSpeed, t);
             return;
         }
-        if (dashTimer < dashDuration)
+        if (dashTimer < state.dashMaintainTime)
         {
             CurrentDashSpeed = state.dashMaxSpeed;
             if (!dashHeld)
