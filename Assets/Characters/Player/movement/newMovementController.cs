@@ -36,6 +36,7 @@ public class newMovementController : MonoBehaviour
 
         view.SetModel(model);
         view.SetState(state);
+        view.SetStatus(status);
 
     }
 
