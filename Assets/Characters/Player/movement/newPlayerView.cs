@@ -6,7 +6,7 @@ public class newPlayerView : MonoBehaviour
 
     private Modeldeldel model;
     private PlayerState state;
-    private PlayerStatus2 status;
+    private Playerstatus2 status;
 
     private Rigidbody2D rb;
     private bool isJump;
@@ -18,24 +18,20 @@ public class newPlayerView : MonoBehaviour
 
     public void SetModel(Modeldeldel m) => model = m;
     public void SetState(PlayerState s) => state = s;
-    public void SetStatus(PlayerStatus2 s) => status = s;
+    public void SetStatus(Playerstatus2 s) => status = s;
 
-    public void Move(float moveInput)
+    public void Move(float moveInput, float dt)
     {
-        // 입력 없으면 X축 위치 고정, 회전만 고정
         if (moveInput == 0f)
             rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        // 언덕에서 이동 전 잔여 속도 제거 (언덕 위, 땅에 있고, 점프 중이 아닐 때)
         if (status.isSlope && status.isGround && !isJump)
             rb.linearVelocity = Vector2.zero;
 
         if (moveInput != 0f)
         {
-            float dt = Time.deltaTime;
-            // 올라갈 때
             if (moveInput > 0f)
             {
                 Vector2 t = new Vector2(
@@ -44,7 +40,6 @@ public class newPlayerView : MonoBehaviour
                 );
                 transform.Translate(t, Space.World);
             }
-            // 내려갈 때
             else if (moveInput < 0f)
             {
                 Vector2 t = new Vector2(
@@ -53,7 +48,6 @@ public class newPlayerView : MonoBehaviour
                 );
                 transform.Translate(t, Space.World);
             }
-            // 평지 혹은 공중 이동
             else if (!status.isSlope && status.isGround)
             {
                 transform.Translate(
@@ -86,6 +80,6 @@ public class newPlayerView : MonoBehaviour
     void FixedUpdate()
     {
         if (spriteRenderer != null)
-            spriteRenderer.flipX = model.FacingDirection < 0;
+            spriteRenderer.flipX = model.FacingDirection > 0;
     }
 }
