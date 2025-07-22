@@ -7,7 +7,7 @@ public class Modeldeldel
     public int FacingDirection { get; private set; } = 1;
     public bool isDashing { get; private set; }
 
-    public float moveSpeed => CurrentSpeed + CurrentDashSpeed;
+    public float moveSpeed => (CurrentSpeed + CurrentDashSpeed) * FacingDirection;
     public bool CanDash;
 
     float walkTimer, dashTimer, dashCooldownTimer, dashDuration = 3f;
