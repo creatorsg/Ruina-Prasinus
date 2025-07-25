@@ -6,7 +6,7 @@ namespace enemy
     public class EnemyAttack : MonoBehaviour
     {
         [SerializeField] private Enemy enemy;
-        [SerializeField] private PlayerState state;
+        [SerializeField] private initialState state;
 
         private Player_Model model = new Player_Model();
         private Transform player;
@@ -38,7 +38,7 @@ namespace enemy
             if (dist <= enemy.attackRange && attackTimer <= 0f)
             {
                 Attack();
-                attackTimer = attackCooldown; // ��Ÿ�� �ʱ�ȭ
+                attackTimer = attackCooldown; 
             }
         }
 
