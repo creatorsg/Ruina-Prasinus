@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class Scriptable : MonoBehaviour
 {
-    private PlayerState PlayerState;
-    private PlayerState copyData;
+    private initialState PlayerState;
+    private initialState copyData;
     void Start()
     {
         copyData = Instantiate(PlayerState);
-    
     }
 
 

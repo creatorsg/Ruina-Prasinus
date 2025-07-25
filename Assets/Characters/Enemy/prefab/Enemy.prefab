@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b7845a9798ca1742ae4a5df37ec1438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  playerData: {fileID: 0}
+  enemy: {fileID: 11400000, guid: 9eda1686f41ea2146b5da6d4619a2d11, type: 2}
+  state: {fileID: 11400000, guid: e42c969c3a62d92419978f6475cd460d, type: 2}
 --- !u!50 &2875937093652256871
 Rigidbody2D:
   serializedVersion: 5
@@ -183,7 +183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 11400000, guid: 9eda1686f41ea2146b5da6d4619a2d11, type: 2}
-  map: {fileID: 11400000, guid: 0ffabac88773d064b8ed3d530157b9ca, type: 2}
+  roomRespawner: {fileID: 0}
+  spawnIndex: 0
 --- !u!114 &1554824222836308625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,4 +198,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 11400000, guid: 9eda1686f41ea2146b5da6d4619a2d11, type: 2}
-  playerData: {fileID: 11400000, guid: 6bc837a79864f6145a28338994615d4f, type: 2}
+  state: {fileID: 11400000, guid: e42c969c3a62d92419978f6475cd460d, type: 2}
