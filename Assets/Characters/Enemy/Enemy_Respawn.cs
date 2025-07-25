@@ -41,7 +41,7 @@ public class RoomEnemyRespawner : MonoBehaviour
                     var ed = e.GetComponent<Enemy_Destroy>();
                     if (ed != null)
                     {
-                        ed.spawnIndex = i;
+                        ed.destroyCheck = i;
                         ed.roomRespawner = this;
                     }
 
