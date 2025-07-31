@@ -1615,13 +1615,17 @@ PrefabInstance:
       propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9059286516390069244, guid: 5126bafea974b8f4d9a7ce8e08c13281, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7420249519106363456, guid: 5126bafea974b8f4d9a7ce8e08c13281, type: 3}
       insertIndex: -1
       addedObject: {fileID: 590656651}
+    - targetCorrespondingSourceObject: {fileID: 7420249519106363456, guid: 5126bafea974b8f4d9a7ce8e08c13281, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 590656654}
   m_SourcePrefab: {fileID: 100100000, guid: 5126bafea974b8f4d9a7ce8e08c13281, type: 3}
 --- !u!1 &423552673
 GameObject:
@@ -2714,6 +2718,19 @@ PolygonCollider2D:
       - {x: -1.8235294, y: 4}
       - {x: -1.8235294, y: 4}
   m_UseDelaunayMesh: 0
+--- !u!114 &590656654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590656649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91e4b6e5d282a684f8b2214c396258e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jangpung: {fileID: 11400000, guid: f6889788f7b90944ca23e6225fdf2ca6, type: 2}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -3112,8 +3129,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 544198725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3752,7 +3769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &981003269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9626,7 +9643,7 @@ RectTransform:
   m_Father: {fileID: 719930453}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

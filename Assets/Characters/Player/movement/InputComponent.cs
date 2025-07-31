@@ -14,18 +14,18 @@ public class InputComponent : MonoBehaviour
         {
             h -= 1f;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (InputManager.GetKey("MoveRight"))
         {
             h += 1f;
         }
         OnMove(h);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (InputManager.GetKeyDown("Jump"))
         {
             OnJump();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (InputManager.GetKeyDown("Dash"))
         {
             OnDash();
         }
