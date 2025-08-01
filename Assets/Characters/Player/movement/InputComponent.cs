@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class InputComponent : MonoBehaviour
 {
-    public event Action<float> OnMove = delegate { };
-    public event Action OnJump = delegate { };
-    public event Action OnDash = delegate { };
+    public event Action<float> OnMove;
+    public event Action OnJump;
+    public event Action OnDash;
 
     void Update()
     {
