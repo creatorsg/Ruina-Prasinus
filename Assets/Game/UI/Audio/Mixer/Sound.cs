@@ -8,6 +8,4 @@ public class Sound
 {
     public static Dictionary<string, float> Sounds = new();
     public const string Prefix = "Sounds_";
-
-    public static event Action<string, float> OnSoundValueChanged;
 }
