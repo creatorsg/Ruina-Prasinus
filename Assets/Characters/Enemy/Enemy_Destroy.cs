@@ -17,10 +17,6 @@ public class Enemy_Destroy : MonoBehaviour
     [HideInInspector] public RoomEnemyRespawner roomRespawner;
     [HideInInspector] public int destroyCheck;
 
-    void Awake()
-    {
-        enemy.hp = 30f;
-    }
 
     void OnTriggerEnter2D(Collider2D player)
     {

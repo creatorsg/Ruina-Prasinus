@@ -10,12 +10,24 @@ namespace Player
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private SpriteRenderer sr;
         private Coroutine blinkCoroutine;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        private Animator animator;
+
+        public System.Action<bool> OnMoveStateChanged;
+
+        private bool lastMoveState = false;
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            animator = GetComponent<Animator>();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         }
+
+        
 
         // 이동 관련 부분 
         public void UpdateWalk(float inputX, float speed)
@@ -23,6 +35,17 @@ namespace Player
             var v = rb.linearVelocity;
             v.x = inputX * speed;
             rb.linearVelocity = v;
+
+
+            bool isMoving = Mathf.Abs(inputX) > 0.01f;
+            animator.SetBool("isMove", isMoving);
+
+            if (isMoving != lastMoveState)
+            {
+                lastMoveState = isMoving;
+                OnMoveStateChanged?.Invoke(isMoving); // 애니메이터 매니저에 알려줌
+            }
+
         }
 
 

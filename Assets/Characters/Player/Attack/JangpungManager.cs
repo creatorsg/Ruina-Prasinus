@@ -1,3 +1,4 @@
+using Player;
 using System.Collections;
 using UnityEngine;
 
@@ -8,9 +9,12 @@ public class JangpungManager : MonoBehaviour
     private bool isOnCooldown = false;
     private int facingDirection = 1;
 
+    [SerializeField] private AnimatorManager animatorManager;
+
     void Awake()
     {
         status = new MoveStatus();
+        animatorManager = GetComponentInChildren<Player.AnimatorManager>();
     }
 
     void Update()
@@ -22,6 +26,7 @@ public class JangpungManager : MonoBehaviour
             Vector2 dir = CalculateLaunchDirection();
             LaunchProjectile(dir);
             StartCoroutine(Cooldown());
+            animatorManager.SetAttackTrigger();
         }
     }
 

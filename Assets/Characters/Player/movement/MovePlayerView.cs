@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 public class MovePlayerView : MonoBehaviour
@@ -11,10 +12,15 @@ public class MovePlayerView : MonoBehaviour
     private Rigidbody2D rb;
     private bool isJump;
 
+    [SerializeField] private AnimatorManager animatorManager;
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animatorManager = GetComponentInChildren<Player.AnimatorManager>();
     }
+
 
     public void SetModel(ModelMove m) => model = m;
     public void SetState(initialState s) => state = s;
@@ -22,8 +28,10 @@ public class MovePlayerView : MonoBehaviour
 
     public void Move(float moveInput, float dt)
     {
-        if (moveInput == 0f)
+        if (moveInput == 0f) {
             rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            animatorManager?.SetMoveState(false);
+        }
         else
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -39,6 +47,8 @@ public class MovePlayerView : MonoBehaviour
                     status.perp.y * model.moveSpeed * -moveInput * dt
                 );
                 transform.Translate(t, Space.World);
+
+                animatorManager?.SetMoveState(true);
             }
             else if (moveInput < 0f)
             {
@@ -47,6 +57,8 @@ public class MovePlayerView : MonoBehaviour
                     status.perp.y * model.moveSpeed * moveInput * dt
                 );
                 transform.Translate(t, Space.World);
+
+                animatorManager?.SetMoveState(true);
             }
             else if (!status.isSlope && status.isGround)
             {
