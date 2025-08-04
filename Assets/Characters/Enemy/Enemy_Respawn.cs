@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class RoomEnemyRespawner : MonoBehaviour
 {
-    [Header("— 방 구분용 오브젝트")]
     [SerializeField] private GameObject room;
-
-    [Header("— 스폰 정보 목록 (한 칸에 3개 항목 노출)")]
     [SerializeField] private List<SpawnInfo> spawnInfos;
 
-    // 런타임에 생성된 몬스터들
     private readonly List<GameObject> currentEnemies = new List<GameObject>();
 
     private Following_Player playerCamera;
 
     void Awake()
     {
-
         playerCamera = UnityEngine.Object.FindFirstObjectByType<Following_Player>();
 
         for (int i = 0; i < spawnInfos.Count; i++)
@@ -64,13 +59,5 @@ public class RoomEnemyRespawner : MonoBehaviour
     {
         if (index >= 0 && index < spawnInfos.Count)
             spawnInfos[index].isDestroyed = true;
-    }
-
-    [Serializable]
-    private class SpawnInfo
-    {
-        public GameObject enemyPrefab;
-        public Vector3 spawnPosition;
-        public bool isDestroyed = false;
     }
 }

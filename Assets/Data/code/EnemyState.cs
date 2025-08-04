@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Enemy", menuName = "Scriptable Objects/Enemy")]
-public class Enemy : ScriptableObject
+[CreateAssetMenu(fileName = "EnemyState", menuName = "Scriptable Objects/EnemyState")]
+public class EnemyState : ScriptableObject
 {
     [Header("— 적 스탯 구현 —")]
     public float hp = 3f;
@@ -9,3 +9,4 @@ public class Enemy : ScriptableObject
     public float moveSpeed = 3f;
     public float attackRange = 2f;
 }
+ 

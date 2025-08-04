@@ -1,22 +1,18 @@
-﻿using Player;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy_Destroy : MonoBehaviour
 {
     [Header("Data (ScriptableObject)")]
-    [SerializeField] private Enemy enemy;
-    [SerializeField] private Map map;
-
-    void Awake()
-    {
-        enemy.hp = 30f;
-    }
+    [SerializeField] private EnemyState enemy;
 
     [Header("— 스폰 관리용 (RoomEnemyRespawner에서 세팅) —")]
     [HideInInspector] public RoomEnemyRespawner roomRespawner;
     [HideInInspector] public int destroyCheck;
 
+    void Awake()
+    {
+        enemy.hp = 30f;
+    }
 
     void OnTriggerEnter2D(Collider2D player)
     {
@@ -29,10 +25,6 @@ public class Enemy_Destroy : MonoBehaviour
                     roomRespawner.MarkDestroyed(destroyCheck);
 
                 Destroy(gameObject);
-                if (map != null)
-                {
-                    map.enemy_num -= 1;
-                }
             }
         }
     }

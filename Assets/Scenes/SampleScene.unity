@@ -1653,7 +1653,6 @@ GameObject:
   m_Component:
   - component: {fileID: 373203110}
   - component: {fileID: 373203111}
-  - component: {fileID: 373203109}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -1661,42 +1660,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &373203109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373203108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c748dc2f817f0ca409f8c1d515d7f16c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 33c920ac94accd941b77374e305c7c00, type: 2}
-  channels:
-  - mixerParam: BGM
-    audioSource: {fileID: 1297571424}
-    musics:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    slider: {fileID: 2035861314}
-  - mixerParam: SE
-    audioSource: {fileID: 1297571424}
-    musics:
-    - {fileID: 0}
-    - {fileID: 0}
-    slider: {fileID: 2035861314}
-  - mixerParam: SE
-    audioSource: {fileID: 1297571424}
-    musics: []
-    slider: {fileID: 2035861314}
-  - mixerParam: SE
-    audioSource: {fileID: 1297571424}
-    musics: []
-    slider: {fileID: 2035861314}
 --- !u!4 &373203110
 Transform:
   m_ObjectHideFlags: 0
@@ -1721,12 +1684,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 373203108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe03d8970ae02a943993d6a5d049bae9, type: 3}
+  m_Script: {fileID: 11500000, guid: a37479841ae261a43b7902500ca4efb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 33c920ac94accd941b77374e305c7c00, type: 2}
-  Slider: {fileID: 163878442}
-  volume: {fileID: 1667598913}
+  channels:
+  - parameterName: 
+    audioMixer: {fileID: 0}
+    slider: {fileID: 0}
+    volumeText: {fileID: 0}
+  - parameterName: 
+    audioMixer: {fileID: 0}
+    slider: {fileID: 0}
+    volumeText: {fileID: 0}
+  - parameterName: 
+    audioMixer: {fileID: 0}
+    slider: {fileID: 0}
+    volumeText: {fileID: 0}
+  - parameterName: 
+    audioMixer: {fileID: 0}
+    slider: {fileID: 0}
+    volumeText: {fileID: 0}
+  - parameterName: 
+    audioMixer: {fileID: 0}
+    slider: {fileID: 0}
+    volumeText: {fileID: 0}
 --- !u!1001 &398905851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6987,7 +6968,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 1376259254527543554, guid: 33c920ac94accd941b77374e305c7c00, type: 2}
   m_audioClip: {fileID: 8300000, guid: 53e5111fd0ba89a44ab535a096b3c093, type: 3}
   m_Resource: {fileID: 8300000, guid: 53e5111fd0ba89a44ab535a096b3c093, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

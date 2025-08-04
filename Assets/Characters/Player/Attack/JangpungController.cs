@@ -2,7 +2,7 @@ using Player;
 using System.Collections;
 using UnityEngine;
 
-public class JangpungManager : MonoBehaviour
+public class JangpungController : MonoBehaviour
 {
     [SerializeField] private Jangpung jangpung;
     private MoveStatus status;

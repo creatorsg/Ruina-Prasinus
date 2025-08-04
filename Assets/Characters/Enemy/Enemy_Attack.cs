@@ -5,7 +5,7 @@ namespace enemy
 {
     public class EnemyAttack : MonoBehaviour
     {
-        [SerializeField] private Enemy enemy;
+        [SerializeField] private EnemyState enemy;
         [SerializeField] private initialState state;
 
         private Player_Model model = new Player_Model();
@@ -20,7 +20,7 @@ namespace enemy
             if (playerGO != null)
                 player = playerGO.transform;
             else
-                Debug.LogWarning("Player �±� ������Ʈ�� ã�� ���߽��ϴ�.");
+                Debug.Log("플레이어 태그를 가진 물체를 찾을 수 없습니다.");
         }
 
         void Update()

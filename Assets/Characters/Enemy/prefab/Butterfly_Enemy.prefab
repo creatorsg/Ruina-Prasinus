@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b7845a9798ca1742ae4a5df37ec1438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 11400000, guid: 9eda1686f41ea2146b5da6d4619a2d11, type: 2}
+  enemy: {fileID: 11400000, guid: 2e6631b6c17cdc146b4e8e283028c2a0, type: 2}
   state: {fileID: 11400000, guid: e42c969c3a62d92419978f6475cd460d, type: 2}
 --- !u!114 &2541398016824228663
 MonoBehaviour:
@@ -338,9 +338,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bf7e50843ad14a49b7c4878d08ac60c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 11400000, guid: 9eda1686f41ea2146b5da6d4619a2d11, type: 2}
+  enemy: {fileID: 11400000, guid: 2e6631b6c17cdc146b4e8e283028c2a0, type: 2}
   roomRespawner: {fileID: 0}
-  spawnIndex: 0
+  destroyCheck: 0
 --- !u!114 &450567220816799303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,7 +385,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
