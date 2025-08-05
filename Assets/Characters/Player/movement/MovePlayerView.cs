@@ -82,7 +82,7 @@ public class MovePlayerView : MonoBehaviour
         if (rb.linearVelocity.y <= 0f)
             isJump = false;
 
-        if (status.isGround && InputManager.GetKeyDown("Jump"))
+        if (status.isGround)
         {
             isJump = true;
             rb.AddForce(Vector2.up * state.jumpPower, ForceMode2D.Impulse);

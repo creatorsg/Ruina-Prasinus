@@ -7,6 +7,7 @@ public class EnemyState : ScriptableObject
     public float hp = 3f;
     public float attackPower = 5f;
     public float moveSpeed = 3f;
-    public float attackRange = 2f;
+    public float detectRange = 5f;
+    public float attackRange = 0.5f;
 }
  
