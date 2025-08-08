@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_Destroy : MonoBehaviour
 {
-    [SerializeField] private Enemy enemy;
+    [SerializeField] private EnemyState enemy;
 
     [HideInInspector] public RoomEnemyRespawner roomRespawner;
     [HideInInspector] public int destroyCheck;
