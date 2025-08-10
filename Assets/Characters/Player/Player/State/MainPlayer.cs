@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 public enum MoveBehavior
@@ -14,6 +15,7 @@ public class MainPlayer : CharacterBase
 {
     [SerializeField] private CharacterPlayer _data;
     [SerializeField] private Transform _handlerTransform;
+    [SerializeField] private AnimatorManager _animatorManager;
 
     public State<MainPlayer>[] _move;
     public State<MainPlayer>[] _event;
@@ -28,6 +30,7 @@ public class MainPlayer : CharacterBase
     private MoveStatusHandler _moveStatusHandler;
 
     public Transform HandlerTransform => _handlerTransform;
+    public AnimatorManager AnimatorManager => _animatorManager;
     public Rigidbody2D Rigidbody2D => _rigidBody2D;
     public InputHandler InputHandler => _inputHandler;
     public MoveHandler MoveHandler => _moveHandler;
@@ -35,6 +38,7 @@ public class MainPlayer : CharacterBase
     protected override void Awake()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
+        _animatorManager = GetComponent<AnimatorManager>();
 
         _inputHandler = _handlerTransform.GetComponent<InputHandler>();
         _moveStatusHandler = _handlerTransform.GetComponent<MoveStatusHandler>();
@@ -76,5 +80,4 @@ public class MainPlayer : CharacterBase
     {
         _moveMachine.ChangeState(_move[(int)state]);
     }
-
 }
