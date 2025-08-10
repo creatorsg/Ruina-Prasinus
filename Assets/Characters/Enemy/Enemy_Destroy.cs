@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using Player;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class Enemy_Destroy : MonoBehaviour
 {
-    [Header("Data (ScriptableObject)")]
     [SerializeField] private EnemyState enemy;
 
-    [Header("— 스폰 관리용 (RoomEnemyRespawner에서 세팅) —")]
     [HideInInspector] public RoomEnemyRespawner roomRespawner;
     [HideInInspector] public int destroyCheck;
 
