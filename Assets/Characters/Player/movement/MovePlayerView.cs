@@ -30,13 +30,21 @@ public class MovePlayerView : MonoBehaviour
     {
         if (moveInput == 0f) {
             rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-            animatorManager?.SetMoveState(false);
+            animatorManager?.SetMoveBool(false);
+
         }
         else
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         if (status.isSlope && status.isGround && !isJump)
             rb.linearVelocity = Vector2.zero;
+
+        if (status.isGround)
+            animatorManager?.SetGroundBool(true);
+        else
+        {
+            animatorManager?.SetGroundBool(false);    
+        }
 
         if (moveInput != 0f)
         {
@@ -48,7 +56,7 @@ public class MovePlayerView : MonoBehaviour
                 );
                 transform.Translate(t, Space.World);
 
-                animatorManager?.SetMoveState(true);
+                animatorManager?.SetMoveBool(true);
             }
             else if (moveInput < 0f)
             {
@@ -58,7 +66,7 @@ public class MovePlayerView : MonoBehaviour
                 );
                 transform.Translate(t, Space.World);
 
-                animatorManager?.SetMoveState(true);
+                animatorManager?.SetMoveBool(true);
             }
             else if (!status.isSlope && status.isGround)
             {
@@ -82,7 +90,7 @@ public class MovePlayerView : MonoBehaviour
         if (rb.linearVelocity.y <= 0f)
             isJump = false;
 
-        if (status.isGround && InputManager.GetKeyDown("Jump"))
+        if (status.isGround)
         {
             isJump = true;
             rb.AddForce(Vector2.up * state.jumpPower, ForceMode2D.Impulse);

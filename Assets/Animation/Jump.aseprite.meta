@@ -125,15 +125,15 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Frame_0
     originalName: 
-    pivot: {x: 0.3968254, y: -0.25714287}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
+      x: 2
       y: 156
-      width: 63
+      width: 65
       height: 70
     spriteID: f960389a3a3c02a488a52c83eaa0163a
     spriteBone: []
@@ -146,15 +146,15 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 156}
   - name: Frame_1
     originalName: 
-    pivot: {x: 0.3968254, y: -0.25714287}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 77
+      x: 75
       y: 4
-      width: 63
+      width: 65
       height: 70
     spriteID: 82fd029ddaf0c184ca643de18363438b
     spriteBone: []
@@ -167,7 +167,7 @@ ScriptedImporter:
     uvTransform: {x: 77, y: 4}
   - name: Frame_2
     originalName: 
-    pivot: {x: 0.4153846, y: -0.19117646}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -176,7 +176,7 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 65
-      height: 68
+      height: 70
     spriteID: cdf072af1f52c2d46ab05c006499346d
     spriteBone: []
     spriteOutline: []
@@ -188,7 +188,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: Frame_3
     originalName: 
-    pivot: {x: 0.4153846, y: -0.19117646}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -197,7 +197,7 @@ ScriptedImporter:
       x: 4
       y: 80
       width: 65
-      height: 68
+      height: 70
     spriteID: efe7e3a95fc001a4cb1316fbfb6eef72
     spriteBone: []
     spriteOutline: []
@@ -209,16 +209,16 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 80}
   - name: Frame_4
     originalName: 
-    pivot: {x: 0.5, y: -0.090909086}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 148
+      x: 143
       y: 75
-      width: 44
-      height: 66
+      width: 65
+      height: 70
     spriteID: 2bd6a8adc4bf14048b63615299b7ec3d
     spriteBone: []
     spriteOutline: []
@@ -230,16 +230,16 @@ ScriptedImporter:
     uvTransform: {x: 148, y: 75}
   - name: Frame_5
     originalName: 
-    pivot: {x: 0.5, y: -0.099999994}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 148
+      x: 143
       y: 149
-      width: 44
-      height: 60
+      width: 65
+      height: 70
     spriteID: d7e0657ddc28ce74eb369414dd35ee07
     spriteBone: []
     spriteOutline: []
@@ -251,16 +251,16 @@ ScriptedImporter:
     uvTransform: {x: 148, y: 149}
   - name: Frame_6
     originalName: 
-    pivot: {x: 0.4117647, y: -0.0952381}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 148
+      x: 143
       y: 4
-      width: 51
-      height: 63
+      width: 65
+      height: 70
     spriteID: 1483f6f01cc98504ca4c89de6e2aa922
     spriteBone: []
     spriteOutline: []
@@ -272,16 +272,16 @@ ScriptedImporter:
     uvTransform: {x: 148, y: 4}
   - name: Frame_7
     originalName: 
-    pivot: {x: 0.37288135, y: -0.10526315}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 77
+      x: 71
       y: 160
-      width: 59
-      height: 57
+      width: 65
+      height: 70
     spriteID: 4fc926266e8e8f142bdcac56edb7a478
     spriteBone: []
     spriteOutline: []
@@ -293,15 +293,15 @@ ScriptedImporter:
     uvTransform: {x: 77, y: 160}
   - name: Frame_8
     originalName: 
-    pivot: {x: 0.4918033, y: -0.08571429}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 77
+      x: 73
       y: 82
-      width: 61
+      width: 65
       height: 70
     spriteID: 118dbc64bd9438948bc89d5209a5b71a
     spriteBone: []
