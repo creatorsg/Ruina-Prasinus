@@ -1,4 +1,6 @@
+using Player;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Walk : State<MainPlayer>
 {
@@ -13,6 +15,7 @@ public class Walk : State<MainPlayer>
     }
     public override void Enter(MainPlayer player)
     {
+        player.AnimatorManager?.SetMoveBool(true);
         _currentSpeed = 0f;
         _walkTimer = 0f;
     }
@@ -20,12 +23,6 @@ public class Walk : State<MainPlayer>
 
     public override void Execute(MainPlayer player)
     {
-        if (!player.MoveHandler.IsWalking)
-            player.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-        else
-            player.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
-
-
         if (player.MoveHandler.IsWalking)
         {
             _walkTimer += dt;
@@ -41,8 +38,8 @@ public class Walk : State<MainPlayer>
 
         if (player.MoveHandler.IsWalking)
         {
-            t = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * player.InputHandler.MoveInput * dt,
-                            player.MoveStatusHandler.Perp.y * _currentSpeed * player.InputHandler.MoveInput * dt);
+            t = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * -player.InputHandler.MoveInput * dt,
+                            player.MoveStatusHandler.Perp.y * _currentSpeed * -player.InputHandler.MoveInput * dt);
         }
 
         if (player.InputHandler.DashRequested && player.MoveStatusHandler.IsGround)
@@ -58,7 +55,7 @@ public class Walk : State<MainPlayer>
             player.transform.Translate(t, Space.World);
         }
 
-        if (player.InputHandler.JumpRequested)
+        if (player.InputHandler.JumpRequested && player.MoveStatusHandler.IsGround)
         {
             player.Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
             player.InputHandler.UseJumpRequest();
@@ -67,6 +64,10 @@ public class Walk : State<MainPlayer>
 
     public override void Exit(MainPlayer player)
     {
+        if (!player.MoveHandler.IsWalking)
+        {
+            player.AnimatorManager?.SetMoveBool(false);
+        }
         _currentSpeed = 0f;
         _walkTimer = 0f;
     }

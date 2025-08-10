@@ -10,7 +10,7 @@ public class MoveStatusHandler : MonoBehaviour
     private GameObject _realMovement;
     private LayerMask _groundMask;
 
-    private bool _isGround, _isSlope;
+    private bool _isGround, _isSlope, _isJump;
     private Vector2 _perp;
     private float _angle;
 
@@ -18,6 +18,8 @@ public class MoveStatusHandler : MonoBehaviour
     public Vector2 Perp => _perp;
     public bool IsGround => _isGround;
     public bool IsSlope => _isSlope;
+
+    public bool IsJump => _isJump;
 
     public void Initialize(MainPlayer player)
     {
@@ -41,11 +43,20 @@ public class MoveStatusHandler : MonoBehaviour
             else if (hit)
                 SlopeCheck(hit);
         }
+
+        if (IsGround)
+        {
+            _player.AnimatorManager?.SetGroundBool(true);
+        }
+        else
+        {
+            _player.AnimatorManager?.SetGroundBool(false);
+        }
     }
 
     public void RayCheck()
     {
-        _isGround = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
+        _isGround = Physics2D.OverlapCircle(gameObject.transform.position, 0.5f, _groundMask);
         hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
         fronthit = Physics2D.Raycast(gameObject.transform.position, transform.right, 0.1f, _groundMask);
     }

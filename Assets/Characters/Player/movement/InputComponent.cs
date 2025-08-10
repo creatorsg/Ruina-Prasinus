@@ -10,6 +10,7 @@ public class InputComponent : MonoBehaviour
     void Update()
     {
         float h = 0f;
+
         if (InputManager.GetKey("MoveLeft"))
         {
             h -= 1f;

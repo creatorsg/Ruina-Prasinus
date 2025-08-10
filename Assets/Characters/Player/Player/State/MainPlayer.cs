@@ -38,7 +38,6 @@ public class MainPlayer : CharacterBase
     protected override void Awake()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
-        _animatorManager = GetComponent<AnimatorManager>();
 
         _inputHandler = _handlerTransform.GetComponent<InputHandler>();
         _moveStatusHandler = _handlerTransform.GetComponent<MoveStatusHandler>();

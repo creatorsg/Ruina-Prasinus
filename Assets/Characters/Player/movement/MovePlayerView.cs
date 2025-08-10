@@ -40,10 +40,12 @@ public class MovePlayerView : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
 
         if (status.isGround)
+        {
             animatorManager?.SetGroundBool(true);
+        }
         else
         {
-            animatorManager?.SetGroundBool(false);    
+            animatorManager?.SetGroundBool(false);
         }
 
         if (moveInput != 0f)
