@@ -5,7 +5,7 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 public class MoveStatusHandler : MonoBehaviour
 {
     private MainPlayer _player;
-    
+
     private RaycastHit2D hit, fronthit;
     private GameObject _realMovement;
     private LayerMask _groundMask;
@@ -45,7 +45,7 @@ public class MoveStatusHandler : MonoBehaviour
 
     public void RayCheck()
     {
-        _isGround = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, _groundMask);
+        _isGround = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
         hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
         fronthit = Physics2D.Raycast(gameObject.transform.position, transform.right, 0.1f, _groundMask);
     }

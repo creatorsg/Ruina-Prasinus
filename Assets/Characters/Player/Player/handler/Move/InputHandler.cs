@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
@@ -10,7 +9,7 @@ public class InputHandler : MonoBehaviour
     private event Action OnDash;
     private event Action OnJump;
 
-    private float _dashCooltime;
+    private float _dashCooltime, _coolTimer = 0f;
     private bool _dashRequested, _jumpRequested, _isDashHeld;
     private float _moveInput;
 
@@ -28,13 +27,17 @@ public class InputHandler : MonoBehaviour
 
         OnDash += () =>
         {
-            if (_dashCooltime > 0f)
+            if (_coolTimer == 0f)
             {
                 _dashRequested = true;
+                _coolTimer = _dashCooltime;
             }
         };
 
-        OnJump += () => _jumpRequested = true;
+        OnJump += () =>
+        {
+            _jumpRequested = true;
+        };
     }
 
     public void Initialize(MainPlayer player, float dashCooltime)
@@ -47,29 +50,34 @@ public class InputHandler : MonoBehaviour
     {
         MoveEvent();
 
-        _isDashHeld = InputManager.GetKey("Dash");
+        _isDashHeld = Input.GetKey(KeyCode.LeftShift);
+
+        if (_coolTimer != 0f)
+        {
+            _coolTimer -= Time.deltaTime;
+        }
     }
 
     public void MoveEvent()
     {
         float h = 0;
 
-        if (InputManager.GetKey("MoveLeft"))
+        if (Input.GetKey(KeyCode.A))
         {
             h += 1;
         }
-        else if (InputManager.GetKey("MoveRight"))
+        else if (Input.GetKey(KeyCode.D))
         {
             h -= 1;
         }
         OnMove?.Invoke(h);
 
-        if (InputManager.GetKeyDown("Dash"))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             OnDash?.Invoke();
         }
 
-        if (InputManager.GetKeyDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             OnJump?.Invoke();
         }
@@ -78,5 +86,10 @@ public class InputHandler : MonoBehaviour
     public void UseDashRequest()
     {
         _dashRequested = false;
+    }
+
+    public void UseJumpRequest()
+    {
+        _jumpRequested = false;
     }
 }

@@ -1,81 +1,75 @@
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class Dash : State<MainPlayer>
 {
-    private float _maxDashSpeed;
-    private float _dashAccelTime;
-    private float _remainDashTime;
-    private float _currentSpeed;
-    private float _remainSpeed;
-
-    private float _dashTimer;
+    private float _maxDashSpeed, _dashAccelTIme, _dashRemainTime, _dashTimer, _currentDashSpeed, _dashCooltime;
     private float dt = Time.deltaTime;
     private Vector2 t;
-
-    public Dash(float maxDashSpeed, float dashAccelTime, float remainDashTime, float maxWalkSpeed)
+    public Dash(float maxDashSpeed, float dashAccelTime, float dashRemainTime)
     {
         _maxDashSpeed = maxDashSpeed;
-        _dashAccelTime = dashAccelTime;
-        _remainDashTime = remainDashTime;
-        _remainSpeed = maxWalkSpeed;
+        _dashAccelTIme = dashAccelTime;
+        _dashRemainTime = dashRemainTime;
     }
 
     public override void Enter(MainPlayer player)
     {
-        Debug.Log("Dash 진입");
+        Debug.Log("대쉬 진입");
 
         player.InputHandler.UseDashRequest();
 
         _dashTimer = 0f;
-        _currentSpeed = 4.5f;
+        _currentDashSpeed = 0f;
     }
 
     public override void Execute(MainPlayer player)
-    { 
-        if (player.InputHandler.IsDashHeld)
-        {
-            if (_dashTimer < _dashAccelTime)
+    {
+        if (player.InputHandler.IsDashHeld && player.MoveHandler.IsWalking)
+        { 
+            if (_dashTimer <= _dashAccelTIme)
             {
-                float t = Mathf.Clamp01(_dashTimer / _dashAccelTime);
-                _currentSpeed = Mathf.Lerp(0f, _maxDashSpeed, t);
+                float t = Mathf.Clamp01(_dashTimer / _dashAccelTIme);
+                _currentDashSpeed = Mathf.Lerp(0f, _maxDashSpeed, t);
             }
-            else if (_dashTimer < _remainDashTime)
+            else if (_dashTimer < _dashRemainTime)
             {
-                _currentSpeed = _maxDashSpeed;
+                _currentDashSpeed = _maxDashSpeed;
             }
-            else if (_dashTimer > _remainDashTime)
-            {
+            else if (_dashTimer > _dashRemainTime && player.MoveHandler.IsWalking)
                 player.ChangeMoveState(MoveBehavior.Walk);
-            }
+            else
+                player.ChangeMoveState(MoveBehavior.Idle);
         }
-        else
+        else if (!player.InputHandler.IsDashHeld && player.MoveHandler.IsWalking)
         {
             player.ChangeMoveState(MoveBehavior.Walk);
         }
+        else
+            player.ChangeMoveState(MoveBehavior.Idle);
 
-        t = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * player.WalkHandler.FacingDirection * dt,
-                            player.MoveStatusHandler.Perp.y * _currentSpeed * player.WalkHandler.FacingDirection * dt);
+        t = new Vector2(player.MoveStatusHandler.Perp.x * _currentDashSpeed * player.MoveHandler.MoveDirection * dt,
+                            player.MoveStatusHandler.Perp.y * _currentDashSpeed * player.MoveHandler.MoveDirection * dt);
 
-        player.WalkHandler.WalkWhileDashing(_currentSpeed, _remainSpeed);
     }
 
     public override void FixedExecute(MainPlayer player)
     {
-        _dashTimer += dt;
+        _dashTimer += Time.deltaTime;
 
-        if (player.MoveStatusHandler.IsSlope && player.MoveStatusHandler.IsGround)
-            player.Rigidbody2D.linearVelocity = Vector2.zero;
-
-        if (player.InputHandler.IsDashHeld)
+        if (player.MoveHandler.IsWalking)
         {
             player.transform.Translate(t, Space.World);
+        }
+
+        if (player.InputHandler.JumpRequested)
+        {
+            player.Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+            player.InputHandler.UseJumpRequest();
         }
     }
 
     public override void Exit(MainPlayer player)
     {
-        _currentSpeed = 0f;
-        _dashTimer = 0f;
+        Debug.Log("대쉬 종료");
     }
 }
