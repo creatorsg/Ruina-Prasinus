@@ -189,10 +189,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 3212734737612433505}
-    m_Position: {x: 330, y: 200, z: 0}
+    m_Position: {x: 250, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8061712998977645487}
-    m_Position: {x: 330, y: 310, z: 0}
+    m_Position: {x: 250, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5150056090743857306}
     m_Position: {x: 60, y: 90, z: 0}
@@ -201,7 +201,7 @@ AnimatorStateMachine:
     m_Position: {x: 60, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4353759735579812749}
-    m_Position: {x: 390, y: 40, z: 0}
+    m_Position: {x: 380, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6282162844783604274}
     m_Position: {x: -10, y: 580, z: 0}
@@ -210,7 +210,7 @@ AnimatorStateMachine:
     m_Position: {x: 380, y: 580, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8381146331951474632}
-    m_Position: {x: -410, y: 380, z: 0}
+    m_Position: {x: -370, y: 380, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4510181706464905804}
     m_Position: {x: -330, y: 520, z: 0}
@@ -225,8 +225,8 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -250, y: 260, z: 0}
-  m_EntryPosition: {x: -640, y: 390, z: 0}
-  m_ExitPosition: {x: 880, y: 180, z: 0}
+  m_EntryPosition: {x: -610, y: 380, z: 0}
+  m_ExitPosition: {x: 840, y: 250, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -8381146331951474632}
 --- !u!1101 &-7480756400089043390
@@ -245,6 +245,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isMove
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isGround
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3212734737612433505}
@@ -506,6 +509,9 @@ AnimatorStateTransition:
     m_EventTreshold: 1
   - m_ConditionMode: 2
     m_ConditionEvent: isMove
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isGround
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8061712998977645487}

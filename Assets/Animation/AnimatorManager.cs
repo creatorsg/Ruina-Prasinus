@@ -30,6 +30,7 @@ namespace Player
         public void SetMoveBool(bool isMove)
         {
             animator.SetBool("isMove", isMove);
+
         }
 
 
@@ -49,6 +50,7 @@ namespace Player
         public void SetGroundBool(bool isGround)
         {
             animator.SetBool("isGround", isGround);
+            
         }
 
         public void SetAttackTrigger()
