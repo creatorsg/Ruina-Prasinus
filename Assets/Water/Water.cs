@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -179,20 +180,37 @@ public class Water : MonoBehaviour
         }
     }
 
-    [SerializeField, Range(0f, 1f)] private float _horizontalForceMultiplier = 0.05f; // 좌우 속도에 따른 파동 강도
+
+
+    [SerializeField, Range(0f, 1f)] private float _horizontalForceMultiplier = 0.1f; // 파동 강도 (고정값)
+    private Dictionary<Rigidbody2D, float> lastXPositions = new Dictionary<Rigidbody2D, float>();
+
     private void OnTriggerStay2D(Collider2D other)
     {
-
         if (other.isTrigger || other.attachedRigidbody == null) return;
 
         var rb = other.attachedRigidbody;
 
-        // 수평 이동 감지
-        float forceX = rb.linearVelocity.x * rb.mass * _horizontalForceMultiplier;
-        Debug.Log($"forceX = {forceX}");
-        if (Mathf.Abs(forceX) < 0.01f) return;
+        // 이전 위치 없으면 초기화
+        if (!lastXPositions.ContainsKey(rb))
+            lastXPositions[rb] = rb.position.x;
 
+        // 이전 위치와 비교
+        float previousX = lastXPositions[rb];
+        float currentX = rb.position.x;
+        float deltaX = currentX - previousX;
 
+        // 거의 안 움직였으면 패스
+        if (Mathf.Abs(deltaX) < 0.001f)
+        {
+            lastXPositions[rb] = currentX;
+            return;
+        }
+
+        // 이동 여부만 체크 → 항상 일정한 힘 적용
+        float forceX = rb.mass * _horizontalForceMultiplier * 0.1f;
+
+        // 파동 인덱스 계산
         float interval = _width / _quality;
         float xMin = transform.position.x - _width / 2;
         int xPosIndex = (int)((other.transform.position.x - xMin) / interval);
@@ -204,6 +222,9 @@ public class Water : MonoBehaviour
         {
             velocities[i] += forceX;
         }
+
+        // 위치 업데이트
+        lastXPositions[rb] = currentX;
     }
 
 
