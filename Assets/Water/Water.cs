@@ -7,6 +7,7 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     // 물의 표면 정점(픽셀?) 갯수, 이 값이 높을수록 물결이 부드럽게 표현됨(300~600 추천쓰)
+    [Header("물 정점 개수")]
     [Range(10, 1200), SerializeField] private int _quality;
     public int Quality
     {
@@ -21,7 +22,7 @@ public class Water : MonoBehaviour
     }
 
     // 물의 너비
-    [Range(0.1f, 1000), SerializeField] private float _width;
+    private float _width;
     public float Width
     {
         get => _width;
@@ -36,7 +37,8 @@ public class Water : MonoBehaviour
     }
 
     // 물의 높이입니다.
-    [Range(0.1f, 100), SerializeField] private float _height;
+
+    private float _height;
     public float Height
     {
         get => _height;
@@ -51,6 +53,7 @@ public class Water : MonoBehaviour
     }
 
     // 물의 물결이 사라지는 속도, 이 값이 높을수록 물결이 빨리 사라짐
+    [Header("물 물결 사라지는 속도(조정 필요하다면 최소한으로 조정)")]
     [Range(0.001f, 10f), SerializeField] private float _waveDecay;
     public float WaveDecay
     {
@@ -110,6 +113,8 @@ public class Water : MonoBehaviour
     private float _fixedStep = 0.02f; // FixedUpdate와 동일한 시간 간격
 
 
+    
+
     void FixedUpdate()
     {
 
@@ -121,12 +126,13 @@ public class Water : MonoBehaviour
         {
             _localTime -= _fixedStep;
 
+
             if (IsWaveCalculationNeeded())
             {
                 CalculateTension();
                 CalculateRestoringForce();
 
-
+                
 
 
                 var mesh = meshFilter.mesh;
@@ -151,6 +157,8 @@ public class Water : MonoBehaviour
         meshFilter.mesh.RecalculateBounds();
 
     }
+
+
 
 
     // 물체가 충돌했을때, 물의 표면을 이루는 정점들에 힘을 가함
@@ -178,11 +186,13 @@ public class Water : MonoBehaviour
         {
             velocities[j] += forceY;
         }
+
+
     }
 
 
-
-    [SerializeField, Range(0f, 1f)] private float _horizontalForceMultiplier = 0.1f; // 파동 강도 (고정값)
+    [Header("X축 이동시 추가되는 파동 강도")]
+    [SerializeField, Range(0f, 1f)] private float _horizontalForceMultiplier = 0.01f; // 파동 강도 (고정값)
     private Dictionary<Rigidbody2D, float> lastXPositions = new Dictionary<Rigidbody2D, float>();
 
     private void OnTriggerStay2D(Collider2D other)
@@ -195,19 +205,29 @@ public class Water : MonoBehaviour
         if (!lastXPositions.ContainsKey(rb))
             lastXPositions[rb] = rb.position.x;
 
-        // 이전 위치와 비교
         float previousX = lastXPositions[rb];
         float currentX = rb.position.x;
         float deltaX = currentX - previousX;
 
-        // 거의 안 움직였으면 패스
-        if (Mathf.Abs(deltaX) < 0.001f)
+        // ---- 파동이 완전히 없는 상태 체크 ----
+        bool noWave = true;
+        for (int i = 0; i < velocities.Length; i++)
+        {
+            if (Mathf.Abs(velocities[i]) > 0.01f) // 약간이라도 흔들림이 있으면 false
+            {
+                noWave = false;
+                break;
+            }
+        }
+
+        // 거의 안 움직였고 파동도 없으면 그냥 통과
+        if (Mathf.Abs(deltaX) < 0.01f && !noWave)
         {
             lastXPositions[rb] = currentX;
             return;
         }
 
-        // 이동 여부만 체크 → 항상 일정한 힘 적용
+        // 이동 여부와 상관없이 (noWave면) 일정한 힘 적용
         float forceX = rb.mass * _horizontalForceMultiplier * 0.1f;
 
         // 파동 인덱스 계산
@@ -223,9 +243,71 @@ public class Water : MonoBehaviour
             velocities[i] += forceX;
         }
 
-        // 위치 업데이트
         lastXPositions[rb] = currentX;
+
+        HandleSmallWaves(other);
     }
+
+    // 잔물결 설정값
+    [Header("오브젝트 물안에 있을시 생성하는 작은 파동")]
+    [SerializeField] private float smallWaveForce = 0.015f;       // 작은 파동 세기
+    [SerializeField] private float smallWaveInterval = 0.2f;      // 생성 간격
+    [SerializeField] private float waveThreshold = 0.01f;         // "파동이 없다" 기준
+
+    // 오브젝트별 타이머 관리
+    private Dictionary<Rigidbody2D, float> smallWaveTimers = new Dictionary<Rigidbody2D, float>();
+
+    // 새로운 메서드: 잔물결 처리
+    private void HandleSmallWaves(Collider2D other)
+    {
+        if (other.isTrigger || other.attachedRigidbody == null) return;
+
+        var rb = other.attachedRigidbody;
+
+        // 타이머가 없으면 초기화
+        if (!smallWaveTimers.ContainsKey(rb))
+            smallWaveTimers[rb] = 0f;
+
+        // 타이머 감소
+        smallWaveTimers[rb] -= Time.fixedDeltaTime;
+
+        // 현재 파동이 있는지 확인
+        bool noWave = true;
+        for (int i = 0; i < velocities.Length; i++)
+        {
+            if (Mathf.Abs(velocities[i]) > waveThreshold)
+            {
+                noWave = false;
+                break;
+            }
+        }
+
+        // 파동이 남아있으면 새 파동 생성 안 함
+        if (!noWave) return;
+
+        // 파동이 없고, 타이머 끝나면 새 파동 생성
+        if (smallWaveTimers[rb] <= 0f)
+        {
+            smallWaveTimers[rb] = smallWaveInterval;
+
+            float interval = _width / _quality;
+            float xMin = transform.position.x - _width / 2;
+            int xPosIndex = (int)((other.transform.position.x - xMin) / interval);
+
+            int startIndex = Mathf.Max(xPosIndex - 3, 0);
+            int endIndex = Mathf.Min(xPosIndex + 3, _quality);
+
+            for (int i = startIndex; i <= endIndex; i++)
+                velocities[i] += smallWaveForce;
+        }
+    }
+
+    // 사용 방법: OnTriggerStay2D 안에서 호출
+    // HandleSmallWaves(other);
+
+
+
+
 
 
 
@@ -330,8 +412,9 @@ public class Water : MonoBehaviour
     // 장력에 의한 물결파의 전달을 계산합니다.
     // 물결 표면을 이루는 정점의 위치가 주변 정점의 위치에 비해 높거나 낮을때, 서로간에 힘을 전달합니다.
     // 평균 200 ticks 소요됩니다. (Quality 300)
-
+    [Header("전파 거리")]
     [SerializeField, Range(1, 10)] private int _waveSpreadRange = 2; // 전파 거리 (몇 칸까지 영향 주는지)
+    [Header("전파 속도")]
     [SerializeField, Range(0.01f, 10f)] private float _waveSpreadSpeed = 1.0f;
 
 
@@ -409,6 +492,7 @@ public class Water : MonoBehaviour
     // 기준 위치로부터 떨어진 정도에 따라 복원력을 계산하고, 이를 속력에서 뺀 다음, 위치에 속력을 더합니다.
     // 이때, 속력과 위치가 일정 값 이하로 떨어지면, 해당 정점은 안정적인 상태로 간주하고, 위치와 속력을 초기화합니다.
     // 평균 80 ticks 소요됩니다. (Quality 300)
+    [Header("최대 높낮이 조정")]
     [SerializeField, Range(0.01f, 10f)] private float _waveHeightLimit = 0.5f; // 최대 파동 높이 (절대값 기준)
     private void CalculateRestoringForce()
     {
