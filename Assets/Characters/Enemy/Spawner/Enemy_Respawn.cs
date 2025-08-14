@@ -5,12 +5,14 @@ using UnityEngine;
 public class RoomEnemyRespawner : MonoBehaviour
 {
     [SerializeField] private GameObject room;
+    [SerializeField] private BoxCollider2D monsterSpawnCollider;
+
     [SerializeField] private List<SpawnInfo> spawnInfos;
 
     private readonly List<GameObject> currentEnemies = new List<GameObject>();
 
     private Following_Player playerCamera;
-
+    private bool isPlayerInSpawnArea = false;
     void Awake()
     {
         playerCamera = UnityEngine.Object.FindFirstObjectByType<Following_Player>();
@@ -19,11 +21,27 @@ public class RoomEnemyRespawner : MonoBehaviour
             currentEnemies.Add(null);
     }
 
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInSpawnArea = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInSpawnArea = false;
+        }
+    }
+
+    private void Update()
     {
         bool inThisRoom = playerCamera.boundParent == room;
 
-        if (inThisRoom)
+        if (inThisRoom && isPlayerInSpawnArea)
         {
             for (int i = 0; i < spawnInfos.Count; i++)
             {
@@ -39,18 +57,20 @@ public class RoomEnemyRespawner : MonoBehaviour
                         ed.destroyCheck = i;
                         ed.roomRespawner = this;
                     }
-
                     currentEnemies[i] = e;
                 }
             }
         }
-        else
+
+        if (!inThisRoom)
         {
             for (int i = 0; i < currentEnemies.Count; i++)
             {
                 if (currentEnemies[i] != null)
+                {
                     Destroy(currentEnemies[i]);
-                currentEnemies[i] = null;
+                    currentEnemies[i] = null; 
+                }
             }
         }
     }

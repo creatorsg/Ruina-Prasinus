@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Bullet
   - Water
+  - realplayer
   layers:
   - Default
   - TransparentFX

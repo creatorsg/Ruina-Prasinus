@@ -28,6 +28,7 @@ public class MainPlayer : CharacterBase
     private InputHandler _inputHandler;
     private MoveHandler _moveHandler;
     private MoveStatusHandler _moveStatusHandler;
+    private playerHpHandler _playerHpHandler;
 
     public Transform HandlerTransform => _handlerTransform;
     public AnimatorManager AnimatorManager => _animatorManager;
@@ -35,6 +36,7 @@ public class MainPlayer : CharacterBase
     public InputHandler InputHandler => _inputHandler;
     public MoveHandler MoveHandler => _moveHandler;
     public MoveStatusHandler MoveStatusHandler => _moveStatusHandler;
+    public playerHpHandler PlayerHpHandler => _playerHpHandler;
     protected override void Awake()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
@@ -42,6 +44,7 @@ public class MainPlayer : CharacterBase
         _inputHandler = _handlerTransform.GetComponent<InputHandler>();
         _moveStatusHandler = _handlerTransform.GetComponent<MoveStatusHandler>();
         _moveHandler = _handlerTransform.GetComponent<MoveHandler>();
+        _playerHpHandler = _handlerTransform.GetComponent<playerHpHandler>();
     }
 
     private void Start()
@@ -49,6 +52,7 @@ public class MainPlayer : CharacterBase
         _inputHandler.Initialize(this, _data.DashCooltime);
         _moveStatusHandler.Initialize(this);
         _moveHandler.Initialize(this);
+        _playerHpHandler.Initialize(this,_data.PlayerHp);
 
         SetUp();
     }

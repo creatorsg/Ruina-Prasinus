@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Die : State<MainPlayer>
+public class None : State<MainPlayer>
 {
     public override void Enter(MainPlayer player)
     {

@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterPlayer", menuName = "Scriptable Objects/CharacterPlayer")]
 public class CharacterPlayer : ScriptableObject
 {
+    private float _playerHp = 50f;
+
     [Header("walk")]
     private float _walkAccelTime = 0.1f;
     private float _maxWalkSpeed = 5f;
@@ -23,6 +25,8 @@ public class CharacterPlayer : ScriptableObject
 
     [Header("Attack")]
     private float _basicAttackPower = 2f;
+
+    public float PlayerHp => _playerHp;
 
     public float WalkAccelTime => _walkAccelTime;
     public float MaxWalkSpeed => _maxWalkSpeed;
