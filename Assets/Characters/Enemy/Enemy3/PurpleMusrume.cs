@@ -23,7 +23,7 @@ public class PurpleMushrooms : CharacterBase
     public override void SetUp()
     {
         _enemy3 = new State<PurpleMushrooms>[5];
-        _enemy3[(int)Enemy3Behaviour.Idle] = new Enemy3Idle();
+        _enemy3[(int)Enemy3Behaviour.Idle] = new Enemy3Idle(_data.MoveSpeed);
         _enemy3[(int)Enemy3Behaviour.Stop] = new Enemy3Stop();
         _enemy3[(int)Enemy3Behaviour.Rush] = new Enemy3Rush();
         _enemy3[(int)Enemy3Behaviour.Die] = new Enemy3Die();

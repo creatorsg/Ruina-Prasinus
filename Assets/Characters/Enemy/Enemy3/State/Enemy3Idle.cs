@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy3Idle : State<PurpleMushrooms>
 {
-    private float _moveSpeed;
+    private float _moveSpeed, _distance;
     public Enemy3Idle(float moveSpeed)
     {
         _moveSpeed = moveSpeed;
@@ -14,7 +14,7 @@ public class Enemy3Idle : State<PurpleMushrooms>
 
     public override void Execute(PurpleMushrooms enemy3)
     {
-
+        
     }
     public override void FixedExecute(PurpleMushrooms enemy3)
     {

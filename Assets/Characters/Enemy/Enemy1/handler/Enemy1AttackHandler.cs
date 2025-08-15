@@ -53,9 +53,7 @@ public class Enemy1AttackHandler : MonoBehaviour
         {
             if (hitCollider == _playerHp.Hitbox)
             {
-
                 _playerHp.Damaged(_attackPower);
-                Debug.Log("공격 성공! 플레이어의 히트박스에 닿았습니다.");
                 break; 
             }
         }
