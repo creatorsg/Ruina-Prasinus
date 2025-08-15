@@ -15,17 +15,6 @@ namespace Player
             animator = GetComponent<Animator>();
         }
 
-        private string previousStateName;
-        private bool returnToPrevious = false;
-
-
-        private bool isTransitioningToRun = false;
-        private string currentState = "";
-        private string targetState = "";
-
-       
-
-
             // 이동 상태 설정
         public void SetMoveBool(bool isMove)
         {
