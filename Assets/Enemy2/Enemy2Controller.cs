@@ -7,6 +7,7 @@ public class Enemy2Controller : MonoBehaviour
     public float detectionRange = 10f;
     public float shootInterval = 0.5f;
     public float stopMoveDuration = 1f;
+    [Header("건들필요 X")]
     public float preShootStopDuration = 1f; // 최초 발사 전 대기 시간
 
     [Header("움직임")]
@@ -140,7 +141,7 @@ public class Enemy2Controller : MonoBehaviour
         if (go != null) player = go.transform;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected() 
     {
         // 감지 범위 시각화
         Gizmos.color = Color.blue;

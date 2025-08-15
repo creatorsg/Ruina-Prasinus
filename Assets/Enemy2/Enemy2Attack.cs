@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class Enemy2Attack : MonoBehaviour
 {
-    [Header("�߻��� ������")]
+    [Header("발사체 프리팹")]
     public GameObject projectilePrefab;
 
-    [Header("�߻� �ӵ� (��)")]
-    public float launchSpeed = 10f;
+    [Header("포물선 최고 높이 (거리와 무관하게 고정)")]
+    public float maxHeight = 3f;
 
-    [Header("�߷� �� (Rigidbody2D.gravityScale�� ����)")]
+    [Header("중력 비율")]
     public float gravity = 9.81f;
 
     private Transform player;
@@ -17,7 +17,7 @@ public class Enemy2Attack : MonoBehaviour
     {
         var go = GameObject.FindGameObjectWithTag("Player");
         if (go != null) player = go.transform;
-        else Debug.LogError("[EnemyProjectileShooter] Player �±׸� ���� ������Ʈ�� ã�� �� �����ϴ�.");
+        else Debug.LogError("[Enemy2Attack] Player를 찾을 수 없습니다.");
     }
 
     public void ShootAtPlayer()
@@ -26,49 +26,37 @@ public class Enemy2Attack : MonoBehaviour
 
         Vector2 startPos = transform.position;
         Vector2 targetPos = player.position;
-        Vector2 diff = targetPos - startPos;
 
+        float dirSign = Mathf.Sign(targetPos.x - startPos.x);
+        float g = Mathf.Abs(Physics2D.gravity.y * (gravity / Physics2D.gravity.magnitude));
+
+        // 수평 거리
+        float dx = Mathf.Abs(targetPos.x - startPos.x);
+        // 높이 차
+        float dy = targetPos.y - startPos.y;
+
+        // 원하는 최고점에 맞는 초기 Y속도
+        float vY = Mathf.Sqrt(2 * g * maxHeight);
+
+        // 비행 시간 계산: 올라가는 시간 + 내려오는 시간
+        float tUp = vY / g;
+        float tDown = Mathf.Sqrt(2 * (maxHeight - dy) / g);
+        float totalTime = tUp + tDown;
+
+        // 가로 속도
+        float vX = dx / totalTime * dirSign;
+
+        // 발사체 생성
         GameObject projectile = Instantiate(projectilePrefab, startPos, Quaternion.identity);
-
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+
         if (rb == null)
         {
             Debug.LogError("Projectile에 Rigidbody2D가 필요합니다!");
             return;
         }
 
-        float g = Mathf.Abs(Physics2D.gravity.y * (gravity / Physics2D.gravity.magnitude));
-
-        // 방향 부호
-        float dirSign = Mathf.Sign(diff.x);
-
-        // 원하는 고각 (예: 75도 → 박격포 스타일)
-        float angleDeg = 75f;
-        float angle = angleDeg * Mathf.Deg2Rad;
-
-        float distance = Mathf.Abs(diff.x);
-        float height = diff.y;
-
-        // 필요한 초기 속도 계산 공식
-        // v^2 = g*x^2 / (2*cos^2(angle)*(x*tan(angle) - y))
-        float denom = 2 * Mathf.Cos(angle) * Mathf.Cos(angle) * (distance * Mathf.Tan(angle) - height);
-
-        if (denom <= 0)
-        {
-            Debug.LogWarning("이 각도로는 목표에 도달 불가");
-            return;
-        }
-
-        float speed = Mathf.Sqrt(g * distance * distance / denom);
-
-        // 속도 벡터
-        float vX = Mathf.Cos(angle) * speed * dirSign;
-        float vY = Mathf.Sin(angle) * speed;
-
-        rb.linearVelocity = new Vector2(vX, vY);
         rb.gravityScale = gravity / Physics2D.gravity.magnitude;
+        rb.linearVelocity = new Vector2(vX, vY);
     }
-
-
-
 }
