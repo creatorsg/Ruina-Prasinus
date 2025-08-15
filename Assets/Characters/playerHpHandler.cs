@@ -22,7 +22,6 @@ public class playerHpHandler : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(_hp);
     }
 
     public void Damaged(float damage)

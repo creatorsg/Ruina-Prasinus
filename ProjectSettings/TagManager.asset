@@ -12,8 +12,11 @@ TagManager:
   - Enemy
   - Bullet
   - Water
-  - realplayer
-  - FrontCheck
+  - SlopeCheck
+  - ChiffCheck
+  - DeadZone
+  - PlayerBody
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -21,7 +24,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - RoomBound

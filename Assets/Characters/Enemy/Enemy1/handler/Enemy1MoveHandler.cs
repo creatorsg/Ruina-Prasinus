@@ -16,7 +16,7 @@ public class Enemy1MoveHandler : MonoBehaviour
 
     public void Awake()
     {
-        _player = GameObject.FindGameObjectWithTag("realplayer");
+        _player = GameObject.FindGameObjectWithTag("PlayerBody");
     }
 
     public void Update()
