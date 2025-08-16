@@ -1,13 +1,14 @@
 using Player;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Walk : State<MainPlayer>
 {
-    private GameObject moving;
     private float _maxWalkSpeed, _walkAccelTime, _currentSpeed, _walkTimer;
     private float dt = Time.deltaTime;
-    private Vector2 t;
+    private Vector2 t, t2;
     public Walk(float maxWalkSpeed, float walkAccelTime)
     {
         _maxWalkSpeed = maxWalkSpeed;
@@ -40,12 +41,23 @@ public class Walk : State<MainPlayer>
         {
             t = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * -player.InputHandler.MoveInput * dt,
                             player.MoveStatusHandler.Perp.y * _currentSpeed * -player.InputHandler.MoveInput * dt);
+
+            if (!player.MoveStatusHandler.IsGround)
+            {
+                if (t.y != 0)
+                {
+                    t.y = 0;
+                }
+            }
         }
 
         if (player.InputHandler.DashRequested && player.MoveStatusHandler.IsGround)
         {
             player.ChangeMoveState(MoveBehavior.Dash);
         }
+
+
+        
     }
 
     public override void FixedExecute(MainPlayer player)
@@ -53,10 +65,14 @@ public class Walk : State<MainPlayer>
         if (player.MoveHandler.IsWalking)
         {
             player.transform.Translate(t, Space.World);
-        }
+        } 
 
         if (player.InputHandler.JumpRequested && player.MoveStatusHandler.IsGround)
         {
+            if(t.y != 0)
+            {
+                t.y = 0;
+            }
             player.Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
             player.InputHandler.UseJumpRequest();
         }

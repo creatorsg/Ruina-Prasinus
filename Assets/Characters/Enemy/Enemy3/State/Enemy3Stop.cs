@@ -22,6 +22,6 @@ public class Enemy3Stop : State<PurpleMushrooms>
         }
     }
 
-    public override void Exit(PurpleMushrooms enemy3) { }
     public override void FixedExecute(PurpleMushrooms enemy3) { }
+    public override void Exit(PurpleMushrooms enemy3) { }
 }

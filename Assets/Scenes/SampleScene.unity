@@ -2684,6 +2684,15 @@ MonoBehaviour:
   - enemyPrefab: {fileID: 1555224360402161111, guid: d01be18b607233b458f8465d31bc0e0c, type: 3}
     spawnPosition: {x: 17.15, y: 2, z: 0}
     isDestroyed: 0
+  - enemyPrefab: {fileID: 1555224360402161111, guid: d01be18b607233b458f8465d31bc0e0c, type: 3}
+    spawnPosition: {x: 17.15, y: 2, z: 0}
+    isDestroyed: 0
+  - enemyPrefab: {fileID: 1555224360402161111, guid: d01be18b607233b458f8465d31bc0e0c, type: 3}
+    spawnPosition: {x: 17.15, y: 2, z: 0}
+    isDestroyed: 0
+  - enemyPrefab: {fileID: 1555224360402161111, guid: d01be18b607233b458f8465d31bc0e0c, type: 3}
+    spawnPosition: {x: 17.15, y: 2, z: 0}
+    isDestroyed: 0
 --- !u!61 &505524483
 BoxCollider2D:
   m_ObjectHideFlags: 0

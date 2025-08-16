@@ -56,7 +56,7 @@ public class MoveStatusHandler : MonoBehaviour
 
     public void RayCheck()
     {
-        _isGround = Physics2D.OverlapCircle(gameObject.transform.position, 0.5f, _groundMask);
+        _isGround = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1f, _groundMask);
         hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
         fronthit = Physics2D.Raycast(gameObject.transform.position, transform.right, 0.1f, _groundMask);
     }
