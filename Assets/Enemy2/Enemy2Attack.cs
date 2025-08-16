@@ -27,6 +27,10 @@ public class Enemy2Attack : MonoBehaviour
         Vector2 startPos = transform.position;
         Vector2 targetPos = player.position;
 
+        // 발사 위치를 위로 약간 올리기 (예: 1 유닛)
+        float offsetY = 1f;
+        startPos.y += offsetY;
+
         float dirSign = Mathf.Sign(targetPos.x - startPos.x);
         float g = Mathf.Abs(Physics2D.gravity.y * (gravity / Physics2D.gravity.magnitude));
 
@@ -57,6 +61,6 @@ public class Enemy2Attack : MonoBehaviour
         }
 
         rb.gravityScale = gravity / Physics2D.gravity.magnitude;
-        rb.linearVelocity = new Vector2(vX, vY);
+        rb.linearVelocity = new Vector2(vX, vY); // linearVelocity → velocity로 수정
     }
 }
