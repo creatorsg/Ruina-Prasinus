@@ -5556,6 +5556,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RealMove
       objectReference: {fileID: 0}
+    - target: {fileID: 4370234439729905068, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
+      propertyPath: m_Mass
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

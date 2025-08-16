@@ -55,9 +55,6 @@ public class Walk : State<MainPlayer>
         {
             player.ChangeMoveState(MoveBehavior.Dash);
         }
-
-
-        
     }
 
     public override void FixedExecute(MainPlayer player)
@@ -73,8 +70,12 @@ public class Walk : State<MainPlayer>
             {
                 t.y = 0;
             }
-            player.Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Impulse);
             player.InputHandler.UseJumpRequest();
+        }
+        if (player.MoveStatusHandler.IsJump && Input.GetKey(KeyCode.Space))
+        {
+            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Force);
         }
     }
 

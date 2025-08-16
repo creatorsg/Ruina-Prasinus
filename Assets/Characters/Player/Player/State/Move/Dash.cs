@@ -49,6 +49,14 @@ public class Dash : State<MainPlayer>
 
         t = new Vector2(player.MoveStatusHandler.Perp.x * _currentDashSpeed * -player.MoveHandler.MoveDirection * dt,
                             player.MoveStatusHandler.Perp.y * _currentDashSpeed * -player.MoveHandler.MoveDirection * dt);
+        
+        if (!player.MoveStatusHandler.IsGround)
+        {
+            if (t.y != 0)
+            {
+                t.y = 0;
+            }
+        }
 
     }
 
@@ -61,10 +69,18 @@ public class Dash : State<MainPlayer>
             player.transform.Translate(t, Space.World);
         }
 
-        if (player.InputHandler.JumpRequested && player.MoveStatusHandler.IsGround)
+        if (player.InputHandler.JumpRequested && player.MoveStatusHandler.IsGround && _dashTimer <= _dashAccelTIme)
         {
-            player.Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+            if (t.y != 0)
+            {
+                t.y = 0;
+            }
+            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Impulse);
             player.InputHandler.UseJumpRequest();
+        }
+        if (player.MoveStatusHandler.IsJump && Input.GetKey(KeyCode.Space))
+        {
+            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Force);
         }
     }
 
