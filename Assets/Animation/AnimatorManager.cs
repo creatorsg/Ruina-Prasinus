@@ -44,6 +44,7 @@ namespace Player
 
         public void SetAttackTrigger()
         {
+            Debug.Log("Attack Trigger Called");
             animator.SetTrigger("Attack");
             AttackNum++;
             AttackNum = AttackNum % 2;
