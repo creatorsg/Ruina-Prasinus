@@ -16,7 +16,7 @@ public class Jump : State<MainPlayer>
     {
         Debug.Log("점프 진입");
         _moveSpeed = player.MoveHandler.ReaminSpeed;
-        player.Rigidbody2D.linearVelocity = new Vector2(player.Rigidbody2D.linearVelocity.x, 0);
+        player.Rigidbody2D.linearVelocity = new Vector2(0, 0);
         player.Rigidbody2D.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
     }
 

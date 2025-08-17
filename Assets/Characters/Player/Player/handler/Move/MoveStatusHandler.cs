@@ -58,7 +58,7 @@ public class MoveStatusHandler : MonoBehaviour
     
     public void RayCheck()
     {
-        _canJump = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.1f), 0, Vector2.down, 0.415f, _groundMask);
+        _canJump = Physics2D.BoxCast(transform.position, new Vector2(0.8f, 0.125f), 0, Vector2.down, 0.4f, _groundMask);
         _isGround = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1f, _groundMask);
         hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
         fronthit = Physics2D.Raycast(gameObject.transform.position, transform.right, 0.1f, _groundMask);
@@ -79,8 +79,8 @@ public class MoveStatusHandler : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector2 startPosition = transform.position;
-        Vector2 boxSize = new Vector2(0.8f, 0.1f);
-        Vector2 endPosition = startPosition + (Vector2.down * 0.415f);
+        Vector2 boxSize = new Vector2(0.8f, 0.125f);
+        Vector2 endPosition = startPosition + (Vector2.down * 0.4f);
 
         Gizmos.color = _canJump ? UnityEngine.Color.green : UnityEngine.Color.red;
 
