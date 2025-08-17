@@ -10,7 +10,9 @@ public class InputHandler : MonoBehaviour
     private event Action OnJump;
 
     private float _dashCooltime, _dashcoolTimer = 0f;
-    private bool _dashRequested, _jumpRequested, _isDashHeld, _canDash;
+    private bool _dashRequested, _jumpRequested, _isDashHeld, _canDash, _isJumpHeld;
+    private float _jumpBufferTimer;
+    private const float JUMP_BUFFER_TIME = 0.2f;
     private float _moveInput;
 
     public float MoveInput => _moveInput;
@@ -18,6 +20,7 @@ public class InputHandler : MonoBehaviour
     public bool DashRequested => _dashRequested;
     public bool JumpRequested => _jumpRequested;
     public bool IsDashHeld => _isDashHeld;
+    public bool IsJumpHeld => _isJumpHeld;
 
     private void Awake()
     {
@@ -38,7 +41,7 @@ public class InputHandler : MonoBehaviour
         OnJump += () =>
         {
             _jumpRequested = true;
-            
+            _jumpBufferTimer = 0f;
         };
     }
 
@@ -53,9 +56,19 @@ public class InputHandler : MonoBehaviour
         MoveEvent();
 
         _isDashHeld = Input.GetKey(KeyCode.LeftShift);
+        _isJumpHeld = Input.GetKey(KeyCode.Space);
         _dashcoolTimer = Mathf.Min(_dashcoolTimer + Time.deltaTime, _dashCooltime);
 
         _canDash = _dashcoolTimer >= _dashCooltime;
+
+        if (_jumpRequested)
+        {
+            _jumpBufferTimer += Time.deltaTime;
+            if (_jumpBufferTimer > JUMP_BUFFER_TIME)
+            {
+                _jumpRequested = false;
+            }
+        }
     }
 
     public void MoveEvent()
@@ -91,5 +104,6 @@ public class InputHandler : MonoBehaviour
     public void UseJumpRequest()
     {
         _jumpRequested = false;
+        _jumpBufferTimer = 0f; 
     }
 }

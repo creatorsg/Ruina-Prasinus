@@ -1,6 +1,9 @@
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+using static UnityEngine.UI.Image;
 
 public class MoveStatusHandler : MonoBehaviour
 {
@@ -10,7 +13,7 @@ public class MoveStatusHandler : MonoBehaviour
     private GameObject _realMovement;
     private LayerMask _groundMask;
 
-    private bool _isGround, _isSlope, _isJump;
+    private bool _isGround, _isSlope, _canJump;
     private Vector2 _perp;
     private float _angle, _jumpTimer;
 
@@ -18,7 +21,7 @@ public class MoveStatusHandler : MonoBehaviour
     public Vector2 Perp => _perp;
     public bool IsGround => _isGround;
     public bool IsSlope => _isSlope;
-    public bool IsJump => _isJump;
+    public bool CanJump => _canJump;
 
     public void Initialize(MainPlayer player)
     {
@@ -43,7 +46,7 @@ public class MoveStatusHandler : MonoBehaviour
                 SlopeCheck(hit);
         }
 
-        if (IsGround)
+        if (_isGround)
         {
             _player.AnimatorManager?.SetGroundBool(true);
         }
@@ -51,35 +54,16 @@ public class MoveStatusHandler : MonoBehaviour
         {
             _player.AnimatorManager?.SetGroundBool(false);
         }
-
-        if (_player.InputHandler.JumpRequested && _player.MoveStatusHandler.IsGround)
-        {
-            _isJump = true;
-        }
-
-        StartJumpTimer();
-        Debug.Log(_isJump);
     }
-
+    
     public void RayCheck()
     {
+        _canJump = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 0.1f), 0, Vector2.down, 0.415f, _groundMask);
         _isGround = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1f, _groundMask);
         hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
         fronthit = Physics2D.Raycast(gameObject.transform.position, transform.right, 0.1f, _groundMask);
     }
-    
-    public void StartJumpTimer()
-    {
-        if(_jumpTimer <= 3.5f && _isJump == true)
-        {
-            _jumpTimer += Time.deltaTime;
-        }
-        else
-        {
-            _jumpTimer = 0f;
-            _isJump = false;
-        }
-    }
+
     public void SlopeCheck(RaycastHit2D hit)
     {
         _perp = Vector2.Perpendicular(hit.normal);
@@ -89,5 +73,19 @@ public class MoveStatusHandler : MonoBehaviour
             _isSlope = true;
         else
             _isSlope = false;
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Vector2 startPosition = transform.position;
+        Vector2 boxSize = new Vector2(0.8f, 0.1f);
+        Vector2 endPosition = startPosition + (Vector2.down * 0.415f);
+
+        Gizmos.color = _canJump ? UnityEngine.Color.green : UnityEngine.Color.red;
+
+        Gizmos.DrawWireCube(startPosition, boxSize);
+        Gizmos.DrawWireCube(endPosition, boxSize);
+        Gizmos.DrawLine(startPosition, endPosition);
     }
 }

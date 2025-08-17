@@ -78,7 +78,7 @@ public class Dash : State<MainPlayer>
             player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Impulse);
             player.InputHandler.UseJumpRequest();
         }
-        if (player.MoveStatusHandler.IsJump && Input.GetKey(KeyCode.Space))
+        if (player.MoveStatusHandler.CanJump && Input.GetKey(KeyCode.Space))
         {
             player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Force);
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MoveHandler : MonoBehaviour
 {
@@ -7,9 +8,11 @@ public class MoveHandler : MonoBehaviour
 
     private bool _isWalking, _isDashing;
     private int _moveDirection = 1;
-
+    private RaycastHit _wallHit;
+    private float _reaminSpeed;
     public int MoveDirection => _moveDirection;
     public bool IsWalking => _isWalking;
+    public float ReaminSpeed => _reaminSpeed;
     public void Initialize(MainPlayer player)
     {
         _player = player;
@@ -32,10 +35,13 @@ public class MoveHandler : MonoBehaviour
         }
         else
         {
-            _player.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            _player.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             _isWalking = false;
         }
     }
 
-
+    public void RemainMoveSpeed(float speed)
+    {
+        _reaminSpeed = speed;
+    }
 }

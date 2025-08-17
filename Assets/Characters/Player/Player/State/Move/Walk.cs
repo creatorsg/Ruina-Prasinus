@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,7 +9,7 @@ public class Walk : State<MainPlayer>
 {
     private float _maxWalkSpeed, _walkAccelTime, _currentSpeed, _walkTimer;
     private float dt = Time.deltaTime;
-    private Vector2 t, t2;
+    private Vector2 movePower;
     public Walk(float maxWalkSpeed, float walkAccelTime)
     {
         _maxWalkSpeed = maxWalkSpeed;
@@ -16,9 +17,16 @@ public class Walk : State<MainPlayer>
     }
     public override void Enter(MainPlayer player)
     {
+        if(player.MoveHandler.ReaminSpeed >= _maxWalkSpeed)
+        {
+            _currentSpeed = _maxWalkSpeed;
+        }
+        else
+        {
+            _currentSpeed = 0f;
+            _walkTimer = 0f;
+        }
         player.AnimatorManager?.SetMoveBool(true);
-        _currentSpeed = 0f;
-        _walkTimer = 0f;
     }
 
 
@@ -39,16 +47,8 @@ public class Walk : State<MainPlayer>
 
         if (player.MoveHandler.IsWalking)
         {
-            t = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * -player.InputHandler.MoveInput * dt,
+            movePower = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * -player.InputHandler.MoveInput * dt,
                             player.MoveStatusHandler.Perp.y * _currentSpeed * -player.InputHandler.MoveInput * dt);
-
-            if (!player.MoveStatusHandler.IsGround)
-            {
-                if (t.y != 0)
-                {
-                    t.y = 0;
-                }
-            }
         }
 
         if (player.InputHandler.DashRequested && player.MoveStatusHandler.IsGround)
@@ -61,21 +61,12 @@ public class Walk : State<MainPlayer>
     {
         if (player.MoveHandler.IsWalking)
         {
-            player.transform.Translate(t, Space.World);
-        } 
-
-        if (player.InputHandler.JumpRequested && player.MoveStatusHandler.IsGround)
-        {
-            if(t.y != 0)
-            {
-                t.y = 0;
-            }
-            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Impulse);
-            player.InputHandler.UseJumpRequest();
+            player.transform.Translate(movePower, Space.World);
         }
-        if (player.MoveStatusHandler.IsJump && Input.GetKey(KeyCode.Space))
+
+        if (player.InputHandler.JumpRequested && player.MoveStatusHandler.CanJump)
         {
-            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Force);
+            player.ChangeMoveState(MoveBehavior.Jump);
         }
     }
 
@@ -85,6 +76,8 @@ public class Walk : State<MainPlayer>
         {
             player.AnimatorManager?.SetMoveBool(false);
         }
+
+        player.MoveHandler.RemainMoveSpeed(_currentSpeed);
         _currentSpeed = 0f;
         _walkTimer = 0f;
     }

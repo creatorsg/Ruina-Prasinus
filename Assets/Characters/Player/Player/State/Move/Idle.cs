@@ -5,7 +5,7 @@ public class Idle : State<MainPlayer>
     public override void Enter(MainPlayer player)
     {
         Debug.Log("Idle ¡¯¿‘");
-        
+        player.MoveHandler.RemainMoveSpeed(0f);
     }
 
     public override void Execute(MainPlayer player)
@@ -18,14 +18,9 @@ public class Idle : State<MainPlayer>
 
     public override void FixedExecute(MainPlayer player)
     {
-        if (player.InputHandler.JumpRequested && player.MoveStatusHandler.IsGround)
+        if (player.InputHandler.JumpRequested && player.MoveStatusHandler.CanJump)
         {
-            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Impulse);
-            player.InputHandler.UseJumpRequest();
-        }
-       if(player.MoveStatusHandler.IsJump && Input.GetKey(KeyCode.Space))
-        {
-            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Force);
+            player.ChangeMoveState(MoveBehavior.Jump);
         }
     }
 
