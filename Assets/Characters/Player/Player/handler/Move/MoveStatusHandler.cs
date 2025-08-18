@@ -6,19 +6,20 @@ using UnityEngine.UIElements;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using static UnityEngine.UI.Image;
 
-public class MoveStatusHandler : MonoBehaviour
+public class MoveStatusHandler : FindChildObject
 {
     private MainPlayer _player;
 
-    private RaycastHit2D hit, fronthit;
-    private GameObject _realMovement;
+    private RaycastHit2D hit, fronthit, hit2, fronthit2;
+    private Transform _realMovement, _realMovement2;
     private LayerMask _groundMask;
 
     private bool _isGround, _isSlope, _canJump;
     private Vector2 _perp;
     private float _angle, _jumpTimer;
+    private RaycastHit2D _targetHit = default;
 
-    public GameObject RealMovement => _realMovement;
+    public Transform RealMovement => _realMovement;
     public Vector2 Perp => _perp;
     public bool IsGround => _isGround;
     public bool IsSlope => _isSlope;
@@ -31,7 +32,8 @@ public class MoveStatusHandler : MonoBehaviour
 
     private void Awake()
     {
-        _realMovement = GameObject.Find("RealMove");
+        _realMovement = FindChildWithTag(transform, "SlopeCheck");
+        _realMovement2 = FindChildWithTag(transform, "SlopeCheck2");
         _groundMask = LayerMask.GetMask("Ground");
     }
 
@@ -39,30 +41,49 @@ public class MoveStatusHandler : MonoBehaviour
     {
         RayCheck();
 
-        if (hit || fronthit)
-        {
-            if (fronthit)
-                SlopeCheck(fronthit);
-            else if (hit)
-                SlopeCheck(hit);
+        RaycastHit2D targetHit = default;
+        if (hit) 
+        {   
+            if (_player.MoveHandler.MoveDirection != 0 && _isSlope)
+            {
+                if (Mathf.Sign(hit.normal.x) == Mathf.Sign(_player.MoveHandler.MoveDirection))
+                {
+                    if (fronthit) targetHit = fronthit;
+                    else targetHit = hit;
+                }
+                else
+                {
+                    if (fronthit2) targetHit = fronthit2;
+                    else targetHit = hit2;
+                }
+            }
+            else 
+            {
+                targetHit = hit;
+            }
         }
 
-        if (_isGround)
+        if (targetHit)
         {
-            _player.AnimatorManager?.SetGroundBool(true);
+            SlopeCheck(targetHit);
         }
-        else
-        {
-            _player.AnimatorManager?.SetGroundBool(false);
-        }
+
+        _player.AnimatorManager?.SetGroundBool(_isGround);
+        Debug.Log(_angle);
+        Debug.Log(targetHit);
     }
     
     public void RayCheck()
     {
         _canJump = Physics2D.BoxCast(transform.position, new Vector2(0.8f, 0.125f), 0, Vector2.down, 0.4f, _groundMask);
         _isGround = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1f, _groundMask);
+        
         hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
-        fronthit = Physics2D.Raycast(gameObject.transform.position, transform.right, 0.1f, _groundMask);
+        fronthit = Physics2D.Raycast(_realMovement.transform.position, transform.right * Mathf.Sign(transform.localScale.x), 0.1f, _groundMask);
+
+        hit2 = Physics2D.Raycast(_realMovement2.position, Vector2.down, 1f, _groundMask);
+        fronthit2 = Physics2D.Raycast(_realMovement2.position, transform.right * Mathf.Sign(transform.localScale.x), 0.5f, _groundMask);
+
     }
 
     public void SlopeCheck(RaycastHit2D hit)
@@ -70,7 +91,7 @@ public class MoveStatusHandler : MonoBehaviour
         _perp = Vector2.Perpendicular(hit.normal);
         _angle = Vector2.Angle(hit.normal, Vector2.up);
 
-        if (_angle != 0)
+        if (_angle > 0.1f && _angle < 60f)
             _isSlope = true;
         else
             _isSlope = false;

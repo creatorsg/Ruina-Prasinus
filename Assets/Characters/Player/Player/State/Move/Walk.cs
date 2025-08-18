@@ -39,9 +39,11 @@ public class Walk : State<MainPlayer>
 
         if (player.MoveHandler.IsWalking)
         {
-            movePower = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * -player.InputHandler.MoveInput * dt,
-                            player.MoveStatusHandler.Perp.y * _currentSpeed * -player.InputHandler.MoveInput * dt);
-        }
+            {
+                movePower = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * -player.InputHandler.MoveInput * dt,
+                                player.MoveStatusHandler.Perp.y * _currentSpeed * -player.InputHandler.MoveInput * dt);
+            }
+        } 
 
         if (player.InputHandler.DashRequested && player.MoveStatusHandler.IsGround)
         {

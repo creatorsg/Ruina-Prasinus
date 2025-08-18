@@ -49,6 +49,8 @@ public class MoveHandler : MonoBehaviour
         {
             _player.AnimatorManager?.SetMoveBool(false);
         }
+
+        Debug.Log(_isWalking);
     }
 
     public void RemainMoveSpeed(float speed)

@@ -32,7 +32,7 @@ public class Jump : State<MainPlayer>
             float t = Mathf.Clamp01(_walkTimer / _walkAccelTime);
             _currentSpeed = Mathf.Lerp(_moveSpeed, _maxWalkSpeed, t);
 
-            if (player.MoveStatusHandler.CanJump && player.MoveStatusHandler.IsGround)
+            if (player.MoveStatusHandler.CanJump)
             {
                 player.ChangeMoveState(MoveBehavior.Walk);
             }
@@ -43,7 +43,7 @@ public class Jump : State<MainPlayer>
             _currentSpeed = 0f;
         }
 
-        if (player.MoveStatusHandler.CanJump && !player.MoveHandler.IsWalking && player.MoveStatusHandler.IsGround)
+        if (player.MoveStatusHandler.CanJump && !player.MoveHandler.IsWalking)
         {
             player.ChangeMoveState(MoveBehavior.Idle);
         }
