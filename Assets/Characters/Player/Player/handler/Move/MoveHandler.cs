@@ -38,6 +38,17 @@ public class MoveHandler : MonoBehaviour
             _player.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             _isWalking = false;
         }
+
+        if (IsWalking)
+        {
+            _player.AnimatorManager?.SetMoveBool(true);
+        }
+
+
+        if (!IsWalking)
+        {
+            _player.AnimatorManager?.SetMoveBool(false);
+        }
     }
 
     public void RemainMoveSpeed(float speed)

@@ -17,16 +17,8 @@ public class Walk : State<MainPlayer>
     }
     public override void Enter(MainPlayer player)
     {
-        if(player.MoveHandler.ReaminSpeed >= _maxWalkSpeed)
-        {
-            _currentSpeed = _maxWalkSpeed;
-        }
-        else
-        {
-            _currentSpeed = 0f;
-            _walkTimer = 0f;
-        }
-        player.AnimatorManager?.SetMoveBool(true);
+        _currentSpeed = 0f;
+        _walkTimer = 0f;
     }
 
 
@@ -72,11 +64,6 @@ public class Walk : State<MainPlayer>
 
     public override void Exit(MainPlayer player)
     {
-        if (!player.MoveHandler.IsWalking)
-        {
-            player.AnimatorManager?.SetMoveBool(false);
-        }
-
         player.MoveHandler.RemainMoveSpeed(_currentSpeed);
         _currentSpeed = 0f;
         _walkTimer = 0f;

@@ -62,7 +62,7 @@ public class MainPlayer : CharacterBase
         _move = new State<MainPlayer>[4];
         _move[(int)MoveBehavior.Walk] = new Walk(_data.MaxWalkSpeed, _data.WalkAccelTime);
         _move[(int)MoveBehavior.Dash] = new Dash(_data.MaxDashSpeed, _data.DashAccelTime, _data.RemainDashTime);
-        _move[(int)MoveBehavior.Jump] = new Jump(_data.JumpPower, _data.JumpAccelPower, _data.JumpRemainTime);
+        _move[(int)MoveBehavior.Jump] = new Jump(_data.JumpPower, _data.JumpAccelPower, _data.JumpRemainTime, _data.WalkAccelTime, _data.MaxWalkSpeed);
         _move[(int)MoveBehavior.Idle] = new Idle();
         _moveMachine = new StateMachine<MainPlayer>();
         _moveMachine.SetUp(this, _move[(int)MoveBehavior.Idle]);

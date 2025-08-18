@@ -4,12 +4,16 @@ public class Jump : State<MainPlayer>
 {
     private float _jumpPower, _jumpAccelPower, _jumpRemainTime;
     private float _moveSpeed, _moveDirection;
+    private float _currentSpeed, _walkTimer;
+    private float _walkAccelTime, _maxWalkSpeed, dt = Time.deltaTime;
 
-    public Jump(float jumpPower, float jumpAccelPower, float jumpRemainTime)
+    public Jump(float jumpPower, float jumpAccelPower, float jumpRemainTime, float walkAccelTime, float maxWalkSpeed)
     {
         _jumpPower = jumpPower;
         _jumpAccelPower = jumpAccelPower;
         _jumpRemainTime = jumpRemainTime;
+        _walkAccelTime = walkAccelTime;
+        _maxWalkSpeed = maxWalkSpeed;
     }
 
     public override void Enter(MainPlayer player)
@@ -22,9 +26,26 @@ public class Jump : State<MainPlayer>
 
     public override void Execute(MainPlayer player)
     {
-        if (player.MoveStatusHandler.CanJump)
+        if (player.MoveHandler.IsWalking)
         {
-            player.ChangeMoveState(MoveBehavior.Walk);
+            _walkTimer += dt;
+            float t = Mathf.Clamp01(_walkTimer / _walkAccelTime);
+            _currentSpeed = Mathf.Lerp(_moveSpeed, _maxWalkSpeed, t);
+
+            if (player.MoveStatusHandler.CanJump)
+            {
+                player.ChangeMoveState(MoveBehavior.Walk);
+            }
+        }
+        else
+        {
+            _walkTimer = 0f;
+            _currentSpeed = 0f;
+        }
+
+        if (player.MoveStatusHandler.CanJump && !player.MoveHandler.IsWalking)
+        {
+            player.ChangeMoveState(MoveBehavior.Idle);
         }
     }
 
@@ -34,8 +55,7 @@ public class Jump : State<MainPlayer>
         {
             player.Rigidbody2D.AddForce(Vector2.up * _jumpAccelPower, ForceMode2D.Force);
         }
-        _moveSpeed = Mathf.Lerp(_moveSpeed, 0f, 0.1f * Time.fixedDeltaTime);
-        player.Rigidbody2D.linearVelocity = new Vector2(_moveSpeed * player.MoveHandler.MoveDirection, player.Rigidbody2D.linearVelocity.y);
+        player.Rigidbody2D.linearVelocity = new Vector2(_currentSpeed * player.MoveHandler.MoveDirection, player.Rigidbody2D.linearVelocity.y);
     }
 
     public override void Exit(MainPlayer player)
