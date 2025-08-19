@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Tilemap/Mountain/Mountain_0.asset.meta
+guid: 5c697f356729b4b46916a6606f0f978e
+========
+guid: dce046a1c05f1ab4e88c2aa7f010b5d5
+>>>>>>>> ae1381a (애니메이션 피벗 수정, 추가):Assets/Animation/4.anim.meta
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
