@@ -42,25 +42,28 @@ public class MoveStatusHandler : FindChildObject
         RayCheck();
 
         RaycastHit2D targetHit = default;
-        if (hit) 
-        {   
-            if (_player.MoveHandler.MoveDirection != 0 && _isSlope)
-            {
-                if (Mathf.Sign(hit.normal.x) == Mathf.Sign(_player.MoveHandler.MoveDirection))
-                {
-                    if (fronthit) targetHit = fronthit;
-                    else targetHit = hit;
-                }
-                else
-                {
-                    if (fronthit2) targetHit = fronthit2;
-                    else targetHit = hit2;
-                }
-            }
-            else 
-            {
-                targetHit = hit;
-            }
+
+        if (hit && hit2)
+        {
+            targetHit = hit.point.y > hit2.point.y ? hit : hit2;
+        }
+        else if (hit)
+        {
+            targetHit = hit;
+        }
+        else if (hit2)
+        {
+            targetHit = hit2;
+        }
+
+        if (targetHit)
+        {
+            SlopeCheck(targetHit);
+        }
+        else 
+        {
+            _isSlope = false;
+            _angle = 0;
         }
 
         if (targetHit)
@@ -75,15 +78,11 @@ public class MoveStatusHandler : FindChildObject
     
     public void RayCheck()
     {
-        _canJump = Physics2D.BoxCast(transform.position, new Vector2(0.8f, 0.125f), 0, Vector2.down, 0.4f, _groundMask);
+        _canJump = Physics2D.BoxCast(transform.position, new Vector2(0.8f, 0.155f), 0, Vector2.down, 0.4f, _groundMask);
         _isGround = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1f, _groundMask);
         
         hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
-        fronthit = Physics2D.Raycast(_realMovement.transform.position, transform.right * Mathf.Sign(transform.localScale.x), 0.1f, _groundMask);
-
         hit2 = Physics2D.Raycast(_realMovement2.position, Vector2.down, 1f, _groundMask);
-        fronthit2 = Physics2D.Raycast(_realMovement2.position, transform.right * Mathf.Sign(transform.localScale.x), 0.5f, _groundMask);
-
     }
 
     public void SlopeCheck(RaycastHit2D hit)
@@ -101,7 +100,7 @@ public class MoveStatusHandler : FindChildObject
     private void OnDrawGizmos()
     {
         Vector2 startPosition = transform.position;
-        Vector2 boxSize = new Vector2(0.8f, 0.125f);
+        Vector2 boxSize = new Vector2(0.8f, 0.155f);
         Vector2 endPosition = startPosition + (Vector2.down * 0.4f);
 
         Gizmos.color = _canJump ? UnityEngine.Color.green : UnityEngine.Color.red;
