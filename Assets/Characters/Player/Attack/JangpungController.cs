@@ -21,6 +21,14 @@ public class JangpungController : MonoBehaviour
     {
         UpdateFacingDirection();
 
+        bool isDown = InputManager.GetKey("LieDown");
+        animatorManager.SetDownKeyBool(isDown);
+
+        bool isUp = InputManager.GetKey("LookUP");
+        animatorManager.SetUpKeyBool(isUp);
+
+
+
         if (!isOnCooldown && InputManager.GetKeyDown("Attack"))
         {
             Vector2 dir = CalculateLaunchDirection();
@@ -41,7 +49,10 @@ public class JangpungController : MonoBehaviour
         if (InputManager.GetKey("LookUP"))
             return Vector2.up;
         if (InputManager.GetKey("LieDown") && !status.isGround)
+        {
+            
             return (Vector2.down + (facingDirection == 1 ? Vector2.right : Vector2.left)).normalized;
+        }
 
         return facingDirection == 1 ? Vector2.right : Vector2.left;  
     }

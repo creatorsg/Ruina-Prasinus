@@ -44,13 +44,22 @@ namespace Player
 
         public void SetAttackTrigger()
         {
-            Debug.Log("Attack Trigger Called");
             animator.SetTrigger("Attack");
             AttackNum++;
             AttackNum = AttackNum % 2;
             animator.SetInteger("Attack_NumCheck", AttackNum);  
         }
 
-        
+
+        public void SetDownKeyBool(bool DownKey)
+        {
+            animator.SetBool("DownKey", DownKey);
+        }
+
+        public void SetUpKeyBool(bool UpKey)
+        {
+            animator.SetBool("UpKey", UpKey);
+        }
+
     }
 }
