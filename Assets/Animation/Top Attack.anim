@@ -88,14 +88,14 @@ AnimationClip:
   - time: 0
     functionName: LockAnimation
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 186c4c984f3cfd84b9f3c99a1483b8e5, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 1ec57ff1bfaff9844b5833b78e6f2a01, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.41666666
     functionName: UnlockAnimation
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 186c4c984f3cfd84b9f3c99a1483b8e5, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 1ec57ff1bfaff9844b5833b78e6f2a01, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
