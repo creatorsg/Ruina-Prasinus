@@ -54,12 +54,23 @@ namespace Player
         public void SetDownKeyBool(bool DownKey)
         {
             animator.SetBool("DownKey", DownKey);
+
+            if (animator.GetBool("DownKey"))
+            {
+                animator.SetBool("HoldLock", true);  
+            }
+            else
+            {
+                animator.SetBool("HoldLock", false); 
+            }
         }
 
         public void SetUpKeyBool(bool UpKey)
         {
             animator.SetBool("UpKey", UpKey);
         }
+
+
 
     }
 }
