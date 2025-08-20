@@ -20,7 +20,7 @@ public class DestroyOnHit : MonoBehaviour
     private bool ShouldDestroy(Collider2D col)
     {
         // 1) realplayer 태그와 충돌
-        if (col.CompareTag("realplayer")) return true;
+        if (col.CompareTag("PlayerBody")) return true;
 
         // 2) ground 태그의 TilemapCollider2D와 충돌
         //    (타일맵 오브젝트에 TilemapCollider2D 컴포넌트와 ground 태그가 있어야 합니다)

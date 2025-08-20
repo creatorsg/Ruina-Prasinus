@@ -7,18 +7,18 @@ public class CharacterPlayer : ScriptableObject
 
     [Header("walk")]
     private float _walkAccelTime = 0.1f;
-    private float _maxWalkSpeed = 5f;
+    private float _maxWalkSpeed = 6.2f;
 
 
     [Header("dash")]
-    private float _dashAccelTime = 0.3f;
-    private float _maxDashSpeed = 20f;
-    private float _remainDashTime = 2f;
+    private float _dashAccelTime = 0.1f;
+    private float _maxDashSpeed = 10f;
+    private float _remainDashTime = 0.5f;
     private float _dashCooltime = 3f;
 
     [Header("jump")]
-    private float _jumpPower = 2.5f;
-    private float _jumpAccelPower = 2.2f;
+    private float _jumpPower = 2f;
+    private float _jumpAccelPower = 3.4f;
     private float _jumpRemainTime = 0.25f;
 
     private float _maxFallingSpeed = 3f;

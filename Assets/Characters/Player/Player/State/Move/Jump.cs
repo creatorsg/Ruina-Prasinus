@@ -26,11 +26,20 @@ public class Jump : State<MainPlayer>
 
     public override void Execute(MainPlayer player)
     {
-        if (player.MoveHandler.IsWalking)
+        if (player.MoveHandler.IsWalking && _moveSpeed <= _maxWalkSpeed)
         {
             _walkTimer += dt;
             float t = Mathf.Clamp01(_walkTimer / _walkAccelTime);
             _currentSpeed = Mathf.Lerp(_moveSpeed, _maxWalkSpeed, t);
+
+            if (player.MoveStatusHandler.CanJump)
+            {
+                player.ChangeMoveState(MoveBehavior.Walk);
+            }
+        }
+        else if(_moveSpeed > _maxWalkSpeed)
+        {
+            _currentSpeed = _moveSpeed;
 
             if (player.MoveStatusHandler.CanJump)
             {
