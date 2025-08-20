@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterEnemy1 : ScriptableObject
 {
     [Header("적 기본 스탯")]
-    private float _enemyHp = 150f;
+    private float _enemyHp = 30f;
 
     [Header("None 상태일 때")]
     private float _spawnDistance = 5f;
