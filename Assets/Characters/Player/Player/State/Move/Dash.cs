@@ -19,13 +19,13 @@ public class Dash : State<MainPlayer>
         player.InputHandler.UseDashRequest();
 
         _dashTimer = 0f;
-        _currentDashSpeed = 0f;
+        _currentDashSpeed = player.MoveHandler.ReaminSpeed;
     }
 
     public override void Execute(MainPlayer player)
     {
         if (player.InputHandler.IsDashHeld && player.MoveHandler.IsWalking)
-        { 
+        {
             if (_dashTimer <= _dashAccelTIme)
             {
                 float t = Mathf.Clamp01(_dashTimer / _dashAccelTIme);
@@ -34,9 +34,17 @@ public class Dash : State<MainPlayer>
             else if (_dashTimer < _dashRemainTime)
             {
                 _currentDashSpeed = _maxDashSpeed;
+                if(Input.GetKeyDown(KeyCode.Space))
+                {
+                    player.MoveHandler.RemainMoveSpeed(_currentDashSpeed);
+                    player.ChangeMoveState(MoveBehavior.Jump);
+                }
             }
             else if (_dashTimer > _dashRemainTime && player.MoveHandler.IsWalking)
+            {
                 player.ChangeMoveState(MoveBehavior.Walk);
+                Debug.Log("walk로 이동");
+            }
             else
                 player.ChangeMoveState(MoveBehavior.Idle);
         }
@@ -67,20 +75,6 @@ public class Dash : State<MainPlayer>
         if (player.MoveHandler.IsWalking)
         {
             player.transform.Translate(t, Space.World);
-        }
-
-        if (player.InputHandler.JumpRequested && player.MoveStatusHandler.IsGround && _dashTimer <= _dashAccelTIme)
-        {
-            if (t.y != 0)
-            {
-                t.y = 0;
-            }
-            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Impulse);
-            player.InputHandler.UseJumpRequest();
-        }
-        if (player.MoveStatusHandler.CanJump && Input.GetKey(KeyCode.Space))
-        {
-            player.Rigidbody2D.AddForce(Vector2.up * 2f, ForceMode2D.Force);
         }
     }
 
