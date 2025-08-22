@@ -25,8 +25,6 @@ public class MoveStatusHandler : FindChildObject
     public bool IsSlope => _isSlope;
     public bool CanJump => _canJump;
 
-    public event Action<bool> OnGroundStateChanged;
-
     public void Initialize(MainPlayer player)
     {
         _player = player;
@@ -74,8 +72,7 @@ public class MoveStatusHandler : FindChildObject
             SlopeCheck(targetHit);
         }
 
-        OnGroundStateChanged?.Invoke(_isGround);
-
+        _player.AnimatorManager?.SetGroundBool(_canJump);
     }
     
     public void RayCheck()
