@@ -78,4 +78,32 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: LockAnimation
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 1ec57ff1bfaff9844b5833b78e6f2a01, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.25
+    functionName: ShootAtPlayer
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: c11e011e2f4a83643870cb5f04776b27, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.25
+    functionName: UnlockAnimation
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 1ec57ff1bfaff9844b5833b78e6f2a01, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.25
+    functionName: OnShootEnd
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 41b2682f87440a649b497e40097cda7c, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

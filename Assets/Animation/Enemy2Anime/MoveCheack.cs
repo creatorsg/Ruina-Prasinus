@@ -3,33 +3,28 @@ using UnityEngine;
 public class MoveCheack : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    private float lastX;
+    private Rigidbody2D rb;
+    private bool isMoving;
 
-    void Start()
+    [SerializeField] private float velocityThreshold = 0.05f;
+
+    void Awake()
     {
-        // Ω√¿€ Ω√ «ˆ¿Á ¿ßƒ° ¿˙¿Â
-        lastX = transform.position.x;
+        rb = GetComponent<Rigidbody2D>();
 
-        // ¿ŒΩ∫∆Â≈Õø°º≠ Animator ø¨∞· æ» «ﬂ¿∏∏È ¿⁄µø¿∏∑Œ √£¿Ω
         if (animator == null)
             animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        float currentX = transform.position.x;
+        // Rigidbody2DÔøΩÔøΩ ÔøΩ”µÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩ ÔøΩÃªÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ
+        bool shouldMove = Mathf.Abs(rb.linearVelocity.x) > velocityThreshold;
 
-        // x ¡¬«•∞° ¥ﬁ∂Û¡≥¥¬¡ˆ »Æ¿Œ
-        if (Mathf.Abs(currentX - lastX) > 0.001f)
+        if (shouldMove != isMoving)
         {
-            animator.SetBool("isMove", true);
+            isMoving = shouldMove;
+            animator.SetBool("isMove", isMoving);
         }
-        else
-        {
-            animator.SetBool("isMove", false);
-        }
-
-        // ¿Ãπ¯ «¡∑π¿”¿« ¿ßƒ°∏¶ ¿˙¿Â
-        lastX = currentX;
     }
 }

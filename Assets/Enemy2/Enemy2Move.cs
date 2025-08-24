@@ -13,7 +13,8 @@ public class Enemy2Move : MonoBehaviour
     private float moveTimer = 0f;
     private bool isStopped = false;
 
-    [HideInInspector] public bool StopMove = false; // ¿ÜºÎ¿¡¼­ ¸ØÃã Á¦¾î
+    [HideInInspector] public bool FirstDetect = false;
+    [HideInInspector] public bool StopMove = false;
 
     private TimerHandler timerHandler = new TimerHandler();
 
@@ -25,6 +26,12 @@ public class Enemy2Move : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!FirstDetect)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (StopMove || isStopped)
         {
             rb.linearVelocity = Vector2.zero;
