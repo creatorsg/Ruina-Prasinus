@@ -72,9 +72,7 @@ public class MoveStatusHandler : FindChildObject
             SlopeCheck(targetHit);
         }
 
-        _player.AnimatorManager?.SetGroundBool(_isGround);
-        Debug.Log(_angle);
-        Debug.Log(targetHit);
+        _player.AnimatorManager?.SetGroundBool(_canJump);
     }
     
     public void RayCheck()
