@@ -72,14 +72,16 @@ public class MoveStatusHandler : FindChildObject
             SlopeCheck(targetHit);
         }
 
-        _player.AnimatorManager?.SetGroundBool(_canJump);
+        _player.AnimatorManager?.SetGroundBool(_isGround);
     }
     
     public void RayCheck()
     {
-        _canJump = Physics2D.BoxCast(transform.position, new Vector2(0.8f, 0.165f), 0, Vector2.down, 0.4f, _groundMask);
-        _isGround = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1.5f, _groundMask);
+        // 땅체크
+        _canJump = Physics2D.BoxCast(transform.position, new Vector2(0.74f, 0.165f), 0, Vector2.down, 0.4f, _groundMask);
+        _isGround = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1f, _groundMask);
         
+        //경사면 체크
         hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
         hit2 = Physics2D.Raycast(_realMovement2.position, Vector2.down, 1f, _groundMask);
     }
@@ -99,7 +101,7 @@ public class MoveStatusHandler : FindChildObject
     private void OnDrawGizmos()
     {
         Vector2 startPosition = transform.position;
-        Vector2 boxSize = new Vector2(0.8f, 0.165f);
+        Vector2 boxSize = new Vector2(0.74f, 0.165f);
         Vector2 endPosition = startPosition + (Vector2.down * 0.4f);
 
         Gizmos.color = _canJump ? UnityEngine.Color.green : UnityEngine.Color.red;

@@ -7,45 +7,27 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Walk : State<MainPlayer>
 {
-    private float _maxWalkSpeed, _walkAccelTime, _currentSpeed, _walkTimer;
-    private float dt = Time.deltaTime;
+    private float _moveSpeed, dt = Time.deltaTime;
     private Vector2 movePower;
-    public Walk(float maxWalkSpeed, float walkAccelTime)
+    public Walk()
     {
-        _maxWalkSpeed = maxWalkSpeed;
-        _walkAccelTime = walkAccelTime;
+        
     }
     public override void Enter(MainPlayer player)
     {
-        _currentSpeed = 0f;
-        _walkTimer = 0f;
+        _moveSpeed = 5f; // 가속이 아닌 고정이기에 처음 들어올 때, 속도 조정 
     }
-
 
     public override void Execute(MainPlayer player)
     {
         if (player.MoveHandler.IsWalking)
         {
-            _walkTimer += dt;
-            float t = Mathf.Clamp01(_walkTimer / _walkAccelTime);
-            _currentSpeed = Mathf.Lerp(0f, _maxWalkSpeed, t);
-        }
-        else
-        {
-            _walkTimer = 0f;
-            _currentSpeed = 0f;
-            player.ChangeMoveState(MoveBehavior.Idle);
-        }
-
-        if (player.MoveHandler.IsWalking)
-        {
             {
-                movePower = new Vector2(player.MoveStatusHandler.Perp.x * _currentSpeed * -player.InputHandler.MoveInput * dt,
-                                player.MoveStatusHandler.Perp.y * _currentSpeed * -player.InputHandler.MoveInput * dt);
+                movePower = new Vector2(player.MoveStatusHandler.Perp.x * _moveSpeed * -player.InputHandler.MoveInput * dt,
+                                player.MoveStatusHandler.Perp.y * _moveSpeed * -player.InputHandler.MoveInput * dt);
             }
         } 
-
-        if (player.InputHandler.DashRequested && player.MoveStatusHandler.IsGround)
+        if (player.InputHandler.DashRequested && player.MoveStatusHandler.CanJump)
         {
             player.ChangeMoveState(MoveBehavior.Dash);
         }
@@ -57,7 +39,6 @@ public class Walk : State<MainPlayer>
         {
             player.transform.Translate(movePower, Space.World);
         }
-
         if (player.InputHandler.JumpRequested && player.MoveStatusHandler.CanJump)
         {
             player.ChangeMoveState(MoveBehavior.Jump);
@@ -66,8 +47,7 @@ public class Walk : State<MainPlayer>
 
     public override void Exit(MainPlayer player)
     {
-        player.MoveHandler.RemainMoveSpeed(_currentSpeed);
-        _currentSpeed = 0f;
-        _walkTimer = 0f;
+        player.MoveHandler.RemainMoveSpeed(_moveSpeed);
+        _moveSpeed = 0f;
     }
 }
