@@ -5,11 +5,9 @@ public class Dash : State<MainPlayer>
     private float _maxDashSpeed, _dashAccelTIme, _dashRemainTime, _dashTimer, _currentDashSpeed, _dashCooltime;
     private float dt = Time.deltaTime;
     private Vector2 t;
-    public Dash(float maxDashSpeed, float dashAccelTime, float dashRemainTime)
+    public Dash()
     {
-        _maxDashSpeed = maxDashSpeed;
-        _dashAccelTIme = dashAccelTime;
-        _dashRemainTime = dashRemainTime;
+        
     }
 
     public override void Enter(MainPlayer player)

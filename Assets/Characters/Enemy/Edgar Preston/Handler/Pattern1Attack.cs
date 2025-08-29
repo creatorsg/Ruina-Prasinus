@@ -25,11 +25,17 @@ public class Pattern1Attack : MonoBehaviour
         _attack1 = _pattern1.GetComponentInChildren<CapsuleCollider2D>();
         _attack2 = _pattern2.GetComponentInChildren<BoxCollider2D>();
 
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+//        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
-        _playerHp = playerObject.GetComponent<playerHpHandler>();
+//       _playerHp = playerObject.GetComponent<playerHpHandler>();
     }
 
+
+    private void Update()
+    {
+        
+    }
+    /*
     public void DashAttack()
     {
         Attack(_attack1, 20);
@@ -77,5 +83,21 @@ public class Pattern1Attack : MonoBehaviour
                 }
             }
         }
+    }
+    */
+    public int RandomPattern()
+    {
+        int index = 0;
+
+        if(!_boss1.Boss1HpHandelr.Page2)
+        {
+            index = Random.Range(0, 3) + 1;
+        }
+        else
+        {
+            index = Random.Range(0, 4) + 1;
+        }
+
+        return index;
     }
 }
