@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Elite1/Elite1.prefab.meta
 guid: 00c760d66fc13ed45bab451d286128ca
 PrefabImporter:
+========
+guid: 0fcb0e18a704c6e42bce9b22f3b6e174
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> fc2dd17 (22):Assets/Characters/Enemy/Enemy4/State.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

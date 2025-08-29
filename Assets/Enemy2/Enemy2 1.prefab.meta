@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Enemy2/Enemy2 1.prefab.meta
 guid: 7b7e4d11015166a469535a99a041ffb5
 PrefabImporter:
+========
+guid: d48b6ffb7ddde54469076d9ea1b04522
+DefaultImporter:
+>>>>>>>> fc2dd17 (22):Assets/Scenes/Boss.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
