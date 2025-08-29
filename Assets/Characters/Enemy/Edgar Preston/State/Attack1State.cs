@@ -22,6 +22,7 @@ public class Attack1State : State<Preston>
         switch (_currentPhase)
         {
             case Phase.Walking:
+                Debug.Log("패턴 1 - 1");
                 if (_phaseTimer >= 3f)
                 {
                     _phaseTimer = 0f;
@@ -30,19 +31,22 @@ public class Attack1State : State<Preston>
                 break;
 
             case Phase.Pausing:
+                Debug.Log("패턴 1 - 2");
                 if (_phaseTimer >= 0.5f)
                 {
                     _phaseTimer = 0f; 
                     _currentPhase = Phase.Dashing;
 
-                    boss.Pattern1Attack.DashAttack();
+                    //boss.Pattern1Attack.DashAttack();
                 }
                 break;
 
             case Phase.Dashing:
+                Debug.Log("패턴 1 - 3");
                 if (_phaseTimer >= 0.5f)
                 {
                     Debug.Log("패턴 1 종료");
+                    boss.ChangeState(BossBehaviour.Stun);
                 }
                 break;
         }
@@ -53,7 +57,7 @@ public class Attack1State : State<Preston>
         switch (_currentPhase)
         {
             case Phase.Walking:
-                boss.Rigidbody2D.linearVelocity = _attackDirection * 5f;
+                boss.Rigidbody2D.linearVelocity = _attackDirection * 2f;
                 break;
 
             case Phase.Pausing:

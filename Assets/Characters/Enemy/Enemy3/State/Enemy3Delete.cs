@@ -1,25 +1,22 @@
 using UnityEngine;
 
-public class Enemy3Delete : State<PurpleMushrooms>
+public class Enemy3Delete : State<PurpleMushroom>
 {
-    public Enemy3Delete()
+    public override void Enter(PurpleMushroom enemy3)
+    {
+    }
+
+    public override void Execute(PurpleMushroom enemy3)
+    {
+        
+    }
+
+    public override void FixedExecute(PurpleMushroom enemy3)
     {
 
     }
-    public override void Enter(PurpleMushrooms enemy3)
-    {
 
-    }
-
-    public override void Execute(PurpleMushrooms enemy3)
-    {
-
-    }
-    public override void FixedExecute(PurpleMushrooms enemy3)
-    {
-
-    }
-    public override void Exit(PurpleMushrooms enemy3)
+    public override void Exit(PurpleMushroom enemy3)
     {
 
     }

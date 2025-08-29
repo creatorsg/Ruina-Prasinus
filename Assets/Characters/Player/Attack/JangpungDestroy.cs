@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class JangpungDestroy : MonoBehaviour
 {
-    private float autoDestroyTime = 0.4f;
+    private float autoDestroyTime = 0.8f;
 
     void Start()
     {
