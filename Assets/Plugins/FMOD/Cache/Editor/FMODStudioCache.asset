@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8733684622772646736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Walk
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Walk
+  Guid:
+    Data1: 1140713727
+    Data2: 1151939672
+    Data3: -1012727166
+    Data4: -1718460427
+  Banks:
+  - {fileID: -7581215009611389138}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-7581215009611389138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,10 +42,10 @@ MonoBehaviour:
   Path: ../../../FMODprojects/LuniaDemo/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638920944796298304
+  lastModified: 638921392381847215
   FileSizes:
   - Name: Desktop
-    Value: 1074
+    Value: 25632
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -35,15 +62,21 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: 5248836891391219425}
   - {fileID: -7581215009611389138}
-  EditorEvents: []
+  EditorEvents:
+  - {fileID: -8733684622772646736}
+  - {fileID: 6577045712272136496}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7581215009611389138}
   StringsBanks:
   - {fileID: 5248836891391219425}
   cacheVersion: 131848
-  cacheTime: 638920944796318480
-  SerializableEventsDict: []
+  cacheTime: 638921392381862259
+  SerializableEventsDict:
+  - key: event:/Player/Walk
+    index: 0
+  - key: event:/Player/Dash
+    index: 1
 --- !u!114 &5248836891391219425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,8 +92,35 @@ MonoBehaviour:
   Path: ../../../FMODprojects/LuniaDemo/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638920944796318480
+  lastModified: 638921392381862259
   FileSizes:
   - Name: Desktop
-    Value: 724
+    Value: 820
   Exists: 1
+--- !u!114 &6577045712272136496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Dash
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Dash
+  Guid:
+    Data1: 1806008734
+    Data2: 1339749145
+    Data3: -281053518
+    Data4: -885772765
+  Banks:
+  - {fileID: -7581215009611389138}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
