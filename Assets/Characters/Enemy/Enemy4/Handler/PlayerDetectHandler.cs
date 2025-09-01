@@ -22,7 +22,6 @@ public class PlayerDetectHandler : MonoBehaviour
     private void Update()
     {
         AttackDistance();
-        Debug.Log(_playerHit);
     }
 
     public void AttackDistance()

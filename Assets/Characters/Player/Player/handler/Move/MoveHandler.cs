@@ -12,6 +12,7 @@ public class MoveHandler : MonoBehaviour
     private float _reaminSpeed;
     public int MoveDirection => _moveDirection;
     public bool IsWalking => _isWalking;
+    public bool IsDashing => _isDashing;   
     public float ReaminSpeed => _reaminSpeed;
     public void Initialize(MainPlayer player)
     {
@@ -48,6 +49,15 @@ public class MoveHandler : MonoBehaviour
         if (!IsWalking)
         {
             _player.AnimatorManager?.SetMoveBool(false);
+        }
+
+        if(_player.InputHandler.DashRequested == true)
+        {
+            _isDashing = true;
+        }
+        else
+        {
+            _isDashing = false;
         }
 
     }
