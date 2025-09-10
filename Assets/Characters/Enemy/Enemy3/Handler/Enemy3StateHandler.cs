@@ -1,25 +1,29 @@
-using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class Enemy3DetectHandler : FindChildObject
+public class Enemy3StateHandler : FindChildObject
 {
     private PurpleMushroom _enemy3;
-    private RaycastHit2D _hit, _hit2;
 
-    private bool _isCliff, _isSlope, _playerCheck;
+    private RaycastHit2D _hit, _hit2;
     private LayerMask _groundMask, _playerMask;
     private Transform _realMovement, _realMovement2;
-    private Vector2 _perp;
-    private float _angle;
+    private Vector2 _perp, _dir;
+    private float _angle, _detectDistance;
+    private GameObject _explosion;
+
+    private bool _isCliff, _isSlope, _playerCheck, _isMoving, _isGround;
 
     public Vector2 Perp => _perp;
+    public float Dir => _dir == Vector2.right ? 1 : -1;
+    public bool IsMoving => _isMoving;
     public bool IsCliff => _isCliff;
     public bool PlayerCheck => _playerCheck;
-    public void Initialize(PurpleMushroom enemy3)
+    public void Initialize(PurpleMushroom enemy3, float detectDistance)
     {
         _enemy3 = enemy3;
+        _detectDistance = detectDistance;
     }
 
     private void Awake()
@@ -28,10 +32,15 @@ public class Enemy3DetectHandler : FindChildObject
         _realMovement2 = FindChildWithTag(transform, "SlopeCheck2");
         _groundMask = LayerMask.GetMask("Ground");
         _playerMask = LayerMask.GetMask("Player");
+
+        _explosion = Resources.Load<GameObject>("Circle");
     }
 
     private void Update()
     {
+        _dir = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
+        
+        DetectPlayer();
         RayCheck();
 
         RaycastHit2D targetHit = default;
@@ -67,14 +76,11 @@ public class Enemy3DetectHandler : FindChildObject
     }
     public void RayCheck()
     {
-        Vector2 dir = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
-
         _isCliff = Physics2D.Raycast(transform.position, Vector2.down, 1f, _groundMask);
-        _playerCheck = Physics2D.Raycast(transform.position, dir, 10f, _playerMask);
+        _playerCheck = Physics2D.Raycast(transform.position, _dir, 10f, _playerMask);
 
         _hit = Physics2D.Raycast(_realMovement.transform.position, Vector2.down, 1f, _groundMask);
         _hit2 = Physics2D.Raycast(_realMovement2.position, Vector2.down, 1f, _groundMask);
-
     }
 
     public void SlopeCheck(RaycastHit2D hit)
@@ -88,25 +94,32 @@ public class Enemy3DetectHandler : FindChildObject
             _isSlope = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void DetectPlayer()
     {
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, _detectDistance, _playerMask);
 
-        if (collision.CompareTag("Wall") && collision.CompareTag("Player"))
+        if (hit != null)
         {
-            _enemy3._enemy3Machine.ChangeState(_enemy3._enemy3[(int)Enemy3Behaviour.Die]);
+             _isMoving = true;
         }
-        else if (collision.CompareTag("DeadZone"))
+        else
         {
-            _enemy3._enemy3Machine.ChangeState(_enemy3._enemy3[(int)Enemy3Behaviour.Delete]);
+            _isMoving = false;
         }
     }
 
+    public void Explode()
+    {
+        GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
+        Destroy(obj);
+    }
 
     private void OnDrawGizmos()
     {
-        Vector2 dir = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 20f);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, dir * 10f);
+        Gizmos.DrawRay(transform.position, _dir * 10f);
     }
 }
