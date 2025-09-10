@@ -1,10 +1,19 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Characters/Enemy/Enemy3/enemy3.png.meta
+guid: 70a9ffd122e734041bd1fbba079c8bd8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2302870733942359475
+    second: enemy3_0
+========
 guid: cfc22d224e8995f45849ff09518954dd
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: -3600957991975698173
     second: romanSprite_e_0
+>>>>>>>> 7793185e09f5a16b73095acf464a68b2943346cc:Assets/Characters/Player/Image/romanSprite_e.gif.meta
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,23 +118,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
+<<<<<<<< HEAD:Assets/Characters/Enemy/Enemy3/enemy3.png.meta
+      name: enemy3_0
+      rect:
+        serializedVersion: 2
+        x: 589
+        y: 129
+        width: 542
+        height: 782
+========
       name: romanSprite_e_0
       rect:
         serializedVersion: 2
@@ -133,6 +138,7 @@ TextureImporter:
         y: 0
         width: 1000
         height: 1000
+>>>>>>>> 7793185e09f5a16b73095acf464a68b2943346cc:Assets/Characters/Player/Image/romanSprite_e.gif.meta
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +147,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
+<<<<<<<< HEAD:Assets/Characters/Enemy/Enemy3/enemy3.png.meta
+      spriteID: 3b5074c3bb075ff10800000000000000
+      internalID: 2302870733942359475
+========
       spriteID: 3014f25f8c3d60ec0800000000000000
       internalID: -3600957991975698173
+>>>>>>>> 7793185e09f5a16b73095acf464a68b2943346cc:Assets/Characters/Player/Image/romanSprite_e.gif.meta
       vertices: []
       indices: 
       edges: []
@@ -161,7 +172,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+<<<<<<<< HEAD:Assets/Characters/Enemy/Enemy3/enemy3.png.meta
+      enemy3_0: 2302870733942359475
+========
       romanSprite_e_0: -3600957991975698173
+>>>>>>>> 7793185e09f5a16b73095acf464a68b2943346cc:Assets/Characters/Player/Image/romanSprite_e.gif.meta
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

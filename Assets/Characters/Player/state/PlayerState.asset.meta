@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Characters/Player/state/PlayerState.asset.meta
 guid: e42c969c3a62d92419978f6475cd460d
+========
+guid: f6889788f7b90944ca23e6225fdf2ca6
+>>>>>>>> 7793185e09f5a16b73095acf464a68b2943346cc:Assets/Characters/Player/Attack/Jangpung.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

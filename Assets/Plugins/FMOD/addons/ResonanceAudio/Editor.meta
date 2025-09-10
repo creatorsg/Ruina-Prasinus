@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins/FMOD/addons/ResonanceAudio/Editor.meta
 guid: 93923a20291353a40809350917bab197
+========
+guid: aea647ce242f0e448a75b6cf44079818
+>>>>>>>> 7793185e09f5a16b73095acf464a68b2943346cc:Assets/Characters/Player/Attack.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
