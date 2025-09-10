@@ -7,6 +7,7 @@ public class PlayerDetectHandler : MonoBehaviour
     private FlowerCannon _enemy4;
     private bool _playerHit;
     private LayerMask _playerMask;
+    private Vector2 _dir;
 
     public bool PlayerHit => _playerHit;
 
@@ -26,8 +27,8 @@ public class PlayerDetectHandler : MonoBehaviour
 
     public void AttackDistance()
     {
-        Vector2 dir = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
-        _playerHit = Physics2D.Raycast(transform.position, dir, 10f, _playerMask);
+        _dir = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
+        _playerHit = Physics2D.Raycast(transform.position, _dir, 10f, _playerMask);
     }
 
     private void OnDrawGizmos()

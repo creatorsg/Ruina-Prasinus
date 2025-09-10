@@ -15,7 +15,7 @@ public class Walk : State<MainPlayer>
     }
     public override void Enter(MainPlayer player)
     {
-        _moveSpeed = 5f; // 가속이 아닌 고정이기에 처음 들어올 때, 속도 조정 
+        _moveSpeed = 5f;
     }
 
     public override void Execute(MainPlayer player)

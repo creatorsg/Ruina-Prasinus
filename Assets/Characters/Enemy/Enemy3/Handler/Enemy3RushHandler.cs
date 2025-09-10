@@ -9,6 +9,8 @@ public class Enemy3RushHandler : MonoBehaviour
         _enemy3 = enemy3;
     }
 
-
-    
+    public void Rush()
+    {
+        
+    }
 }

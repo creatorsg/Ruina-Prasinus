@@ -11,6 +11,7 @@ public class Enemy3MoveHandler : MonoBehaviour
     {
         _enemy3 = enemy3;
     }
+
     
     public void CalculMoveDirection()
     {

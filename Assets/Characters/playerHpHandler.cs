@@ -28,5 +28,9 @@ public class playerHpHandler : MonoBehaviour
     public void Damaged(float damage)
     {
         _hp -= damage;
+        _isHeating = true;
+        
     }
+
+
 }
