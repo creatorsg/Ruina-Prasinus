@@ -19,6 +19,7 @@ TagManager:
   - Wall
   - SlopeCheck2
   - bulletSpawner
+  - River
   layers:
   - Default
   - TransparentFX

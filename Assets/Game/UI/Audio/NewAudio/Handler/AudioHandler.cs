@@ -4,18 +4,19 @@ using System.Collections.Generic;
 
 public class AudioHandler : MonoBehaviour, IAudiosSetting
 {
-    private Dictionary<string, EventReference> _soundTrack = new Dictionary<string, EventReference>();
-    public void PlaySound(string soundName)
+    private string _currentSound;
+    public void PlaySound(string soundName, GameObject _soundPlayer)
     {
-        
+        RuntimeManager.PlayOneShotAttached(soundName, _soundPlayer);
+        _currentSound = soundName;
     }
     public void ChangeSound(string newSoundName)
     {
-
+        PlaySound(newSoundName, this.gameObject);
     }
     public void StopSound(string soundName)
     {
-
+        
     }
     public void SetVolume(float volume)
     {

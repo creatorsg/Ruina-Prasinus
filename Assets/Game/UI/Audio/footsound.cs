@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class footsound : MonoBehaviour
 {
-    [SerializeField] EventReference _walkSound;
+    string _walkSound = MusicStorage.GetSE("WalkSound");
     [SerializeField] EventReference _dashSound;
-    [SerializeField] float _rate;
+    [SerializeField] EventReference _riverSound;
+    [SerializeField] float _rate, _riverRate;
 
+    private bool _riverSoundPlayed;
+    private BoxCollider2D _boxCollider2D;
     private GameObject _player;
+    private GameObject _river;
     private MoveHandler _playermove;
-    private float _time;
+    private float _time, _riverTime;
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -17,6 +21,10 @@ public class footsound : MonoBehaviour
         {
             _playermove = _player.GetComponent<MoveHandler>();
         }
+
+        _river = GameObject.FindGameObjectWithTag("River");
+        RuntimeManager.PlayOneShotAttached(_riverSound, _river);
+
     }
 
     private void Update()
@@ -27,7 +35,6 @@ public class footsound : MonoBehaviour
             if (_time >= _rate)
             {
                 PlayWalkSound();
-                Debug.Log("재생되고 있음");
                 _time = 0f;
             }
         }
@@ -35,6 +42,15 @@ public class footsound : MonoBehaviour
         if(_playermove.IsDashing)
         {
             PlayDashSound();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (_boxCollider2D.CompareTag("Player") && !_riverSoundPlayed)
+        {
+            RuntimeManager.PlayOneShotAttached(_riverSound, _river);
+            _riverSoundPlayed = true;
         }
     }
 
@@ -47,4 +63,5 @@ public class footsound : MonoBehaviour
     {
         RuntimeManager.PlayOneShotAttached(_dashSound, _player);
     }
+
 }
