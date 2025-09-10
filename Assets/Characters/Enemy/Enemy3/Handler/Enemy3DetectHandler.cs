@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -86,6 +87,20 @@ public class Enemy3DetectHandler : FindChildObject
         else
             _isSlope = false;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.CompareTag("Wall") && collision.CompareTag("Player"))
+        {
+            _enemy3._enemy3Machine.ChangeState(_enemy3._enemy3[(int)Enemy3Behaviour.Die]);
+        }
+        else if (collision.CompareTag("DeadZone"))
+        {
+            _enemy3._enemy3Machine.ChangeState(_enemy3._enemy3[(int)Enemy3Behaviour.Delete]);
+        }
+    }
+
 
     private void OnDrawGizmos()
     {
