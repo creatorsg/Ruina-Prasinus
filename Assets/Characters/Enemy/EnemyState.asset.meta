@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Characters/Enemy/EnemyState.asset.meta
 guid: 2e6631b6c17cdc146b4e8e283028c2a0
+========
+guid: e42c969c3a62d92419978f6475cd460d
+>>>>>>>> 7793185e09f5a16b73095acf464a68b2943346cc:Assets/Characters/Player/state/PlayerState.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000
