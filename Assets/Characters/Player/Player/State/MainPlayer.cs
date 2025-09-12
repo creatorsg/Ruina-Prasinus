@@ -1,4 +1,5 @@
 using Player;
+using System;
 using UnityEngine;
 
 public enum MoveBehavior
@@ -37,6 +38,9 @@ public class MainPlayer : CharacterBase
     public MoveHandler MoveHandler => _moveHandler;
     public MoveStatusHandler MoveStatusHandler => _moveStatusHandler;
     public playerHpHandler PlayerHpHandler => _playerHpHandler;
+
+    //BugM0
+    public event Action<MoveBehavior> OnMoveStateChanged;
     protected override void Awake()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
@@ -83,5 +87,8 @@ public class MainPlayer : CharacterBase
     public void ChangeMoveState(MoveBehavior state)
     {
         _moveMachine.ChangeState(_move[(int)state]);
+        //BugM0
+        OnMoveStateChanged?.Invoke(state);
+        Debug.Log(state);
     }
 }

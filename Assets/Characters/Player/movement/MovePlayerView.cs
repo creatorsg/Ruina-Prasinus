@@ -39,14 +39,7 @@ public class MovePlayerView : MonoBehaviour
         if (status.isSlope && status.isGround && !isJump)
             rb.linearVelocity = Vector2.zero;
 
-        if (status.isGround)
-        {
-            animatorManager?.SetGroundBool(true);
-        }
-        else
-        {
-            animatorManager?.SetGroundBool(false);
-        }
+        
 
         if (moveInput != 0f)
         {

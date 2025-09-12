@@ -6,13 +6,13 @@ public class Enemy2Animation : MonoBehaviour
     private Animator animator;
     private Enemy2Detect detector;
 
+
+
     
     private void Awake()
     {
         animator = GetComponent<Animator>();
         detector = GetComponent<Enemy2Detect>();
-
-        
     }
 
     

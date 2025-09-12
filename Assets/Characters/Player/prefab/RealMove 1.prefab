@@ -212,11 +212,17 @@ PrefabInstance:
       propertyPath: _data
       value: 
       objectReference: {fileID: 11400000, guid: 925efab715d00464b976b402b43c0c56, type: 2}
+    - target: {fileID: 7507862072636863089, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
+      propertyPath: _animatorManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 9105134702034968039, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3896920290291531380, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
+    - {fileID: 6567367181100943425, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 316818196944503610, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
@@ -238,9 +244,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2720993190098805489, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4961375175277358629}
-    - targetCorrespondingSourceObject: {fileID: 563499765477527992, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8252334298444770789}
   m_SourcePrefab: {fileID: 100100000, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
 --- !u!1 &5999142508324857276 stripped
 GameObject:
@@ -348,23 +351,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -81.25786}
   m_Radius: 0.41288567
---- !u!1 &8165625072006158069 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 563499765477527992, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}
-  m_PrefabInstance: {fileID: 8539903171906930509}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8252334298444770789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8165625072006158069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ec57ff1bfaff9844b5833b78e6f2a01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8279380594895307895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 316818196944503610, guid: f17598dd8f31e764fbdc57b4256630d8, type: 3}

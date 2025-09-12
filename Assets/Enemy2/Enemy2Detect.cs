@@ -48,7 +48,6 @@ public class Enemy2Detect : MonoBehaviour
                 {
                     ChangeTopState(TopState.Detected, SubState.Chase);
 
-                    // 🔹 처음 감지했을 때 움직임 시작
                     if (!mover.FirstDetect)
                         mover.FirstDetect = true;
                 }
@@ -56,14 +55,13 @@ public class Enemy2Detect : MonoBehaviour
 
             case TopState.Detected:
                 UpdateDetected();
-                if (dist > detectionRange) // 플레이어가 범위 벗어남 → Idle
+                if (dist > detectionRange)
                 {
                     ChangeTopState(TopState.Idle, SubState.None);
                 }
                 break;
         }
     }
-
     public void UpdateDetected()
     {
         switch (subState)
@@ -72,7 +70,6 @@ public class Enemy2Detect : MonoBehaviour
             case SubState.Chase:
                 mover.StopMove = false;
 
-                // 쿨타임 감소
                 if (shootCooldownTimer > 0f)
                 {
                     shootCooldownTimer -= Time.deltaTime;
@@ -104,12 +101,9 @@ public class Enemy2Detect : MonoBehaviour
         }
     }
 
-
     private void ChangeTopState(TopState newTop, SubState newSub)
     {
         if (topState == newTop && subState == newSub) return;
-
-        Debug.Log($"[Enemy2Detect] TopState 전환: {topState} → {newTop}, SubState: {subState} → {newSub}");
 
         topState = newTop;
         subState = newSub;
@@ -122,28 +116,21 @@ public class Enemy2Detect : MonoBehaviour
     {
         if (subState == newSub) return;
 
-        Debug.Log($"[Enemy2Detect] SubState 전환: {subState} → {newSub}");
-
         subState = newSub;
 
         if (newSub == SubState.Charging)
             stateTimer = preShootStopDuration;
         else if (newSub == SubState.Shoot)
-            stateTimer = 0.45f; // Shoot 상태 유지 시간
+            stateTimer = 0.45f;
     }
 
     public void OnShootEnd()
     {
-        Debug.Log("[Enemy2Detect] Shoot 애니메이션 종료 → Chase로 전환");
 
-        if (firstShotDone)
-            shootCooldownTimer = shootCooldown;
-        else
-            firstShotDone = true;
+        shootCooldownTimer = shootCooldown;
 
         ChangeSubState(SubState.Chase);
     }
-
 
     private void FindPlayer()
     {

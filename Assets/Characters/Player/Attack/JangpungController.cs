@@ -9,12 +9,14 @@ public class JangpungController : MonoBehaviour
     private bool isOnCooldown = false;
     private int facingDirection = 1;
 
-    [SerializeField] private AnimatorManager animatorManager;
+    public event System.Action OnAttack;
+    public event System.Action<bool> OnLookUp;
+    public event System.Action<bool> OnLieDown;
+
 
     void Awake()
     {
         status = new MoveStatus();
-        animatorManager = GetComponentInChildren<Player.AnimatorManager>();
     }
 
     void Update()
@@ -22,10 +24,10 @@ public class JangpungController : MonoBehaviour
         UpdateFacingDirection();
 
         bool isDown = InputManager.GetKey("LieDown");
-        animatorManager.SetDownKeyBool(isDown);
+        OnLieDown?.Invoke(isDown);
 
         bool isUp = InputManager.GetKey("LookUP");
-        animatorManager.SetUpKeyBool(isUp);
+        OnLookUp?.Invoke(isUp);
 
 
 
@@ -34,7 +36,7 @@ public class JangpungController : MonoBehaviour
             Vector2 dir = CalculateLaunchDirection();
             LaunchProjectile(dir);
             StartCoroutine(Cooldown());
-            animatorManager.SetAttackTrigger();
+            OnAttack?.Invoke();
         }
     }
 

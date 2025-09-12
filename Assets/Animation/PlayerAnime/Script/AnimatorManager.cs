@@ -1,0 +1,63 @@
+using UnityEngine;
+
+namespace Player
+{
+
+    public class AnimatorManager : MonoBehaviour
+    {
+        private Animator animator;
+
+        public int AttackNum { get; private set; } = 0;
+        public int MoveNum { get; private set; } = 0;
+
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+        }
+
+            // 이동 상태 설정
+        public void SetMoveBool(bool isMove)
+        {
+            animator.SetBool("isMove", isMove);
+
+        }
+
+
+
+        public void SetUpBool(bool Up)
+        {
+            animator.SetBool("Up", Up);
+        }
+
+        public void SetDownBool(bool Down)
+        {
+            animator.SetBool("Down", Down);
+        }
+
+
+       
+
+        public void SetAttackTrigger()
+        {
+            animator.SetTrigger("Attack");
+            AttackNum++;
+            AttackNum = AttackNum % 2;
+            animator.SetInteger("Attack_NumCheck", AttackNum);
+        }
+
+
+        public void SetDownKeyBool(bool DownKey)
+        {
+            animator.SetBool("DownKey", DownKey);
+
+            if (animator.GetBool("DownKey"))
+            {
+                animator.SetBool("HoldLock", true);  
+            }
+            else
+            {
+                animator.SetBool("HoldLock", false); 
+            }
+        }
+    }
+}
