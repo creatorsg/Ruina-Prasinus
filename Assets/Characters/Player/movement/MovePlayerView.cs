@@ -7,7 +7,7 @@ public class MovePlayerView : MonoBehaviour
 
     private ModelMove model;
     private initialState state;
-    private MoveStatus status;
+    private PlayerStatus status;
 
     private Rigidbody2D rb;
     private bool isJump;
@@ -24,7 +24,7 @@ public class MovePlayerView : MonoBehaviour
 
     public void SetModel(ModelMove m) => model = m;
     public void SetState(initialState s) => state = s;
-    public void SetStatus(MoveStatus s) => status = s;
+    public void SetStatus(PlayerStatus s) => status = s;
 
     public void Move(float moveInput, float dt)
     {

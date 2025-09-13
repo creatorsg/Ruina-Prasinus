@@ -4,13 +4,13 @@ using UnityEngine;
 public class JangpungManager : MonoBehaviour
 {
     [SerializeField] private Jangpung jangpung;
-    private MoveStatus status;
+    private PlayerStatus status;
     private bool isOnCooldown = false;
     private int facingDirection = 1;
 
     void Awake()
     {
-        status = new MoveStatus();
+        status = new PlayerStatus();
     }
 
     void Update()

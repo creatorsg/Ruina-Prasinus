@@ -25,6 +25,10 @@ public class footsound : MonoBehaviour
         _river = GameObject.FindGameObjectWithTag("River");
         RuntimeManager.PlayOneShotAttached(_riverSound, _river);
 
+        if(_river == null)
+        {
+            Debug.Log("_river를 찾을 수 없습니다.");
+        }
     }
 
     private void Update()
@@ -37,11 +41,6 @@ public class footsound : MonoBehaviour
                 PlayWalkSound();
                 _time = 0f;
             }
-        }
-
-        if(_playermove.IsDashing)
-        {
-            PlayDashSound();
         }
     }
 

@@ -43,7 +43,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/ME.bank
   Name: ME
   StudioPath: bank:/ME
-  lastModified: 638925166050537391
+  lastModified: 638933320617788637
   FileSizes:
   - Name: Desktop
     Value: 506
@@ -63,7 +63,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638931055434311609
+  lastModified: 638933322129975463
   FileSizes:
   - Name: Desktop
     Value: 1370
@@ -83,7 +83,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/BGS.bank
   Name: BGS
   StudioPath: bank:/BGS
-  lastModified: 638931055433877094
+  lastModified: 638933321988229461
   FileSizes:
   - Name: Desktop
     Value: 89120
@@ -177,7 +177,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4870711777471444991}
   cacheVersion: 131848
-  cacheTime: 638931055434311609
+  cacheTime: 638933322129975463
   SerializableEventsDict:
   - key: event:/SE/Dash
     index: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 638925166047972565
+  lastModified: 638933320589649739
   FileSizes:
   - Name: Desktop
     Value: 2756288
@@ -312,7 +312,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638931055434291631
+  lastModified: 638933322129965462
   FileSizes:
   - Name: Desktop
     Value: 2885472
@@ -360,7 +360,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/SE.bank
   Name: SE
   StudioPath: bank:/SE
-  lastModified: 638925166050819796
+  lastModified: 638933320621898787
   FileSizes:
   - Name: Desktop
     Value: 40576

@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class RoomEnemyRespawner : MonoBehaviour
 {
-    [SerializeField] private GameObject room;
+    [SerializeField] private GameObject _room;
     [SerializeField] private BoxCollider2D monsterSpawnCollider;
 
-    [SerializeField] private List<SpawnInfo> spawnInfos;
+    [SerializeField] private List<SpawnInfo> _spawnInfos;
 
-    private readonly List<GameObject> currentEnemies = new List<GameObject>();
+    private readonly List<GameObject> _currentEnemies = new List<GameObject>();
 
-    private Following_Player playerCamera;
+    private Following_Player _playerCamera;
     private bool isPlayerInSpawnArea = false;
-    void Awake()
+    private void Awake()
     {
-        playerCamera = UnityEngine.Object.FindFirstObjectByType<Following_Player>();
+        _playerCamera = UnityEngine.Object.FindFirstObjectByType<Following_Player>();
 
-        for (int i = 0; i < spawnInfos.Count; i++)
-            currentEnemies.Add(null);
+        for (int i = 0; i < _spawnInfos.Count; i++)
+            _currentEnemies.Add(null);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -39,14 +39,14 @@ public class RoomEnemyRespawner : MonoBehaviour
 
     private void Update()
     {
-        bool inThisRoom = playerCamera.boundParent == room;
+        bool inThisRoom = _playerCamera.boundParent == _room;
 
         if (inThisRoom && isPlayerInSpawnArea)
         {
-            for (int i = 0; i < spawnInfos.Count; i++)
+            for (int i = 0; i < _spawnInfos.Count; i++)
             {
-                var info = spawnInfos[i];
-                bool hasInstance = currentEnemies[i] != null;
+                var info = _spawnInfos[i];
+                bool hasInstance = _currentEnemies[i] != null;
                 if (!hasInstance && !info.isDestroyed)
                 {
                     var e = Instantiate(info.enemyPrefab, info.spawnPosition, Quaternion.identity);
@@ -57,19 +57,19 @@ public class RoomEnemyRespawner : MonoBehaviour
                         ed.destroyCheck = i;
                         ed.roomRespawner = this;
                     }
-                    currentEnemies[i] = e;
+                    _currentEnemies[i] = e;
                 }
             }
         }
 
         if (!inThisRoom)
         {
-            for (int i = 0; i < currentEnemies.Count; i++)
+            for (int i = 0; i < _currentEnemies.Count; i++)
             {
-                if (currentEnemies[i] != null)
+                if (_currentEnemies[i] != null)
                 {
-                    Destroy(currentEnemies[i]);
-                    currentEnemies[i] = null; 
+                    Destroy(_currentEnemies[i]);
+                    _currentEnemies[i] = null; 
                 }
             }
         }
@@ -77,7 +77,7 @@ public class RoomEnemyRespawner : MonoBehaviour
 
     public void MarkDestroyed(int index)
     {
-        if (index >= 0 && index < spawnInfos.Count)
-            spawnInfos[index].isDestroyed = true;
+        if (index >= 0 && index < _spawnInfos.Count)
+            _spawnInfos[index].isDestroyed = true;
     }
 }

@@ -12,7 +12,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private InputComponent input;
     [SerializeField] private MovePlayerView view;
     
-    private MoveStatus status;
+    private PlayerStatus status;
     private ModelMove model;
 
     [HideInInspector] public RaycastHit2D hit, fronthit;
@@ -26,7 +26,7 @@ public class MovementController : MonoBehaviour
     void Awake()
     {
         model = new ModelMove();
-        status = new MoveStatus();
+        status = new PlayerStatus();
         groundMask = LayerMask.GetMask("Ground");
         input = GetComponent<InputComponent>();
 

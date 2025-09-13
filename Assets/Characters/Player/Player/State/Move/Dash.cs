@@ -4,7 +4,7 @@ public class Dash : State<MainPlayer>
 {
     private float _maxDashSpeed, _dashAccelTIme, _dashRemainTime, _dashTimer, _currentDashSpeed, _dashCooltime;
     private float dt = Time.deltaTime;
-    private Vector2 t;
+    private Vector2 movePower;
     public Dash()
     {
         
@@ -17,21 +17,15 @@ public class Dash : State<MainPlayer>
         player.InputHandler.UseDashRequest();
 
         _dashTimer = 0f;
-        _currentDashSpeed = player.MoveHandler.ReaminSpeed;
+        _currentDashSpeed = 10f;
     }
 
     public override void Execute(MainPlayer player)
     {
         if (player.InputHandler.IsDashHeld && player.MoveHandler.IsWalking)
         {
-            if (_dashTimer <= _dashAccelTIme)
+            if (_dashTimer < _dashRemainTime)
             {
-                float t = Mathf.Clamp01(_dashTimer / _dashAccelTIme);
-                _currentDashSpeed = Mathf.Lerp(0f, _maxDashSpeed, t);
-            }
-            else if (_dashTimer < _dashRemainTime)
-            {
-                _currentDashSpeed = _maxDashSpeed;
                 if(Input.GetKeyDown(KeyCode.Space))
                 {
                     player.MoveHandler.RemainMoveSpeed(_currentDashSpeed);
@@ -53,14 +47,14 @@ public class Dash : State<MainPlayer>
         else
             player.ChangeMoveState(MoveBehavior.Idle);
 
-        t = new Vector2(player.MoveStatusHandler.Perp.x * _currentDashSpeed * -player.MoveHandler.MoveDirection * dt,
-                            player.MoveStatusHandler.Perp.y * _currentDashSpeed * -player.MoveHandler.MoveDirection * dt);
-        
+        movePower = new Vector2(player.MoveStatusHandler.Perp.x * _currentDashSpeed * -player.InputHandler.MoveInput * dt,
+                                 player.MoveStatusHandler.Perp.y * _currentDashSpeed * -player.InputHandler.MoveInput * dt);
+
         if (!player.MoveStatusHandler.IsGround)
         {
-            if (t.y != 0)
+            if (movePower.y != 0)
             {
-                t.y = 0;
+                movePower.y = 0;
             }
         }
 
@@ -68,12 +62,7 @@ public class Dash : State<MainPlayer>
 
     public override void FixedExecute(MainPlayer player)
     {
-        _dashTimer += Time.deltaTime;
-
-        if (player.MoveHandler.IsWalking)
-        {
-            player.transform.Translate(t, Space.World);
-        }
+        player.transform.Translate(movePower, Space.World);
     }
 
     public override void Exit(MainPlayer player)

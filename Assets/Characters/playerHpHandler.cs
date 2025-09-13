@@ -1,5 +1,6 @@
 using Player;
 using UnityEngine;
+using System.Collections;
 
 public class playerHpHandler : MonoBehaviour
 {
@@ -27,10 +28,22 @@ public class playerHpHandler : MonoBehaviour
 
     public void Damaged(float damage)
     {
-        _hp -= damage;
-        _isHeating = true;
-        
+        if (_isHeating == false && _isInvicible == false)
+        {
+            _hp -= damage;
+            _isHeating = true;
+            StartCoroutine(HitRoutine());
+        }
     }
 
+    private IEnumerator HitRoutine()
+    {
+        yield return new WaitForSeconds(0.2f);
+        _isHeating = false;
 
+        _isInvicible = true;
+
+        yield return new WaitForSeconds(0.5f);
+        _isInvicible = false;
+    }
 }

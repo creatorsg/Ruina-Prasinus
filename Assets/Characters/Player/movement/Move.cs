@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoveStatus
+public class PlayerStatus
 {
     public bool isGround { get; private set; }
     public bool isSlope { get; private set; }

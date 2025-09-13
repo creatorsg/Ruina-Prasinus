@@ -14,6 +14,10 @@ public class Idle : State<MainPlayer>
         {
             player.ChangeMoveState(MoveBehavior.Walk);
         }
+        if(player.InputHandler.IsDashHeld)
+        {
+            player.ChangeMoveState(MoveBehavior.Dash);
+        }
     }
 
     public override void FixedExecute(MainPlayer player)
