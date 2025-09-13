@@ -66,4 +66,12 @@ public class MoveHandler : MonoBehaviour
     {
         _reaminSpeed = speed;
     }
+
+    public Vector2 MovePower(float power)
+    {
+        Vector2 movePower = new Vector2(_player.MoveStatusHandler.Perp.x * power * -_player.InputHandler.MoveInput * Time.deltaTime,
+                                 _player.MoveStatusHandler.Perp.y * power * -_player.InputHandler.MoveInput * Time.deltaTime);
+
+        return movePower;
+    }
 }

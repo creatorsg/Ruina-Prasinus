@@ -14,6 +14,8 @@ public class footsound : MonoBehaviour
     private GameObject _river;
     private MoveHandler _playermove;
     private float _time, _riverTime;
+
+    private bool _wasDashing;
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -34,6 +36,7 @@ public class footsound : MonoBehaviour
     private void Update()
     {
         _time += Time.deltaTime;
+
         if (_playermove.IsWalking)
         {
             if (_time >= _rate)
@@ -42,6 +45,15 @@ public class footsound : MonoBehaviour
                 _time = 0f;
             }
         }
+
+        // IsDashing이 막 true로 바뀐 순간만 감지
+        if (_playermove.IsDashing && !_wasDashing)
+        {
+            PlayDashSound();
+        }
+
+        // 현재 상태를 저장해서 다음 프레임 비교용
+        _wasDashing = _playermove.IsDashing;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -52,6 +64,7 @@ public class footsound : MonoBehaviour
             _riverSoundPlayed = true;
         }
     }
+
 
     public void PlayWalkSound()
     {
