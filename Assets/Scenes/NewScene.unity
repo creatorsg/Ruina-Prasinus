@@ -1041,13 +1041,13 @@ PrefabInstance:
       addedObject: {fileID: 2067899624}
     - targetCorrespondingSourceObject: {fileID: 8165625072006158069, guid: 83fa0b025200a4b45a6791217dce2f25, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2067899623}
-    - targetCorrespondingSourceObject: {fileID: 8165625072006158069, guid: 83fa0b025200a4b45a6791217dce2f25, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2067899622}
     - targetCorrespondingSourceObject: {fileID: 8165625072006158069, guid: 83fa0b025200a4b45a6791217dce2f25, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2067899630}
+    - targetCorrespondingSourceObject: {fileID: 8165625072006158069, guid: 83fa0b025200a4b45a6791217dce2f25, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2067899634}
   m_SourcePrefab: {fileID: 100100000, guid: 83fa0b025200a4b45a6791217dce2f25, type: 3}
 --- !u!1 &1726577969
 GameObject:
@@ -1146,8 +1146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244d8ed218e1b764faec3f1f43757a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _data: {fileID: 11400000, guid: 605c4a046c1cba24f8acb157d6d602a8, type: 2}
-  _handlerTransform: {fileID: 1726577978}
 --- !u!60 &1726577976
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1300,7 +1298,7 @@ SpriteRenderer:
   m_Size: {x: 5.42, y: 7.82}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1726577978
@@ -2600,18 +2598,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jangpung: {fileID: 11400000, guid: f6889788f7b90944ca23e6225fdf2ca6, type: 2}
---- !u!114 &2067899623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067899599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db98ebcae01323b418cb140ccdcb6284, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2067899624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2625,7 +2611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2067899621}
-  yDeltaChecker: {fileID: 2067899623}
+  yDeltaChecker: {fileID: 2067899634}
   animationTotal: {fileID: 2067899625}
   attackNotifier: {fileID: 2067899630}
   jangpungController: {fileID: 2067899622}
@@ -2673,6 +2659,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a24cd6b57e15dc14b9a133882d273223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2067899634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067899599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b6518d6e13e8642b30eb12be76c581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7262067095681903743

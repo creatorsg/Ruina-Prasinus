@@ -10,20 +10,21 @@ public class Enemy3StateHandler : FindChildObject
     private LayerMask _groundMask, _playerMask;
     private Transform _realMovement, _realMovement2;
     private Vector2 _perp, _dir;
-    private float _angle, _detectDistance;
+    private float _angle, _detectDistance, _explodeDistance;
     private GameObject _explosion;
-
-    private bool _isCliff, _isSlope, _playerCheck, _isMoving, _isGround;
+    private float explodeAction = 0;
+    private bool _isCliff, _isSlope, _playerCheck, _isMoving, _isGround, _isRush;
 
     public Vector2 Perp => _perp;
     public float Dir => _dir == Vector2.right ? 1 : -1;
     public bool IsMoving => _isMoving;
     public bool IsCliff => _isCliff;
     public bool PlayerCheck => _playerCheck;
-    public void Initialize(PurpleMushroom enemy3, float detectDistance)
+    public void Initialize(PurpleMushroom enemy3, float detectDistance, float explodeDistance)
     {
         _enemy3 = enemy3;
         _detectDistance = detectDistance;
+        _explodeDistance = explodeDistance;
     }
 
     private void Awake()
@@ -42,6 +43,11 @@ public class Enemy3StateHandler : FindChildObject
         
         DetectPlayer();
         RayCheck();
+
+        if(_isRush)
+        {
+            CheckExplode();
+        }
 
         RaycastHit2D targetHit = default;
 
@@ -72,6 +78,11 @@ public class Enemy3StateHandler : FindChildObject
         if (targetHit)
         {
             SlopeCheck(targetHit);
+        }
+
+        if(_playerCheck)
+        {
+            _isRush = true;
         }
     }
     public void RayCheck()
@@ -105,6 +116,17 @@ public class Enemy3StateHandler : FindChildObject
         else
         {
             _isMoving = false;
+        }
+    }
+
+    public void CheckExplode()
+    {
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, _explodeDistance, _playerMask);
+        if(hit != null && explodeAction == 0)
+        {
+            explodeAction += 1;
+            _enemy3.ChangeState(Enemy3Behaviour.Die);
+            Debug.Log("진입 시도");
         }
     }
 

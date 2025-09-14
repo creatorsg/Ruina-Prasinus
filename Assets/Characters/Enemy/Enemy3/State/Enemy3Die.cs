@@ -4,7 +4,7 @@ public class Enemy3Die : State<PurpleMushroom>
 {
     public override void Enter(PurpleMushroom enemy3)
     {
-
+        Debug.Log("Æø¹ß ÁøÀÔ");
     }
 
     public override void Execute(PurpleMushroom enemy3)
