@@ -26,7 +26,6 @@ namespace Player
             // 이벤트 구독
             jangpungController.OnLookUp += LookUp;
             jangpungController.OnLieDown += SitDown;
-            moveStatusHandler.OnGroundStateChanged += SetGroundBool;
 
             // 초기 상태
             currentState = PlayerState.Ground;

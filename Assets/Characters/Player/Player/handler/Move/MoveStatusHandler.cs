@@ -19,6 +19,7 @@ public class MoveStatusHandler : FindChildObject
     private float _angle, _jumpTimer;
     private RaycastHit2D _targetHit = default;
 
+    public event Action<bool> OnGroundStateChanged;
     public Transform RealMovement => _realMovement;
     public Vector2 Perp => _perp;
     public bool IsGround => _isGround;
@@ -72,7 +73,7 @@ public class MoveStatusHandler : FindChildObject
             SlopeCheck(targetHit);
         }
 
-        _player.AnimatorManager?.SetGroundBool(_isGround);
+        OnGroundStateChanged?.Invoke(_isGround);
     }
     
     public void RayCheck()
