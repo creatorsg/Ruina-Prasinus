@@ -10,9 +10,4 @@ public class Enemy3ExplodeHandler : MonoBehaviour
     {
         _enemy3 = enemy3;
     }
-
-    public void CheckExplode(float _checkRadius)
-    {
-
-    }
 }
