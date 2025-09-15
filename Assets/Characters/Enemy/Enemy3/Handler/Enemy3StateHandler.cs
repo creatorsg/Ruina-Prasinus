@@ -13,12 +13,14 @@ public class Enemy3StateHandler : FindChildObject
     private float _angle, _detectDistance, _explodeDistance;
     private GameObject _explosion;
     private float explodeAction = 0;
-    private bool _isCliff, _isSlope, _playerCheck, _isMoving, _isGround, _isRush;
+    private bool _isCliff, _isSlope, _playerCheck, _isMoving, _isGround, _isRush, _isHitWall;
 
     public Vector2 Perp => _perp;
     public float Dir => _dir == Vector2.right ? 1 : -1;
     public bool IsMoving => _isMoving;
     public bool IsCliff => _isCliff;
+
+    public bool IsHitWall => _isHitWall;
     public bool PlayerCheck => _playerCheck;
     public void Initialize(PurpleMushroom enemy3, float detectDistance, float explodeDistance)
     {
@@ -128,12 +130,31 @@ public class Enemy3StateHandler : FindChildObject
             _enemy3.ChangeState(Enemy3Behaviour.Die);
             Debug.Log("진입 시도");
         }
+        else if(_isHitWall)
+        {
+            _enemy3.ChangeState(Enemy3Behaviour.Die);
+            Debug.Log("벽 충돌");
+        }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall") && _isRush) 
+        {
+            _isHitWall = true;
+        }
+        else if(collision.CompareTag("DeadZone"))
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Explode()
     {
+        Destroy(gameObject);
         GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
-        Destroy(obj);
+        Destroy(obj, 0.2f);
     }
 
     private void OnDrawGizmos()

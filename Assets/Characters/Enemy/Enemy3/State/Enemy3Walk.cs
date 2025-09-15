@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 
 public class Enemy3Walk : State<PurpleMushroom>
 {
-    public enum Phase {detect, walk, stop};
+    public enum Phase { walk, stop};
     private Phase _currentPhase;
     private float _walkSpeed, _walkTimer, _stopTimer;
     private Vector2 _movePower;
