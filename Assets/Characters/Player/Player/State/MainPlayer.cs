@@ -30,6 +30,7 @@ public class MainPlayer : CharacterBase
     private MoveHandler _moveHandler;
     private MoveStatusHandler _moveStatusHandler;
     private playerHpHandler _playerHpHandler;
+    private YDeltaChecker _yDeltaChecker;
 
     public Transform HandlerTransform => _handlerTransform;
     public AnimatorManager AnimatorManager => _animatorManager;
@@ -38,6 +39,7 @@ public class MainPlayer : CharacterBase
     public MoveHandler MoveHandler => _moveHandler;
     public MoveStatusHandler MoveStatusHandler => _moveStatusHandler;
     public playerHpHandler PlayerHpHandler => _playerHpHandler;
+    public YDeltaChecker YDeltaChecker => _yDeltaChecker;
 
     //BugM0
     public event Action<MoveBehavior> OnMoveStateChanged;
@@ -49,6 +51,7 @@ public class MainPlayer : CharacterBase
         _moveStatusHandler = _handlerTransform.GetComponent<MoveStatusHandler>();
         _moveHandler = _handlerTransform.GetComponent<MoveHandler>();
         _playerHpHandler = _handlerTransform.GetComponent<playerHpHandler>();
+        _yDeltaChecker = _handlerTransform.GetComponent<YDeltaChecker>();
     }
 
     private void Start()
@@ -57,6 +60,7 @@ public class MainPlayer : CharacterBase
         _moveStatusHandler.Initialize(this);
         _moveHandler.Initialize(this);
         _playerHpHandler.Initialize(this,_data.PlayerHp);
+        _yDeltaChecker.Initialize(this);
 
         SetUp();
     }

@@ -41,6 +41,7 @@ public class Walk : State<MainPlayer>
         }
         if (player.InputHandler.JumpRequested && player.MoveStatusHandler.CanJump)
         {
+            movePower = Vector2.zero;
             player.ChangeMoveState(MoveBehavior.Jump);
         }
     }

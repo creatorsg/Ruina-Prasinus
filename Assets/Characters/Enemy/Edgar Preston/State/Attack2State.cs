@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Attack2State : State<Preston>
 {
@@ -7,6 +8,7 @@ public class Attack2State : State<Preston>
     private float _phaseTimer, _teleportIndex;
     private Vector2 _start, _end;
     private Vector2 _attackDirection;
+    RaycastHit2D _hit;
     public override void Enter(Preston boss)
     {
         Debug.Log("패턴2 시작");
@@ -72,6 +74,8 @@ public class Attack2State : State<Preston>
             case Phase.Attack:
                 boss.Rigidbody2D.AddForce(Vector2.down * 20f, ForceMode2D.Force);
                 break;
+
+
                 
         }
     }

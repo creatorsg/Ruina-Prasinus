@@ -12,7 +12,7 @@ public class InputHandler : MonoBehaviour
     private float _dashCooltime, _dashcoolTimer = 0f;
     private bool _dashRequested, _jumpRequested, _isDashHeld, _canDash, _isJumpHeld;
     private float _jumpBufferTimer;
-    private const float JUMP_BUFFER_TIME = 0.2f;
+    private const float JUMP_BUFFER_TIME = 0.1f;
     private float _moveInput;
 
     public float MoveInput => _moveInput;

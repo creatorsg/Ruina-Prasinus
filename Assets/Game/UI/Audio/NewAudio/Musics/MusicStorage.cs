@@ -27,14 +27,14 @@ public static class MusicStorage
         {"AttackSound","event:/SE/Attack" }
     };
 
-    private static Dictionary<string,string> _BGSs = new Dictionary<string, string>()
+    private static Dictionary<string, string> _BGSs = new Dictionary<string, string>()
     {
-        
+
     };
 
     private static Dictionary<string, string> _MEs = new Dictionary<string, string>()
     {
-        
+
     };
 
     public static string SelectBUS(string bus) => _Audios[bus];

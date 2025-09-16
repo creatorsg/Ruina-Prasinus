@@ -26,6 +26,7 @@ public class Dash : State<MainPlayer>
             {
                 if(Input.GetKeyDown(KeyCode.Space))
                 {
+                    movePower = Vector2.zero;
                     player.ChangeMoveState(MoveBehavior.Jump);
                 }
             }
