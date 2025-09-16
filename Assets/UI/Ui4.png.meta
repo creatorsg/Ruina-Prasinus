@@ -129,12 +129,12 @@ TextureImporter:
       name: Ui4_0
       rect:
         serializedVersion: 2
-        x: 68
+        x: 76
         y: 330
-        width: 154
+        width: 140
         height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -147,11 +147,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Ui4_1
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 330
+        width: 5
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76eeeffbdef3c8442ad3ed86016efb7a
+      internalID: -543225706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5ad8eb1f4f0ed7e45bc733d466c0dba8
     internalID: 0
     vertices: []
     indices: 
@@ -162,6 +184,7 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Ui4_0: -6278213166083022339
+      Ui4_1: -543225706
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
