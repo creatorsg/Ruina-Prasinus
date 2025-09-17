@@ -14,9 +14,9 @@ public class MoveStatusHandler : FindChildObject
     private Transform _realMovement, _realMovement2;
     private LayerMask _groundMask;
 
-    private bool _isGround, _isSlope, _canJump;
+    private bool _isGround, _isSlope, _canJump, _canDash;
     private Vector2 _perp;
-    private float _angle, _jumpTimer;
+    private float _angle, _jumpTimer, _dashTimer;
     private RaycastHit2D _targetHit = default;
 
     public event Action<bool> OnGroundStateChanged;
@@ -25,6 +25,8 @@ public class MoveStatusHandler : FindChildObject
     public bool IsGround => _isGround;
     public bool IsSlope => _isSlope;
     public bool CanJump => _canJump;
+
+    public bool CanDash => _canDash;
 
     public void Initialize(MainPlayer player)
     {
@@ -36,6 +38,8 @@ public class MoveStatusHandler : FindChildObject
         _realMovement = FindChildWithTag(transform, "SlopeCheck");
         _realMovement2 = FindChildWithTag(transform, "SlopeCheck2");
         _groundMask = LayerMask.GetMask("Ground");
+
+        _canDash = true;
     }
 
     private void Update()
@@ -43,6 +47,15 @@ public class MoveStatusHandler : FindChildObject
         RayCheck();
 
         RaycastHit2D targetHit = default;
+
+        if (!_canDash)
+        {
+            _dashTimer += Time.deltaTime;
+            if (_dashTimer >= 3f)
+            {
+                _canDash = true;
+            }
+        }
 
         if (hit && hit2)
         {
@@ -75,6 +88,11 @@ public class MoveStatusHandler : FindChildObject
 
         OnGroundStateChanged?.Invoke(_isGround);
     }
+
+    public void StartDash()
+    {
+        _canDash = false;
+    }
     
     public void RayCheck()
     {
@@ -98,6 +116,11 @@ public class MoveStatusHandler : FindChildObject
             _isSlope = false;
     }
 
+    public void StartDashCooltime()
+    {
+        _canDash = false;
+        _dashTimer = 0f;
+    }
 
     private void OnDrawGizmos()
     {

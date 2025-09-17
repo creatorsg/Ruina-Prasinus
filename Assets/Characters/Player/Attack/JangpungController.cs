@@ -13,6 +13,8 @@ public class JangpungController : MonoBehaviour
     public event System.Action<bool> OnLookUp;
     public event System.Action<bool> OnLieDown;
 
+    public bool _isAttack;
+
 
     void Awake()
     {
@@ -61,6 +63,7 @@ public class JangpungController : MonoBehaviour
 
     private void LaunchProjectile(Vector2 direction)
     {
+        _isAttack = true;
         GameObject obj = Instantiate(jangpung.projectilePrefab, transform.position, Quaternion.identity);
         if (obj.TryGetComponent<Rigidbody2D>(out var rb))
         {

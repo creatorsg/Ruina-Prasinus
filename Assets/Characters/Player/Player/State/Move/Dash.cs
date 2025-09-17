@@ -12,14 +12,21 @@ public class Dash : State<MainPlayer>
 
     public override void Enter(MainPlayer player)
     {
+        player.footsound.PlayDashSound();
         Debug.Log("대쉬 진입");
-
         _dashTimer = 0f;
         _currentDashSpeed = 10f;
     }
 
     public override void Execute(MainPlayer player)
     {
+        _dashTimer += Time.deltaTime;
+
+        if (InputManager.GetKeyDown("Attack"))
+        {
+            player.ChangeMoveState(MoveBehavior.Idle);
+        }
+
         if (player.InputHandler.IsDashHeld && player.MoveHandler.IsWalking)
         {
             if (_dashTimer < _dashRemainTime)
@@ -65,6 +72,7 @@ public class Dash : State<MainPlayer>
 
     public override void Exit(MainPlayer player)
     {
+        player.MoveStatusHandler.StartDashCooltime();
         player.InputHandler.UseDashRequest();
         Debug.Log("대쉬 종료");
     }

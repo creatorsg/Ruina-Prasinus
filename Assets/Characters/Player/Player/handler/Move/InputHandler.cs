@@ -106,4 +106,5 @@ public class InputHandler : MonoBehaviour
         _jumpRequested = false;
         _jumpBufferTimer = 0f; 
     }
+
 }

@@ -27,7 +27,7 @@ public class Walk : State<MainPlayer>
                                 player.MoveStatusHandler.Perp.y * _moveSpeed * -player.InputHandler.MoveInput * dt);
             }
         } 
-        if (player.InputHandler.DashRequested && player.MoveStatusHandler.CanJump && player.InputHandler.IsDashHeld)
+        if (player.InputHandler.DashRequested && player.MoveStatusHandler.CanJump && player.InputHandler.IsDashHeld && player.MoveStatusHandler.CanDash)
         {
             player.ChangeMoveState(MoveBehavior.Dash);
         }

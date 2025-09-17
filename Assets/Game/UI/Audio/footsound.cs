@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class footsound : MonoBehaviour
 {
+    private MainPlayer _Mainplayer;
     string _walkSound = MusicStorage.GetSE("WalkSound");
     [SerializeField] EventReference _dashSound;
     [SerializeField] EventReference _riverSound;
@@ -16,6 +17,11 @@ public class footsound : MonoBehaviour
     private float _time, _riverTime;
 
     private bool _wasDashing;
+
+    public void Initialize(MainPlayer player)
+    {
+        _Mainplayer = player;
+    }
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -45,14 +51,6 @@ public class footsound : MonoBehaviour
                 _time = 0f;
             }
         }
-
-        // IsDashing이 막 true로 바뀐 순간만 감지
-        if (_playermove.IsDashing && !_wasDashing)
-        {
-            PlayDashSound();
-        }
-
-        // 현재 상태를 저장해서 다음 프레임 비교용
         _wasDashing = _playermove.IsDashing;
     }
 

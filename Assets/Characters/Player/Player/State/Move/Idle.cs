@@ -14,7 +14,7 @@ public class Idle : State<MainPlayer>
         {
             player.ChangeMoveState(MoveBehavior.Walk);
         }
-        if(player.InputHandler.IsDashHeld)
+        if(player.InputHandler.IsDashHeld && player.MoveStatusHandler.CanDash)
         {
             player.ChangeMoveState(MoveBehavior.Dash);
         }

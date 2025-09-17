@@ -9,7 +9,7 @@ public class None : State<MainPlayer>
 
     public override void Execute(MainPlayer player)
     {
-
+        
     }
     public override void FixedExecute(MainPlayer player)
     {

@@ -14,6 +14,7 @@ public class MoveStateHandler : MonoBehaviour
         if (_player.InputHandler.DashRequested && _player.MoveStatusHandler.CanJump && _player.InputHandler.IsDashHeld)
         {
             _player.ChangeMoveState(MoveBehavior.Dash);
+
         }
         else if (_player.InputHandler.JumpRequested && _player.MoveStatusHandler.CanJump)
         {

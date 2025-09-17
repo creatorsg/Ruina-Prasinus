@@ -31,6 +31,7 @@ public class MainPlayer : CharacterBase
     private MoveStatusHandler _moveStatusHandler;
     private playerHpHandler _playerHpHandler;
     private YDeltaChecker _yDeltaChecker;
+    private footsound _footSound;
 
     public Transform HandlerTransform => _handlerTransform;
     public AnimatorManager AnimatorManager => _animatorManager;
@@ -40,6 +41,7 @@ public class MainPlayer : CharacterBase
     public MoveStatusHandler MoveStatusHandler => _moveStatusHandler;
     public playerHpHandler PlayerHpHandler => _playerHpHandler;
     public YDeltaChecker YDeltaChecker => _yDeltaChecker;
+    public footsound footsound => _footSound;
 
     //BugM0
     public event Action<MoveBehavior> OnMoveStateChanged;
@@ -52,6 +54,7 @@ public class MainPlayer : CharacterBase
         _moveHandler = _handlerTransform.GetComponent<MoveHandler>();
         _playerHpHandler = _handlerTransform.GetComponent<playerHpHandler>();
         _yDeltaChecker = _handlerTransform.GetComponent<YDeltaChecker>();
+        _footSound = _handlerTransform.GetComponent<footsound>();
     }
 
     private void Start()
@@ -61,6 +64,7 @@ public class MainPlayer : CharacterBase
         _moveHandler.Initialize(this);
         _playerHpHandler.Initialize(this,_data.PlayerHp);
         _yDeltaChecker.Initialize(this);
+        _footSound.Initialize(this);
 
         SetUp();
     }
