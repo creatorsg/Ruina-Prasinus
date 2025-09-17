@@ -1569,6 +1569,75 @@ Transform:
   - {fileID: 876753848}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1613963757
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 815577056579338469, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_Name
+      value: Elite1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270215132705375286, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: jumpForce
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270215132705375286, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: moveSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270215132705375286, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: attackDashSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051425385991793875, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 00c760d66fc13ed45bab451d286128ca, type: 3}
 --- !u!1 &1726577969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1832,7 +1901,7 @@ Transform:
   m_GameObject: {fileID: 1726577969}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.37, y: -3.04, z: 0}
+  m_LocalPosition: {x: -2.95, y: -2.04, z: 0}
   m_LocalScale: {x: 0.28973958, y: 0.24367183, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3107,11 +3176,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6099852874045523933, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.81
+      value: 38.53
       objectReference: {fileID: 0}
     - target: {fileID: 6099852874045523933, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7
+      value: -2.25
       objectReference: {fileID: 0}
     - target: {fileID: 6099852874045523933, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3231,3 +3300,4 @@ SceneRoots:
   - {fileID: 2871642659050828676}
   - {fileID: 253936065}
   - {fileID: 846408167}
+  - {fileID: 1613963757}
