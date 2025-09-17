@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Elite1State))]
 [RequireComponent(typeof(Elite1Handler))]
@@ -30,19 +31,18 @@ public class Elite1action : MonoBehaviour
                 StateIdle(); // 상태 전환 직후 멈춤
                 break;
             case Elite1State.State.Attack:
-                StateAttack(); // Attack 상태 진입 시 한 번만 실행
+                StartCoroutine(StateAttack()); // 코루틴 실행
                 break;
         }
     }
 
     private void FixedUpdate()
     {
-        switch (state.currentState) // ✅ 여기서 currentState 사용
+        switch (state.currentState)
         {
             case Elite1State.State.Chase:
                 StateChase();
                 break;
-            
         }
     }
 
@@ -59,27 +59,60 @@ public class Elite1action : MonoBehaviour
         rb.linearVelocity = new Vector2(dir.x * handler.moveSpeed, rb.linearVelocity.y);
     }
 
-    private void StateAttack()
+    private IEnumerator StateAttack()
     {
-        if (player == null) return;
+        if (player == null) yield break;
 
+        // 공격 실행 (한 번만)
         if (Random.value < 0.5f)
             AttackDash();
         else
             AttackJump();
+
+        // 1초 대기
+        yield return new WaitForSeconds(3f);
+
+        // 공격 후 이전 상태로 복귀
+        state.ReturnToPreviousState();
     }
 
     private void AttackDash()
     {
-        // 돌진
+        if (player == null) return;
+        StartCoroutine(AttackDashRoutine());
+    }
+
+    private IEnumerator AttackDashRoutine()
+    {
+        // 0.5초 대기 (돌진 준비)
+        yield return new WaitForSeconds(0.5f);
+
+        if (player == null) yield break;
+
+        // 돌진 (플레이어 방향으로 빠르게 이동)
         Vector2 dir = (player.position - transform.position).normalized;
         rb.linearVelocity = new Vector2(dir.x * handler.attackDashSpeed, rb.linearVelocity.y);
     }
 
+
     private void AttackJump()
     {
-        // 점프
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, handler.jumpForce);
+        if (player == null) return;
+        StartCoroutine(AttackJumpRoutine());
+    }
+
+    private IEnumerator AttackJumpRoutine()
+    {
+        // 0.5초 대기 (점프 준비 모션 등)
+        yield return new WaitForSeconds(0.5f);
+
+        if (player == null) yield break;
+
+        // 플레이어 방향 (x축 기준)
+        Vector2 dir = (player.position - transform.position).normalized;
+
+        // 앞으로 + 위로 점프
+        rb.linearVelocity = new Vector2(dir.x * handler.moveSpeed * 2f, handler.jumpForce);
     }
 
 }
