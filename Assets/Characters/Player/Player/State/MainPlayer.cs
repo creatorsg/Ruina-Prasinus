@@ -78,18 +78,32 @@ public class MainPlayer : CharacterBase
         _move[(int)MoveBehavior.Idle] = new Idle();
         _moveMachine = new StateMachine<MainPlayer>();
         _moveMachine.SetUp(this, _move[(int)MoveBehavior.Idle]);
+
+        _event = new State<MainPlayer>[4];
+        _event[(int)EventBehavior.None] = new None();
+        _event[(int)EventBehavior.Attack] = new Attack();
+        _event[(int)EventBehavior.Hit] = new Hit();
+        _event[(int)EventBehavior.Die] = new Die();
+        _eventMachine = new StateMachine<MainPlayer>();
+        _eventMachine.SetUp(this, _event[(int)EventBehavior.None]);
     }
 
     public override void Updated()
     {
         if (_moveMachine != null)
             _moveMachine.Execute();
+
+        if(_eventMachine != null)
+            _eventMachine.Execute();
     }
 
     public override void FixedUpdated()
     {
         if (_moveMachine != null)
             _moveMachine.FixedExecute();
+
+        if (_eventMachine != null)
+            _eventMachine.FixedExecute();
     }
 
     public void ChangeMoveState(MoveBehavior state)

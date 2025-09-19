@@ -7,7 +7,6 @@ public class Jump : State<MainPlayer>
     private float _currentSpeed, _walkTimer, _jumpTimer;
     private float _walkAccelTime, _maxWalkSpeed, dt = Time.deltaTime;
     private bool _isFalling;
-    private Rigidbody2D rb;
     public Jump(float jumpPower, float jumpAccelPower, float jumpRemainTime)
     {
         _jumpPower = jumpPower;
@@ -17,20 +16,19 @@ public class Jump : State<MainPlayer>
 
     public override void Enter(MainPlayer player)
     {
-        rb = player.Rigidbody2D;
         _isFalling = false;
         _currentSpeed = 5f;
         _jumpTimer = 0f;
         _maxJumpTime = 0.1f;
         player.Rigidbody2D.linearVelocity = new Vector2(0, 0);
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 5f);
+        player.Rigidbody2D.linearVelocity = new Vector2(player.Rigidbody2D.linearVelocity.x, 5f);
     }
 
     public override void Execute(MainPlayer player)
     {
         if (player.InputHandler.IsJumpHeld && _jumpTimer <= _maxJumpTime)
         {
-            rb.AddForce(Vector2.up * 50f * Time.deltaTime, ForceMode2D.Impulse);
+            player.Rigidbody2D.AddForce(Vector2.up * 50f * Time.deltaTime, ForceMode2D.Impulse);
             _jumpTimer += Time.deltaTime;
         }
 
@@ -59,11 +57,10 @@ public class Jump : State<MainPlayer>
             _isFalling = true;
         }
 
-        if(player.YDeltaChecker.IsFalling)
+        if(player.YDeltaChecker.IsFalling && !player.PlayerHpHandler.IsHeating)
         {
-            rb.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
+            player.Rigidbody2D.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
         }
-        
     }
 
     public override void FixedExecute(MainPlayer player)
@@ -72,8 +69,10 @@ public class Jump : State<MainPlayer>
     }
 
     public override void Exit(MainPlayer player)
-    {   
-        Debug.Log("점프 종료");
+    {
         player.InputHandler.UseJumpRequest();
+        Debug.Log("점프 종료");
+        player.Rigidbody2D.linearVelocity = Vector2.zero;
+        player.Rigidbody2D.angularVelocity = 0f;
     }
 }

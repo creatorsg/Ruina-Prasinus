@@ -10,13 +10,21 @@ public class Idle : State<MainPlayer>
 
     public override void Execute(MainPlayer player)
     {
-        if(player.InputHandler.MoveInput != 0)
+        if (!player.PlayerHpHandler.IsHeating)
         {
-            player.ChangeMoveState(MoveBehavior.Walk);
+            if (player.InputHandler.MoveInput != 0)
+            {
+                player.ChangeMoveState(MoveBehavior.Walk);
+            }
+            if (player.InputHandler.IsDashHeld && player.MoveStatusHandler.CanDash)
+            {
+                player.ChangeMoveState(MoveBehavior.Dash);
+            }
         }
-        if(player.InputHandler.IsDashHeld && player.MoveStatusHandler.CanDash)
+
+        if (player.YDeltaChecker.IsFalling && !player.PlayerHpHandler.IsHeating)
         {
-            player.ChangeMoveState(MoveBehavior.Dash);
+            player.Rigidbody2D.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
         }
     }
 

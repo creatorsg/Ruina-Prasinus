@@ -9,7 +9,9 @@ public class Enemy1AttackHandler : MonoBehaviour
     private float _hp, _attackPower;
 
     private float _heatTimer;
-    private bool _isHeating;
+    private bool _isHeating, _attacking;
+
+    public bool Attacking => _attacking;
 
     public void Initialize(Butterflymon enemy1, float Hp, float attackPower)
     {
@@ -53,10 +55,17 @@ public class Enemy1AttackHandler : MonoBehaviour
         {
             if (hitCollider == _playerHp.Hitbox)
             {
-                _playerHp.Damaged(_attackPower);
+                Debug.Log("¥Í¿Ω");
+                _playerHp.Damaged(_attackPower, transform);
+                _attacking = true;
                 break; 
             }
         }
+    }
+
+    public void AttackEnd()
+    {
+        _attacking = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)

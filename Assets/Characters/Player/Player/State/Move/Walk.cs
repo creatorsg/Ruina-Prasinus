@@ -31,6 +31,11 @@ public class Walk : State<MainPlayer>
         {
             player.ChangeMoveState(MoveBehavior.Dash);
         }
+
+        if (player.YDeltaChecker.IsFalling && !player.PlayerHpHandler.IsHeating)
+        {
+            player.Rigidbody2D.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
+        }
     }
 
     public override void FixedExecute(MainPlayer player)

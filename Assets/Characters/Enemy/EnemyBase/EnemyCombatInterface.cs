@@ -4,5 +4,5 @@ public interface EnemyCombatInterface
 {
     public void Attack(float _attakPower);
 
-    public void Damaged(float _playerAttack);
+    public void Damaged(float _currentHp,float _playerAttack);
 }

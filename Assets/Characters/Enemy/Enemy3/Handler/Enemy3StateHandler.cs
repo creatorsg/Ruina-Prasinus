@@ -4,6 +4,8 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Enemy3StateHandler : FindChildObject
 {
+    private EnemyAttackHandler attackHandler;
+
     private PurpleMushroom _enemy3;
 
     private RaycastHit2D _hit, _hit2;
@@ -12,7 +14,7 @@ public class Enemy3StateHandler : FindChildObject
     private Vector2 _perp, _dir;
     private float _angle, _detectDistance, _explodeDistance;
     private GameObject _explosion;
-    private float explodeAction = 0;
+    private float explodeAction = 0, _currentHp;
     private bool _isCliff, _isSlope, _playerCheck, _isMoving, _isGround, _isRush, _isHitWall;
 
     public Vector2 Perp => _perp;
@@ -33,10 +35,12 @@ public class Enemy3StateHandler : FindChildObject
     {
         _realMovement = FindChildWithTag(transform, "SlopeCheck");
         _realMovement2 = FindChildWithTag(transform, "SlopeCheck2");
+        attackHandler = GetComponent<EnemyAttackHandler>();
         _groundMask = LayerMask.GetMask("Ground");
         _playerMask = LayerMask.GetMask("Player");
 
         _explosion = Resources.Load<GameObject>("Circle");
+        _currentHp = 10f;
     }
 
     private void Update()
@@ -49,6 +53,11 @@ public class Enemy3StateHandler : FindChildObject
         if(_isRush)
         {
             CheckExplode();
+        }
+
+        if(_currentHp <= 0)
+        {
+            Destroy(gameObject);
         }
 
         RaycastHit2D targetHit = default;
@@ -147,6 +156,11 @@ public class Enemy3StateHandler : FindChildObject
         else if(collision.CompareTag("DeadZone"))
         {
             Destroy(gameObject);
+        }
+        else if(collision.CompareTag("Bullet"))
+        {
+            attackHandler.Damaged(_currentHp, 5f);
+            _currentHp = _currentHp - 5f;
         }
     }
 

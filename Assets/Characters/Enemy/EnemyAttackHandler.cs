@@ -6,7 +6,7 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
 {
     private PolygonCollider2D _enemyCollider;
     private playerHpHandler _playerHp;
-    private float _enemyHp; // 외부에 따로 짜서 가져올 거 지금은 임시로 박아둠
+    private float _enemyHp; 
     private bool _heatTerm;
 
     private void Awake()
@@ -32,19 +32,20 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
         {
             if (hitCollider == _playerHp.Hitbox)
             {
-                _playerHp.Damaged(_attackPower);
+                _playerHp.Damaged(_attackPower,transform);
                 break;
             }
         }
     }
 
-    public void Damaged(float _playerAttack)
+    public void Damaged(float _enemyHp,float _playerAttack)
     {
         if (_heatTerm)
         {
             _enemyHp -= _playerAttack;
             _heatTerm = false;
             StartCoroutine(DamageTerm());
+            Debug.Log(_enemyHp);
         }
     }
 

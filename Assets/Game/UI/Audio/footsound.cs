@@ -43,7 +43,7 @@ public class footsound : MonoBehaviour
     {
         _time += Time.deltaTime;
 
-        if (_playermove.IsWalking)
+        if (_playermove.IsWalking && _Mainplayer.MoveStatusHandler.CanJump)
         {
             if (_time >= _rate)
             {
@@ -54,14 +54,6 @@ public class footsound : MonoBehaviour
         _wasDashing = _playermove.IsDashing;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (_boxCollider2D.CompareTag("Player") && !_riverSoundPlayed)
-        {
-            RuntimeManager.PlayOneShotAttached(_riverSound, _river);
-            _riverSoundPlayed = true;
-        }
-    }
 
 
     public void PlayWalkSound()

@@ -17,7 +17,6 @@ public class Hitbox : MonoBehaviour
             if (_hpHandler != null)
             {
 
-                _hpHandler.Damaged(10f);
             }
             else
             {
