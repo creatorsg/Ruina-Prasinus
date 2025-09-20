@@ -68,20 +68,16 @@ public class MovementAnimation : MonoBehaviour
             {
                 if (currentState == "Running" || currentState == "RunningStart")
                 {
-                    // 이전에 걷기 상태였다면 Stop 실행
                     StartCoroutine(PlayIntermediate("Stop", "Idle", 0.2f));
                     return;
                 }
 
-                // 이전 상태가 Dash였다면 ToIdle 재생
                 if (currentState.StartsWith("Dash"))
                 {
                     StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.2f));
                     return;
                 }
-
                 calculatedState = "Idle";
-
             }
 
         }
@@ -214,6 +210,9 @@ public class MovementAnimation : MonoBehaviour
 
     private void SitDown(bool down)
     {
-        animator.SetBool("isSitting", down);
+        if (!isGround) return;
+        
+        if (isGround)
+            animator.SetBool("isSitting", down);
     }
 }

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sit
+  m_Name: ToDash
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,13 +21,17 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -8512510882139683473, guid: ef545db5885e2d5438b3df805b9441b6, type: 3}
+      value: {fileID: -8491115964450809101, guid: 77b5cdf10493a2843ba0811a49d9201f, type: 3}
+    - time: 0.075
+      value: {fileID: 4793322697890291935, guid: 77b5cdf10493a2843ba0811a49d9201f, type: 3}
+    - time: 0.165
+      value: {fileID: 4793322697890291935, guid: 77b5cdf10493a2843ba0811a49d9201f, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 12
+  m_SampleRate: 100
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -44,13 +48,15 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -8512510882139683473, guid: ef545db5885e2d5438b3df805b9441b6, type: 3}
+    - {fileID: -8491115964450809101, guid: 77b5cdf10493a2843ba0811a49d9201f, type: 3}
+    - {fileID: 4793322697890291935, guid: 77b5cdf10493a2843ba0811a49d9201f, type: 3}
+    - {fileID: 4793322697890291935, guid: 77b5cdf10493a2843ba0811a49d9201f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.083333336
+    m_StopTime: 0.17500001
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -61,7 +67,7 @@ AnimationClip:
     m_LoopBlendPositionY: 0
     m_LoopBlendPositionXZ: 0
     m_KeepOriginalOrientation: 0
-    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionY: 0
     m_KeepOriginalPositionXZ: 0
     m_HeightFromFeet: 0
     m_Mirror: 0
