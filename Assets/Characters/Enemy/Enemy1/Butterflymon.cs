@@ -17,7 +17,8 @@ public class Butterflymon : CharacterBase
 
     private Enemy1SpawnHandler _spawnHandler;
     private Enemy1MoveHandler _moveHandler;
-    private Enemy1AttackHandler _attackHandler; 
+    private Enemy1AttackHandler _attackHandler;
+    private PauseManager _pauseManager;
 
     public Transform HandlerTransform => _handlerTransform;
     public Rigidbody2D Rigidbody2D => _rigidBody2D;
@@ -32,6 +33,7 @@ public class Butterflymon : CharacterBase
         _spawnHandler = _handlerTransform.GetComponent<Enemy1SpawnHandler>();
         _moveHandler = _handlerTransform.GetComponent <Enemy1MoveHandler>();
         _attackHandler = _handlerTransform .GetComponent<Enemy1AttackHandler>();
+        _pauseManager = GetComponent<PauseManager>();
     }
 
     private void Start()
@@ -56,12 +58,16 @@ public class Butterflymon : CharacterBase
 
     public override void Updated()
     {
+        if (_pauseManager != null && _pauseManager.Pause) 
+            return;
         if (_enemyMachine != null)
             _enemyMachine.Execute();
     }
 
     public override void FixedUpdated()
     {
+        if (_pauseManager != null && _pauseManager.Pause) return;
+
         if (_enemyMachine != null)
             _enemyMachine.FixedExecute();
     }
