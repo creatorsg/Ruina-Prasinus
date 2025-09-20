@@ -28,6 +28,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 224000
+--- !u!114 &-7340950590864065063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SE/Attack2
+  m_EditorClassIdentifier: 
+  Path: event:/SE/Attack2
+  Guid:
+    Data1: 746567045
+    Data2: 1241957224
+    Data3: -774956359
+    Data4: 957826931
+  Banks:
+  - {fileID: 5547784473623472682}
+  - {fileID: 9201740549294456544}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-5837093373913331392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,10 +91,10 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638933322129975463
+  lastModified: 638939363855620755
   FileSizes:
   - Name: Desktop
-    Value: 1370
+    Value: 1414
   Exists: 1
 --- !u!114 &-4336730434027489241
 MonoBehaviour:
@@ -107,8 +135,8 @@ MonoBehaviour:
     Data3: -1012727166
     Data4: -1718460427
   Banks:
-  - {fileID: 9201740549294456544}
   - {fileID: 5547784473623472682}
+  - {fileID: 9201740549294456544}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -135,8 +163,8 @@ MonoBehaviour:
     Data3: 1938362556
     Data4: -978168224
   Banks:
-  - {fileID: 9201740549294456544}
   - {fileID: 5547784473623472682}
+  - {fileID: 9201740549294456544}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -171,13 +199,14 @@ MonoBehaviour:
   - {fileID: -8481185447217812922}
   - {fileID: 3044156342335476176}
   - {fileID: 5340893738626908986}
+  - {fileID: -7340950590864065063}
   EditorParameters: []
   MasterBanks:
   - {fileID: 5547784473623472682}
   StringsBanks:
   - {fileID: -4870711777471444991}
   cacheVersion: 131848
-  cacheTime: 638933322129975463
+  cacheTime: 638939363855887872
   SerializableEventsDict:
   - key: event:/SE/Dash
     index: 0
@@ -193,6 +222,8 @@ MonoBehaviour:
     index: 5
   - key: event:/BGS/River
     index: 6
+  - key: event:/SE/Attack2
+    index: 7
 --- !u!114 &2198917018511444639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,8 +243,8 @@ MonoBehaviour:
     Data3: 2088694154
     Data4: 808045647
   Banks:
-  - {fileID: 9201740549294456544}
   - {fileID: 5547784473623472682}
+  - {fileID: 9201740549294456544}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -312,10 +343,10 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638933322129965462
+  lastModified: 638939363855585651
   FileSizes:
   - Name: Desktop
-    Value: 2885472
+    Value: 2891392
   Exists: 1
 --- !u!114 &8171697585673743685
 MonoBehaviour:
@@ -336,8 +367,8 @@ MonoBehaviour:
     Data3: -281053518
     Data4: -885772765
   Banks:
-  - {fileID: 9201740549294456544}
   - {fileID: 5547784473623472682}
+  - {fileID: 9201740549294456544}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -360,8 +391,8 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/SE.bank
   Name: SE
   StudioPath: bank:/SE
-  lastModified: 638933320621898787
+  lastModified: 638939363855887872
   FileSizes:
   - Name: Desktop
-    Value: 40576
+    Value: 46464
   Exists: 1

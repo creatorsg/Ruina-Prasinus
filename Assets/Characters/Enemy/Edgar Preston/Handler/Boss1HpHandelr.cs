@@ -6,7 +6,7 @@ public class Boss1HpHandelr : MonoBehaviour
     private Preston _boss1;
     private float _initialHp, _currentHp;
     private bool _page2;
-
+    
     public bool Page2 => _page2;
 
     public void Initialize(Preston boss1, float Hp)

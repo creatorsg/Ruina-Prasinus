@@ -30,7 +30,9 @@ public class playerHpHandler : FindChildObject
         _hitbox = gameObject.GetComponentInChildren<PolygonCollider2D>();
         _playerbody = FindChildWithTag(transform, "PlayerBody");
         _isHeating = false;
-        _isInvicible = false;   
+        _isInvicible = false;
+
+        _hp = 50;
     }
 
     private void Update()
@@ -38,6 +40,12 @@ public class playerHpHandler : FindChildObject
         if (_isHeating)
         {
             _player.ChangeMoveState(MoveBehavior.Idle);
+            Debug.Log(_hp);
+        }
+
+        if(_hp <= 0)
+        {
+            _player.ChangeEventState(EventBehavior.Die);
         }
     }
 
@@ -53,8 +61,6 @@ public class playerHpHandler : FindChildObject
 
             float damagejump = _player.MoveStatusHandler.CanJump ? 3f : 5f;
             _player.Rigidbody2D.linearVelocity = new Vector2(0f, damagejump);
-
-            _player.Rigidbody2D.AddForce(Vector2.down * 50f * Time.deltaTime, ForceMode2D.Impulse);
 
             StartCoroutine(HitRoutine());
         }
