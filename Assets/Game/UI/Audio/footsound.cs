@@ -33,7 +33,6 @@ public class footsound : MonoBehaviour
         }
 
         _river = GameObject.FindGameObjectWithTag("River");
-        RuntimeManager.PlayOneShotAttached(_riverSound, _river);
 
         if(_river == null)
         {

@@ -4,7 +4,6 @@ public class Idle : State<MainPlayer>
 {
     public override void Enter(MainPlayer player)
     {
-        Debug.Log("Idle ÁøÀÔ");
         player.MoveHandler.RemainMoveSpeed(0f);
     }
 

@@ -5041,6 +5041,28 @@ Sprite:
   m_Bones: []
   m_ScriptableObjects: []
   m_SpriteID: 
+--- !u!1 &1112317458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5136811276307946904, guid: d8f1bc13d43123c4e8fc27c22e60f263, type: 3}
+  m_PrefabInstance: {fileID: 1894951937}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1112317471 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7417118767367797843, guid: d8f1bc13d43123c4e8fc27c22e60f263, type: 3}
+  m_PrefabInstance: {fileID: 1894951937}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1112317472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112317458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3ad1be0154d9843af357e8ec95f5b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1114427208
 GameObject:
   m_ObjectHideFlags: 0
@@ -5080,7 +5102,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114427208}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e147e8ba2a0a4a419a86839d3558b4f, type: 3}
   m_Name: 
@@ -11255,7 +11277,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5136811276307946904, guid: d8f1bc13d43123c4e8fc27c22e60f263, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1112317472}
   m_SourcePrefab: {fileID: 100100000, guid: d8f1bc13d43123c4e8fc27c22e60f263, type: 3}
 --- !u!1 &1895267426
 GameObject:
@@ -12477,7 +12502,7 @@ PrefabInstance:
     - target: {fileID: 8502137028835115585, guid: eba77aa09667c0749b7efd57b91a9fa1, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1112317471}
     - target: {fileID: 8502137028835115585, guid: eba77aa09667c0749b7efd57b91a9fa1, type: 3}
       propertyPath: boundParent
       value: 

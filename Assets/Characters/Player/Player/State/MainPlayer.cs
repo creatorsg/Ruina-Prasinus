@@ -111,7 +111,6 @@ public class MainPlayer : CharacterBase
         _moveMachine.ChangeState(_move[(int)state]);
         //BugM0
         OnMoveStateChanged?.Invoke(state);
-        Debug.Log(state);
     }
 
     public void ChangeEventState(EventBehavior state)

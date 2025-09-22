@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterPlayer", menuName = "Scriptable Objects/CharacterPlayer")]
 public class CharacterPlayer : ScriptableObject
 {
-    private float _playerHp = 50f;
+    private float _playerHp = 100000f;
 
     [Header("walk")]
     private float _walkSpeed = 6.2f;
