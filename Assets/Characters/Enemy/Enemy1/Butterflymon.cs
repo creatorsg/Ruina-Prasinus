@@ -58,16 +58,12 @@ public class Butterflymon : CharacterBase
 
     public override void Updated()
     {
-        if (_pauseManager != null && _pauseManager.Pause) 
-            return;
         if (_enemyMachine != null)
             _enemyMachine.Execute();
     }
 
     public override void FixedUpdated()
     {
-        if (_pauseManager != null && _pauseManager.Pause) return;
-
         if (_enemyMachine != null)
             _enemyMachine.FixedExecute();
     }
