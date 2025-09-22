@@ -16,7 +16,6 @@ public class Jump : State<MainPlayer>
 
     public override void Enter(MainPlayer player)
     {
-        _isFalling = false;
         _currentSpeed = 5f;
         _jumpTimer = 0f;
         _maxJumpTime = 0.1f;

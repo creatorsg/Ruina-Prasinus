@@ -7,7 +7,8 @@ public class Pattern1Attack : MonoBehaviour
     private Preston _boss1;
     private playerHpHandler _playerHp;
     private Transform _pattern1, _pattern2, _pattern3, _pattern4, _player;
-    private Collider2D _attack1, _attack2, _attack3, _attack4;
+    private CapsuleCollider2D _attack1;
+    private BoxCollider2D _attack2, _attack3, _attack4;
 
     public void Initialize(Preston boss1)
     {
@@ -24,7 +25,7 @@ public class Pattern1Attack : MonoBehaviour
 
         _attack1 = _pattern1.GetComponentInChildren<CapsuleCollider2D>();
         _attack2 = _pattern2.GetComponentInChildren<BoxCollider2D>();
-
+        _attack4 = _pattern4.GetComponentInChildren<BoxCollider2D>();
 //        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
 //       _playerHp = playerObject.GetComponent<playerHpHandler>();
@@ -99,5 +100,23 @@ public class Pattern1Attack : MonoBehaviour
         }
 
         return index;
+    }
+
+    public void ADDSize()
+    {
+        if (_attack4 != null)
+        {
+            // 현재 크기 가져오기
+            Vector2 currentSize = _attack4.size;
+
+            // 1.2배로 증가
+            _attack4.size = currentSize * 1.2f;
+
+            Debug.Log($"_attack4 size increased: {_attack4.size}");
+        }
+        else
+        {
+            Debug.LogError("_attack4가 할당되지 않았습니다!");
+        }
     }
 }

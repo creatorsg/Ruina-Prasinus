@@ -15,6 +15,8 @@ public class MovementAnimation : MonoBehaviour
     private string calculatedState;     // 매 프레임 계산된 상태
     private bool isIntermediatePlaying; // Land, Stop 등 사이 상태 재생중 여부
 
+    private Coroutine dashCoroutine;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -57,17 +59,24 @@ public class MovementAnimation : MonoBehaviour
             }
             else if (animationTotal.isDash)
             {
-                calculatedState = "Dash";
+                if (dashCoroutine == null)
+                {
+                    dashCoroutine = StartCoroutine(PlayDashSequence());
+                }
             }
             else
             {
-                // 이전에 걷기/대시 상태였다면 Stop 실행
-                if (currentState == "Running" || currentState == "RunningStart" || currentState == "Dash")
+                if (currentState == "Running" || currentState == "RunningStart")
                 {
                     StartCoroutine(PlayIntermediate("Stop", "Idle", 0.2f));
                     return;
                 }
 
+                if (currentState.StartsWith("Dash"))
+                {
+                    StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.2f));
+                    return;
+                }
                 calculatedState = "Idle";
             }
 
@@ -149,6 +158,34 @@ public class MovementAnimation : MonoBehaviour
         intermediateCoroutine = null;
     }
 
+    private IEnumerator PlayDashSequence()
+    {
+        // 1. ToDash 재생
+        animator.Play("ToDash");
+        currentState = "ToDash";
+
+        // 한 프레임 대기 후 길이 가져오기
+        yield return null;
+        float toDashLength = animator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(toDashLength);
+
+        // 2. DashRepeat 재생
+        animator.Play("DashRepeat");
+        currentState = "DashRepeat";
+
+        // DashRepeat 지속 중
+        while (animationTotal.isDash && isGround)
+        {
+            yield return null;
+        }
+
+        // 3. Dash 종료 후 바로 Idle로 전환
+        ChangeAnimation("Idle", force: true);
+
+        dashCoroutine = null;
+    }
+
+
 
     public void OnAttackAnimationEnd()
     {
@@ -173,6 +210,9 @@ public class MovementAnimation : MonoBehaviour
 
     private void SitDown(bool down)
     {
-        animator.SetBool("isSitting", down);
+        if (!isGround) return;
+        
+        if (isGround)
+            animator.SetBool("isSitting", down);
     }
 }

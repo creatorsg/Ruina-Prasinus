@@ -8,6 +8,9 @@ public class DetectHandler : MonoBehaviour
     private float _direction;
     private LayerMask _groundMask;
     private RaycastHit2D _hit;
+    private Vector2 _dir;
+
+    public Vector2 Dir => _dir;
     public GameObject Player => _player;
 
     public RaycastHit2D Hit => _hit;
@@ -26,7 +29,7 @@ public class DetectHandler : MonoBehaviour
 
     private void Update()
     {
-
+        _dir = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
     }
 
 }

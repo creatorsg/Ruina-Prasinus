@@ -8,7 +8,6 @@ public class Enemy1Attack : State<Butterflymon>
     private float _moveSpeed;
 
     private bool _canAttack, _cooldown;
-
     public Enemy1Attack(float attackDistance, float moveSpeed)
     {
         _attackDistance = attackDistance;
