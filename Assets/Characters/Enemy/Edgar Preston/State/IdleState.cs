@@ -6,7 +6,6 @@ public class IdleState : State<Preston>
     private BossBehaviour _nextPattern;
     public override void Enter(Preston boss)
     {
-        Debug.Log("Idle Ω√¿€");
         _timer = 0f;
 
         int pattern = boss.Pattern1Attack.RandomPattern();
@@ -29,6 +28,5 @@ public class IdleState : State<Preston>
     }
     public override void Exit(Preston boss)
     {
-        Debug.Log("Idle ≈ª√‚");
     }
 }

@@ -7,7 +7,6 @@ public class StunState : State<Preston>
     private float _phaseTimer;
     public override void Enter(Preston boss)
     {
-        Debug.Log("스턴 입장");
         _currentPhase = Phase.LieDown;
     }
 
