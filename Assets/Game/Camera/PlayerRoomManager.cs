@@ -13,7 +13,7 @@ public class PlayerRoomDetector : MonoBehaviour
     {
         if (other.CompareTag("RoomBound"))
         {
-            cameraFollow.cameraBounds = other.GetComponent<BoxCollider2D>();
+            cameraFollow.TransitionToNewRoom(other.GetComponent<BoxCollider2D>());
         }
     }
 }
