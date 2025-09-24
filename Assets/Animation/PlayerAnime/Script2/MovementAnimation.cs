@@ -30,7 +30,6 @@ public class MovementAnimation : MonoBehaviour
     private void Update()
     {
         if (animationTotal == null) return;
-        Debug.Log(calculatedState);
 
         // -------------------------
         // 1. 상태 계산 (계속 갱신)
@@ -103,12 +102,15 @@ public class MovementAnimation : MonoBehaviour
 
         if (attackNotifier != null && attackNotifier.IsAttacking)
         {
-            if (currentState != "Attack")
-                ChangeAnimation("Attack", force: true);
+            // 현재 공격 중이라면 Animator.Play 호출 금지
+            // 대신 논리적 상태만 기록
+            currentState = "Attack";
 
-            // Attack 중에는 Update에서 calculatedState 적용 금지
+            // Update에서 calculatedState 적용 금지
             return;
         }
+
+
 
         if (!string.IsNullOrEmpty(calculatedState) && currentState != calculatedState)
         {
@@ -252,23 +254,18 @@ public class MovementAnimation : MonoBehaviour
 
     private void ChangeAnimation(string newState, bool force = false)
     {
-        Debug.Log($"ChangeAnimation 요청: {currentState} -> {newState} (force={force}, calc={calculatedState})");
-        if (!force)
+        if (!animator.HasState(0, Animator.StringToHash(newState)))
         {
-            // Intermediate 중엔 Idle로 바꾸지 않음
-            if (isIntermediatePlaying && newState == "Idle")
-                return;
-
-            if (currentState == "Running" && newState == "Idle")
-                return;
-
-            if (currentState == newState)
-                return;
+            Debug.LogWarning($"Animator에 상태 없음: {newState}");
+            return;
         }
 
-        animator.Play(newState);
+        if (!force && currentState == newState) return;
+
+        animator.Play(newState, 0, 0f);
         currentState = newState;
     }
+
 
 
     private void LookUp(bool up)
@@ -285,7 +282,7 @@ public class MovementAnimation : MonoBehaviour
 
 
     private void SitDown(bool down)
-    {
+    {   
         if (!isGround) return;
 
         if (isGround)

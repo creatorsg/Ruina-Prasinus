@@ -16,7 +16,6 @@ public class MainPlayer : CharacterBase
 {
     [SerializeField] private CharacterPlayer _data;
     [SerializeField] private Transform _handlerTransform;
-    [SerializeField] private AnimatorManager _animatorManager;
 
     public State<MainPlayer>[] _move;
     public State<MainPlayer>[] _event;
@@ -34,7 +33,6 @@ public class MainPlayer : CharacterBase
     private footsound _footSound;
 
     public Transform HandlerTransform => _handlerTransform;
-    public AnimatorManager AnimatorManager => _animatorManager;
     public Rigidbody2D Rigidbody2D => _rigidBody2D;
     public InputHandler InputHandler => _inputHandler;
     public MoveHandler MoveHandler => _moveHandler;

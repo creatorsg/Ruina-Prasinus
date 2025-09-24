@@ -40,16 +40,7 @@ public class MoveHandler : MonoBehaviour
             _isWalking = false;
         }
 
-        if (IsWalking)
-        {
-            _player.AnimatorManager?.SetMoveBool(true);
-        }
-
-
-        if (!IsWalking)
-        {
-            _player.AnimatorManager?.SetMoveBool(false);
-        }
+        
 
         if(_player.InputHandler.DashRequested == true)
         {
