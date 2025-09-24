@@ -463,8 +463,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../OneDrive/LuniaDemo/LuniaDemo.fspro
-  sourceBankPath: ../OneDrive/LuniaDemo/Build
+  sourceProjectPath: ../Desktop/LuniaDemo/LuniaDemo.fspro
+  sourceBankPath: ../Desktop/LuniaDemo/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1

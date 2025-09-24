@@ -199,7 +199,7 @@ public class MovementAnimation : MonoBehaviour
             {
                 // 걷지 않고 멈춰있다면 ToIdle 재생
                 StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.5f));
-                Debug.Log("Dash -> ToIdle" );
+                Debug.Log("Dash -> ToIdle");
             }
             else
             {
@@ -282,7 +282,7 @@ public class MovementAnimation : MonoBehaviour
 
 
     private void SitDown(bool down)
-    {   
+    {
         if (!isGround) return;
 
         if (isGround)

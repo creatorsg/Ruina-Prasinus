@@ -9009,9 +9009,10 @@ GameObject:
   - component: {fileID: 2035025096}
   - component: {fileID: 2035025098}
   - component: {fileID: 2035025097}
+  - component: {fileID: 2035025099}
   m_Layer: 0
   m_Name: Tilemap (1)
-  m_TagString: River
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9469,6 +9470,20 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &2035025099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035025095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972cac814021c4040b70cc9b4918573c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 2035025098}
+  waterPrefab: {fileID: 1089600721688240885, guid: 67cf624e84d07474c8d69d5f601d9772, type: 3}
 --- !u!1 &2037813798
 GameObject:
   m_ObjectHideFlags: 0
