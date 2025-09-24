@@ -113285,7 +113285,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1345976633}
   - component: {fileID: 1345976632}
-  - component: {fileID: 1345976631}
   m_Layer: 7
   m_Name: "\uAC00\uC2DC\uB369\uCFE8"
   m_TagString: Untagged
@@ -113293,18 +113292,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1345976631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1345976630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e480c9a7aaa84a4a9b8d6bafaa21995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &1345976632
 SpriteRenderer:
   m_ObjectHideFlags: 0

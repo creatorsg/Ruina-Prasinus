@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Following_Player : MonoBehaviour
 {
-    public GameObject boundParent;
     public Transform player;
     public BoxCollider2D cameraBounds;
+    public GameObject boundParent;
+
 
     private float halfHeight;
     private float halfWidth;
@@ -21,13 +22,13 @@ public class Following_Player : MonoBehaviour
 
     void LateUpdate()
     {
-        Transform parentTransform = cameraBounds.transform.parent;
-
         if (player == null || cameraBounds == null) return;
+
         UpdateCameraHalfSize();
 
         if (!isTransitioning)
         {
+            // 일반 이동
             Bounds b = cameraBounds.bounds;
             float minX = b.min.x + halfWidth, maxX = b.max.x - halfWidth;
             float minY = b.min.y + halfHeight, maxY = b.max.y - halfHeight;
@@ -39,18 +40,20 @@ public class Following_Player : MonoBehaviour
         }
         else
         {
-            // 전환 중일 때는 targetPosition으로만 보간
-            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 2f);
+            // x축만 카메라 이동, Time.timeScale 영향 없이
+            float newX = Mathf.Lerp(transform.position.x, targetPosition.x, Time.unscaledDeltaTime * 2f);
+            float newY = Mathf.Lerp(transform.position.y, targetPosition.y, Time.unscaledDeltaTime * 2f);
+            transform.position = new Vector3(newX, newY, -10f);
 
             if (Vector3.Distance(transform.position, targetPosition) < 0.05f)
+            {
                 isTransitioning = false;
+                Time.timeScale = 1f; // 카메라 이동 끝나면 슬로우 모션 해제
+            }
         }
-
-        boundParent = parentTransform != null
-              ? parentTransform.gameObject
-              : null;
     }
 
+    // 방 이동 시작 시 호출
     public void TransitionToNewRoom(BoxCollider2D newBounds)
     {
         cameraBounds = newBounds;
@@ -64,6 +67,8 @@ public class Following_Player : MonoBehaviour
 
         targetPosition = new Vector3(cx, cy, -10f);
         isTransitioning = true;
+
+        Time.timeScale = 0f; // 플레이어 느리게 시작
     }
 
     void UpdateCameraHalfSize()
