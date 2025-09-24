@@ -39,6 +39,7 @@ public class Attack3State : State<Preston>
                 if (_phaseTimer >= 0.5f)
                 {
                     Debug.Log("3패턴 종료");
+                    boss.Pattern1Attack.CrushAttack();
                     boss.ChangeState(BossBehaviour.Stun);
                 }
                 break;

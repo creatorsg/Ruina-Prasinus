@@ -22,7 +22,6 @@ public class Attack1State : State<Preston>
         switch (_currentPhase)
         {
             case Phase.Walking:
-                Debug.Log("패턴 1 - 1");
                 if (_phaseTimer >= 3f)
                 {
                     _phaseTimer = 0f;
@@ -31,7 +30,6 @@ public class Attack1State : State<Preston>
                 break;
 
             case Phase.Pausing:
-                Debug.Log("패턴 1 - 2");
                 if (_phaseTimer >= 0.5f)
                 {
                     _phaseTimer = 0f; 
@@ -42,7 +40,6 @@ public class Attack1State : State<Preston>
                 break;
 
             case Phase.Dashing:
-                Debug.Log("패턴 1 - 3");
                 if (_phaseTimer >= 0.5f)
                 {
                     Debug.Log("패턴 1 종료");

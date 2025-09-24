@@ -66,7 +66,7 @@ public class Enemy1AttackHandler : MonoBehaviour
             if (hitCollider == _playerHp.Hitbox)
             {
                 Debug.Log("¥Í¿Ω");
-                _playerHp.Damaged(_attackPower, transform);
+                _playerHp.Damaged(_attackPower);
                 _attacking = true;
                 break; 
             }

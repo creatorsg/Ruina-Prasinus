@@ -9,6 +9,7 @@ public class Pattern1Attack : MonoBehaviour
     private Transform _pattern1, _pattern2, _pattern3, _pattern4, _player;
     private CapsuleCollider2D _attack1;
     private BoxCollider2D _attack2, _attack3, _attack4;
+    private GameObject bossCrush;
 
     public void Initialize(Preston boss1)
     {
@@ -17,6 +18,8 @@ public class Pattern1Attack : MonoBehaviour
 
     private void Awake()
     {
+        bossCrush = Resources.Load<GameObject>("bossCrush");
+
         _pattern1 = transform.Find("pattern1");
         _pattern2 = transform.Find("pattern2");
         _pattern3 = transform.Find("pattern3");
@@ -118,5 +121,12 @@ public class Pattern1Attack : MonoBehaviour
         {
             Debug.LogError("_attack4가 할당되지 않았습니다!");
         }
+    }
+
+    public void CrushAttack()
+    {
+        GameObject crush = Instantiate(bossCrush, _boss1.transform.position, Quaternion.identity);
+        
+        Destroy(crush, 0.5f);
     }
 }
