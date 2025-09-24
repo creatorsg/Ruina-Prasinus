@@ -7,11 +7,12 @@ public class AnimationTotal : MonoBehaviour
     [SerializeField] private MoveStatusHandler moveStatusHandler;
     [SerializeField] private JangpungController jangpungController;
 
-    public bool isGround; //true == 땅에 닿아있음, false == 공중에 떠있음
+    public bool isGround; // true == 땅에 닿아있음, false == 공중에 떠있음
+    public bool isWalk { get; private set; }
+    public bool isDash { get; private set; }
+    public bool isIdle { get; private set; }
 
-    public bool isWalk;
-    public bool isDash;
-    public bool isIdle;
+    private MoveBehavior currentState = MoveBehavior.Idle; // 현재 상태 기억
 
     private void Start()
     {
@@ -32,13 +33,22 @@ public class AnimationTotal : MonoBehaviour
         {
             mainPlayer.OnMoveStateChanged -= HandleMoveState;
         }
+
+        if (moveStatusHandler != null)
+        {
+            moveStatusHandler.OnGroundStateChanged -= SetGroundBool;
+        }
     }
 
-    public void HandleMoveState(MoveBehavior state)
+    public void HandleMoveState(MoveBehavior newState)
     {
-        isIdle = isWalk = isDash = false;
+        // 상태 값 초기화 (Idle 누락 방지)
+        isIdle = false;
+        isWalk = false;
+        isDash = false;
 
-        switch (state)
+        // 상태 업데이트
+        switch (newState)
         {
             case MoveBehavior.Walk:
                 isWalk = true;
@@ -50,12 +60,15 @@ public class AnimationTotal : MonoBehaviour
                 isIdle = true;
                 break;
         }
+
+        currentState = newState;
     }
 
     public void SetGroundBool(bool ground)
     {
-        isGround = ground;
+        if (isGround != ground)
+        {
+            isGround = ground;
+        }
     }
-
-
 }

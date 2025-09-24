@@ -1355,6 +1355,23 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &964998979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6682933496311436529, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
+  m_PrefabInstance: {fileID: 2871642659050828676}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &964998990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964998979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b6518d6e13e8642b30eb12be76c581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1145787127
 GameObject:
   m_ObjectHideFlags: 0
@@ -3237,6 +3254,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3327477253418876637, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
+      propertyPath: yDeltaChecker
+      value: 
+      objectReference: {fileID: 1822388920}
     - target: {fileID: 6099852874045523933, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 38.53
@@ -3281,7 +3302,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: RealMove 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2125917030474187360, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3291,6 +3313,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7151566428325570615, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1822388919}
+    - targetCorrespondingSourceObject: {fileID: 6682933496311436529, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 964998990}
   m_SourcePrefab: {fileID: 100100000, guid: 589776dd5e612f5408d190f71a43b2b6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

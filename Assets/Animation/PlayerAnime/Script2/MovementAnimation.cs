@@ -30,6 +30,7 @@ public class MovementAnimation : MonoBehaviour
     private void Update()
     {
         if (animationTotal == null) return;
+        Debug.Log(calculatedState);
 
         // -------------------------
         // 1. 상태 계산 (계속 갱신)
@@ -43,7 +44,6 @@ public class MovementAnimation : MonoBehaviour
 
         if (isGround)
         {
-            // 착지 순간 Land 실행
             if (!wasGround && isGround)
             {
                 StartCoroutine(PlayIntermediate("Land", "Idle", 0.3f));
@@ -66,36 +66,47 @@ public class MovementAnimation : MonoBehaviour
             }
             else
             {
-                if (currentState == "Running" || currentState == "RunningStart")
+                if (!isIntermediatePlaying)   // ⭐ Idle 계산 막기
                 {
-                    StartCoroutine(PlayIntermediate("Stop", "Idle", 0.2f));
-                    return;
-                }
+                    if (currentState == "Running" || currentState == "RunningStart")
+                    {
+                        StartCoroutine(PlayIntermediate("Stop", "Idle", 0.2f));
+                        return;
+                    }
 
-                if (currentState.StartsWith("Dash"))
-                {
-                    StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.2f));
-                    return;
+                    if (currentState.StartsWith("Dash"))
+                    {
+                        StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.2f));
+                        return;
+                    }
+
+                    calculatedState = "Idle";
                 }
-                calculatedState = "Idle";
             }
 
         }
         else
         {
             if (upDownState == YDeltaChecker.UpDownState.Up)
-                calculatedState = "Up";
+            {
+                // 현재 Down이 아니라면 Up 유지
+                if (currentState != "Down")
+                    calculatedState = "Up";
+            }
             else if (upDownState == YDeltaChecker.UpDownState.Down)
-                calculatedState = "Down";
+            {
+                // 현재가 Up이거나 Down일 때만 Down으로 전환
+                if (currentState == "Up" || currentState == "Down")
+                    calculatedState = "Down";
+            }
         }
 
-        // -------------------------
-        // 2. 애니메이션 출력
-        // -------------------------
         if (attackNotifier != null && attackNotifier.IsAttacking)
         {
             if (currentState != "Attack")
                 ChangeAnimation("Attack", force: true);
+
+            // Attack 중에는 Update에서 calculatedState 적용 금지
             return;
         }
 
@@ -179,39 +190,104 @@ public class MovementAnimation : MonoBehaviour
             yield return null;
         }
 
-        // 3. Dash 종료 후 바로 Idle로 전환
-        ChangeAnimation("Idle", force: true);
+        // 3. Dash 종료 후 상태 판단
+        if (isGround)
+        {
+            if (!animationTotal.isWalk)
+            {
+                // 걷지 않고 멈춰있다면 ToIdle 재생
+                StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.5f));
+                Debug.Log("Dash -> ToIdle" );
+            }
+            else
+            {
+                // 걷고 있다면 바로 Running으로
+                animator.Play("Running", 0, 0f);
+                currentState = "Running";
+                calculatedState = "Running";
+            }
+        }
+        else
+        {
+            // 공중이면 Up/Down 판단
+            var upState = yDeltaChecker.CurrentState == YDeltaChecker.UpDownState.Up ? "Up" : "Down";
+            animator.Play(upState, 0, 0f);
+            currentState = upState;
+            calculatedState = upState;
+        }
 
         dashCoroutine = null;
     }
 
 
 
+
     public void OnAttackAnimationEnd()
     {
-        if (!string.IsNullOrEmpty(calculatedState))
+        if (isGround)
+        {
+            if (animationTotal.isWalk)
+            {
+                // RunningStart → Running 처리
+                StartCoroutine(PlayRunningStartOneFrame(0.1f));
+            }
+            else if (animationTotal.isDash)
+            {
+                StartCoroutine(PlayDashSequence());
+            }
+            else
+            {
+                if (calculatedState != "Running")
+                    StartCoroutine(PlayIntermediate("Stop", "Idle", 0.2f));
+            }
+        }
+        else
+        {
+            calculatedState = yDeltaChecker.CurrentState == YDeltaChecker.UpDownState.Up ? "Up" : "Down";
             ChangeAnimation(calculatedState, force: true);
+        }
     }
+
+
 
     private void ChangeAnimation(string newState, bool force = false)
     {
-        if (!force && currentState == newState) return;
+        Debug.Log($"ChangeAnimation 요청: {currentState} -> {newState} (force={force}, calc={calculatedState})");
+        if (!force)
+        {
+            // Intermediate 중엔 Idle로 바꾸지 않음
+            if (isIntermediatePlaying && newState == "Idle")
+                return;
+
+            if (currentState == "Running" && newState == "Idle")
+                return;
+
+            if (currentState == newState)
+                return;
+        }
 
         animator.Play(newState);
         currentState = newState;
     }
 
+
     private void LookUp(bool up)
     {
         if (!isGround) return;
+
+        // 움직이는 중(Running, RunningStart, Dash)에는 실행 금지
+        if (currentState == "Running" || currentState == "RunningStart" || currentState.StartsWith("Dash"))
+            return;
+
         if (up)
             animator.Play("LookUp");
     }
 
+
     private void SitDown(bool down)
     {
         if (!isGround) return;
-        
+
         if (isGround)
             animator.SetBool("isSitting", down);
     }
