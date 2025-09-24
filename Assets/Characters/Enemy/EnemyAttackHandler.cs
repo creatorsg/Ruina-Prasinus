@@ -32,7 +32,7 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
         {
             if (hitCollider == _playerHp.Hitbox)
             {
-                _playerHp.Damaged(_attackPower,transform);
+                _playerHp.Damaged(_attackPower);
                 break;
             }
         }

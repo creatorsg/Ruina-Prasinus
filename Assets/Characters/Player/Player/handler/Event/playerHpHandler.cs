@@ -47,7 +47,7 @@ public class playerHpHandler : FindChildObject
     }
 
 
-    public void Damaged(float damage, Transform attacker)
+    public void Damaged(float damage)
     {
         if (_isHeating == false && _isInvicible == false)
         {

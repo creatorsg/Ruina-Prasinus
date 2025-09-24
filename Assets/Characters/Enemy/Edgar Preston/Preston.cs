@@ -58,7 +58,7 @@ public class Preston : CharacterBase
         _pattern[(int)BossBehaviour.Stun] = new StunState();
         _pattern[(int)BossBehaviour.Die] = new Attack1State();
         _patternMachine = new StateMachine<Preston>();
-        _patternMachine.SetUp(this, _pattern[(int)BossBehaviour.Attack4]);
+        _patternMachine.SetUp(this, _pattern[(int)BossBehaviour.Attack3]);
     }
 
     public override void Updated()

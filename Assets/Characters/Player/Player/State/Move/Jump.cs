@@ -18,7 +18,7 @@ public class Jump : State<MainPlayer>
     {
         _currentSpeed = 5f;
         _jumpTimer = 0f;
-        _maxJumpTime = 0.1f;
+        _maxJumpTime = 0.15f;
         player.Rigidbody2D.linearVelocity = new Vector2(0, 0);
         player.Rigidbody2D.linearVelocity = new Vector2(player.Rigidbody2D.linearVelocity.x, 5f);
     }
@@ -56,7 +56,7 @@ public class Jump : State<MainPlayer>
             _isFalling = true;
         }
 
-        if(player.YDeltaChecker.IsFalling && !player.PlayerHpHandler.IsHeating)
+        if(!player.YDeltaChecker.IsFalling && !player.PlayerHpHandler.IsHeating)
         {
             player.Rigidbody2D.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
         }
