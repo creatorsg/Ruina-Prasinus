@@ -31,8 +31,6 @@ public class playerHpHandler : FindChildObject
         _playerbody = FindChildWithTag(transform, "PlayerBody");
         _isHeating = false;
         _isInvicible = false;
-
-        _hp = 50;
     }
 
     private void Update()
@@ -40,7 +38,6 @@ public class playerHpHandler : FindChildObject
         if (_isHeating)
         {
             _player.ChangeMoveState(MoveBehavior.Idle);
-            Debug.Log(_hp);
         }
 
         if(_hp <= 0)

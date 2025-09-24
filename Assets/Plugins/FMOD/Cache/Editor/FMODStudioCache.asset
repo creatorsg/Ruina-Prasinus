@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8965597373123779432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: ../Desktop/LuniaDemo/Build/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 638939363840000000
-  FileSizes:
-  - Name: Desktop
-    Value: 2891392
-  Exists: 1
 --- !u!114 &-8481185447217812922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39,8 +19,8 @@ MonoBehaviour:
     Data3: 716280192
     Data4: 1011733759
   Banks:
-  - {fileID: -1046782068573937833}
-  - {fileID: -8965597373123779432}
+  - {fileID: -2219132031877352685}
+  - {fileID: -6448530856099783791}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -48,6 +28,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 224000
+--- !u!114 &-7811150774024164892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/ME.bank
+  m_EditorClassIdentifier: 
+  Path: ../OneDrive/LuniaDemo/Build/Desktop/ME.bank
+  Name: ME
+  StudioPath: bank:/ME
+  lastModified: 638933320617788637
+  FileSizes:
+  - Name: Desktop
+    Value: 506
+  Exists: 1
 --- !u!114 &-7340950590864065063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,8 +67,8 @@ MonoBehaviour:
     Data3: -774956359
     Data4: 957826931
   Banks:
-  - {fileID: -8965597373123779432}
-  - {fileID: -6863204383765920540}
+  - {fileID: -6448530856099783791}
+  - {fileID: -3392230075178048755}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -76,7 +76,27 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-6863204383765920540
+--- !u!114 &-6448530856099783791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638939363855585651
+  FileSizes:
+  - Name: Desktop
+    Value: 2891392
+  Exists: 1
+--- !u!114 &-3392230075178048755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,15 +108,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
   m_Name: bank:/SE.bank
   m_EditorClassIdentifier: 
-  Path: ../Desktop/LuniaDemo/Build/Desktop/SE.bank
+  Path: ../OneDrive/LuniaDemo/Build/Desktop/SE.bank
   Name: SE
   StudioPath: bank:/SE
-  lastModified: 638939363840000000
+  lastModified: 638939363855887872
   FileSizes:
   - Name: Desktop
     Value: 46464
   Exists: 1
---- !u!114 &-3693146707620161449
+--- !u!114 &-2980475572888793597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,15 +126,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/ME.bank
+  m_Name: bank:/Master.strings.bank
   m_EditorClassIdentifier: 
-  Path: ../Desktop/LuniaDemo/Build/Desktop/ME.bank
-  Name: ME
-  StudioPath: bank:/ME
-  lastModified: 638933320600000000
+  Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638939363855620755
   FileSizes:
   - Name: Desktop
-    Value: 506
+    Value: 1414
+  Exists: 1
+--- !u!114 &-2219132031877352685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/BGM.bank
+  m_EditorClassIdentifier: 
+  Path: ../OneDrive/LuniaDemo/Build/Desktop/BGM.bank
+  Name: BGM
+  StudioPath: bank:/BGM
+  lastModified: 638933320589649739
+  FileSizes:
+  - Name: Desktop
+    Value: 2756288
   Exists: 1
 --- !u!114 &-1773931278539878492
 MonoBehaviour:
@@ -135,8 +175,8 @@ MonoBehaviour:
     Data3: -1012727166
     Data4: -1718460427
   Banks:
-  - {fileID: -8965597373123779432}
-  - {fileID: -6863204383765920540}
+  - {fileID: -6448530856099783791}
+  - {fileID: -3392230075178048755}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -144,46 +184,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-1395057685725735243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/BGS.bank
-  m_EditorClassIdentifier: 
-  Path: ../Desktop/LuniaDemo/Build/Desktop/BGS.bank
-  Name: BGS
-  StudioPath: bank:/BGS
-  lastModified: 638933321980000000
-  FileSizes:
-  - Name: Desktop
-    Value: 89120
-  Exists: 1
---- !u!114 &-1046782068573937833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/BGM.bank
-  m_EditorClassIdentifier: 
-  Path: ../Desktop/LuniaDemo/Build/Desktop/BGM.bank
-  Name: BGM
-  StudioPath: bank:/BGM
-  lastModified: 638933320580000000
-  FileSizes:
-  - Name: Desktop
-    Value: 2756288
-  Exists: 1
 --- !u!114 &-512605117201326266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,8 +203,8 @@ MonoBehaviour:
     Data3: 1938362556
     Data4: -978168224
   Banks:
-  - {fileID: -8965597373123779432}
-  - {fileID: -6863204383765920540}
+  - {fileID: -6448530856099783791}
+  - {fileID: -3392230075178048755}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -225,12 +225,12 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 6225068094000503246}
-  - {fileID: -1046782068573937833}
-  - {fileID: -1395057685725735243}
-  - {fileID: -8965597373123779432}
-  - {fileID: -3693146707620161449}
-  - {fileID: -6863204383765920540}
+  - {fileID: -2980475572888793597}
+  - {fileID: -2219132031877352685}
+  - {fileID: 7657980086038639530}
+  - {fileID: -6448530856099783791}
+  - {fileID: -7811150774024164892}
+  - {fileID: -3392230075178048755}
   EditorEvents:
   - {fileID: 8171697585673743685}
   - {fileID: -1773931278539878492}
@@ -242,11 +242,11 @@ MonoBehaviour:
   - {fileID: -7340950590864065063}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -8965597373123779432}
+  - {fileID: -6448530856099783791}
   StringsBanks:
-  - {fileID: 6225068094000503246}
+  - {fileID: -2980475572888793597}
   cacheVersion: 131848
-  cacheTime: 638939363840000000
+  cacheTime: 638939363855887872
   SerializableEventsDict:
   - key: event:/SE/Dash
     index: 0
@@ -283,8 +283,8 @@ MonoBehaviour:
     Data3: 2088694154
     Data4: 808045647
   Banks:
-  - {fileID: -8965597373123779432}
-  - {fileID: -6863204383765920540}
+  - {fileID: -6448530856099783791}
+  - {fileID: -3392230075178048755}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -311,8 +311,8 @@ MonoBehaviour:
     Data3: 1785595047
     Data4: 1527399977
   Banks:
-  - {fileID: -1046782068573937833}
-  - {fileID: -8965597373123779432}
+  - {fileID: -2219132031877352685}
+  - {fileID: -6448530856099783791}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -339,8 +339,8 @@ MonoBehaviour:
     Data3: -607236696
     Data4: -506469178
   Banks:
-  - {fileID: -1395057685725735243}
-  - {fileID: -8965597373123779432}
+  - {fileID: 7657980086038639530}
+  - {fileID: -6448530856099783791}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -348,7 +348,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 10000
---- !u!114 &6225068094000503246
+--- !u!114 &7657980086038639530
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -358,15 +358,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
+  m_Name: bank:/BGS.bank
   m_EditorClassIdentifier: 
-  Path: ../Desktop/LuniaDemo/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638939363840000000
+  Path: ../OneDrive/LuniaDemo/Build/Desktop/BGS.bank
+  Name: BGS
+  StudioPath: bank:/BGS
+  lastModified: 638933321988229461
   FileSizes:
   - Name: Desktop
-    Value: 1414
+    Value: 89120
   Exists: 1
 --- !u!114 &8171697585673743685
 MonoBehaviour:
@@ -387,8 +387,8 @@ MonoBehaviour:
     Data3: -281053518
     Data4: -885772765
   Banks:
-  - {fileID: -8965597373123779432}
-  - {fileID: -6863204383765920540}
+  - {fileID: -6448530856099783791}
+  - {fileID: -3392230075178048755}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1

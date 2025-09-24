@@ -6,12 +6,14 @@ public class Enemy1AttackHandler : MonoBehaviour
     private playerHpHandler _playerHp;
     private Collider2D _attackCollider;
     private Butterflymon _enemy1;
+    private PauseManager PauseManager;
     private float _hp, _attackPower;
-
     private float _heatTimer;
     private bool _isHeating, _attacking;
 
     public bool Attacking => _attacking;
+
+    public PauseManager pause => PauseManager;
 
     public void Initialize(Butterflymon enemy1, float Hp, float attackPower)
     {
@@ -22,6 +24,8 @@ public class Enemy1AttackHandler : MonoBehaviour
 
     private void Awake()
     {
+        GameObject obj = GameObject.FindGameObjectWithTag("PauseManager");
+        PauseManager = obj.GetComponent<PauseManager>();
         _attackCollider = GetComponent<Collider2D>();
 
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
@@ -41,6 +45,12 @@ public class Enemy1AttackHandler : MonoBehaviour
                 _isHeating = false;
                 _heatTimer = 0;
             }
+        }
+
+        if(PauseManager.Pause)
+        {
+            Pause();
+            _enemy1.ChangeState(EnemyBehavior.Idle);
         }
     }
 
@@ -63,6 +73,12 @@ public class Enemy1AttackHandler : MonoBehaviour
         }
     }
 
+    private void Pause()
+    {
+        _enemy1.Enemy1MoveHandler.enabled = false;
+        _enemy1.Enemy1SpawnHandler.enabled = false;
+        _enemy1.Rigidbody2D.linearVelocity = Vector2.zero;
+    }
     public void AttackEnd()
     {
         _attacking = false;

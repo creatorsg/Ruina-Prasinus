@@ -19,9 +19,10 @@ public class Enemy1MoveHandler : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("PlayerBody");
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
-        _dist = Vector2.Distance(_player.transform.position, gameObject.transform.position);
+        Vector2 diff = _player.transform.position - transform.position;
+        _dist = diff.sqrMagnitude;
     }
     
     public void IdleMove(float speed)

@@ -14,7 +14,7 @@ public class Enemy1Idle : State<Butterflymon>
 
     public override void Execute(Butterflymon enemy1)
     {
-        if(enemy1.Enemy1MoveHandler.Distance < _detection)
+        if(enemy1.Enemy1MoveHandler.Distance < _detection && !enemy1.Enemy1AttackHandler.pause.Pause)
         {
             enemy1.ChangeState(EnemyBehavior.Move);
         }
