@@ -57,26 +57,17 @@ public class AnimationAttack : MonoBehaviour
             }
             else
             {
-                if(isUp)
+                if (AttackNum == 0)
                 {
-                    animator.Play("TopAttack");
+                    animator.Play("GroundAttack1");
+                    AttackNum = 1;
                 }
                 else
                 {
-                    if (AttackNum == 0)
-                    {
-                        animator.Play("GroundAttack1");
-                        AttackNum = 1;
-                    }
-                    else
-                    {
-                        animator.Play("GroundAttack2");
-                        AttackNum = 0;
+                    animator.Play("GroundAttack2");
+                    AttackNum = 0;
 
-                    }
                 }
-
-                
             }
         }
 

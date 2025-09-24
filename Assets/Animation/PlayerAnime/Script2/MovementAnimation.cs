@@ -272,14 +272,13 @@ public class MovementAnimation : MonoBehaviour
     {
         if (!isGround) return;
 
-        // Idle 상태에서만 LookUp 실행
-        if (currentState != "Idle")
+        // 움직이는 중(Running, RunningStart, Dash)에는 실행 금지
+        if (currentState == "Running" || currentState == "RunningStart" || currentState.StartsWith("Dash"))
             return;
 
         if (up)
-            animator.Play("LookUp", 0, 0f); // 레이어 명시
+            animator.Play("LookUp");
     }
-
 
 
     private void SitDown(bool down)
