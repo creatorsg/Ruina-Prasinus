@@ -66,6 +66,7 @@ public class AnimationAttack : MonoBehaviour
                 {
                     animator.Play("GroundAttack2");
                     AttackNum = 0;
+
                 }
             }
         }

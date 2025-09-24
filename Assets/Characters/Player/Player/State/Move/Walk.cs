@@ -26,7 +26,13 @@ public class Walk : State<MainPlayer>
                 movePower = new Vector2(player.MoveStatusHandler.Perp.x * _moveSpeed * -player.InputHandler.MoveInput * dt,
                                 player.MoveStatusHandler.Perp.y * _moveSpeed * -player.InputHandler.MoveInput * dt);
             }
-        } 
+        }
+        else
+        {
+            player.ChangeMoveState(MoveBehavior.Idle);
+            return;
+        }
+
         if (player.InputHandler.DashRequested && player.MoveStatusHandler.CanJump && player.InputHandler.IsDashHeld && player.MoveStatusHandler.CanDash)
         {
             player.ChangeMoveState(MoveBehavior.Dash);
