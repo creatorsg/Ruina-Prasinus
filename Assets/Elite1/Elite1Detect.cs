@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Elite1Detect : MonoBehaviour
 {
-    [Header("°¨Áö ¹üÀ§")]
-    public float detectionRange = 10f;       // ÆÄ¶õ Gizmo ¹üÀ§
-    public float redRangeFactor = 1.5f;      // ºÓÀº Gizmo ¹üÀ§ = detectionRange / 1.5
+    [Header("ê°ì§€ ë²”ìœ„")]
+    public float detectionRange = 10f;       // íŒŒë€ Gizmo ë²”ìœ„
+    public float redRangeFactor = 1.5f;      // ë¶‰ì€ Gizmo ë²”ìœ„ = detectionRange / 1.5
 
     private Transform player;
     public bool playerInRange { get; private set; }

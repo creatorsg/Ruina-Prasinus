@@ -18,6 +18,7 @@ public class Elite1State : MonoBehaviour
 
     private void Update()
     {
+        
         switch (currentState)
         {
             case State.Idle:

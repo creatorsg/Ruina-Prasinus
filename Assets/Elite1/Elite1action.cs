@@ -4,78 +4,112 @@ using System.Collections;
 [RequireComponent(typeof(Elite1State))]
 [RequireComponent(typeof(Elite1Handler))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(EliteAnime))]
 public class Elite1action : MonoBehaviour
 {
     private Elite1State state;
     private Elite1Handler handler;
-    private Transform player;
     private Rigidbody2D rb;
+    private Animator animator;
+    private Transform player;
+
+    public bool IsGrounded() => isGrounded;
+
+    public event System.Action OnDashEnded;
+    public enum AttackType { None, Dash, Jump }
+
+    public event System.Action<bool, AttackType> OnAttackStateChanged;
+
+    private bool isAttacking = false;
+    public bool IsAttacking => isAttacking;
+
+    private AttackType currentAttack = AttackType.None;
+    public AttackType CurrentAttack => currentAttack;
+
+    [Header("Ground 체크")]
+    public Transform groundCheck;
+    public LayerMask groundLayer;
+    public float groundCheckRadius = 0.1f;
+    private bool isGrounded = false;
+    private bool wasGrounded = false;
 
     private void Awake()
     {
         state = GetComponent<Elite1State>();
         handler = GetComponent<Elite1Handler>();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         var go = GameObject.FindGameObjectWithTag("Player");
         if (go != null) player = go.transform;
 
+        EliteAnime eliteAnime = GetComponent<EliteAnime>();
+        if (eliteAnime != null)
+        {
+            eliteAnime.OnLanded += HandleLanded;
+        }
+
         state.OnStateChanged += HandleStateChange;
     }
 
-    private void HandleStateChange(Elite1State.State newState)
+    private void Update()
     {
-        switch (newState)
-        {
-            case Elite1State.State.Idle:
-                StateIdle(); // 상태 전환 직후 멈춤
-                break;
-            case Elite1State.State.Attack:
-                StartCoroutine(StateAttack()); // 코루틴 실행
-                break;
-        }
+        // 공격 중이 아닐 때만 플레이어 바라보기
+        if (!isAttacking && player != null)
+            LookAtPlayer();
+
+        // 점프 후 하강 여부 체크
+        animator.SetBool("isFalling", rb.linearVelocity.y < -0.1f);
+        animator.SetBool("isGrounded", isGrounded);
     }
 
     private void FixedUpdate()
     {
-        switch (state.currentState)
+        CheckGrounded();
+
+        // wasGrounded 업데이트만 수행
+        wasGrounded = isGrounded;
+    }
+
+
+    private void CheckGrounded()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    }
+
+    private void HandleStateChange(Elite1State.State newState)
+    {
+        if (newState == Elite1State.State.Attack)
         {
-            case Elite1State.State.Chase:
-                StateChase();
-                break;
+            StartCoroutine(StateAttack());
         }
-    }
-
-    private void StateIdle()
-    {
-        rb.linearVelocity = Vector2.zero;
-    }
-
-    private void StateChase()
-    {
-        if (player == null) return;
-
-        Vector2 dir = (player.position - transform.position).normalized;
-        rb.linearVelocity = new Vector2(dir.x * handler.moveSpeed, rb.linearVelocity.y);
     }
 
     private IEnumerator StateAttack()
     {
         if (player == null) yield break;
 
-        // 공격 실행 (한 번만)
+        // 랜덤 공격 선택
         if (Random.value < 0.5f)
+        {
+            SetAttackState(true, AttackType.Dash);
             AttackDash();
+        }
         else
+        {
+            SetAttackState(true, AttackType.Jump);
             AttackJump();
+        }
 
-        // 1초 대기
+        // 공격 지속 시간
         yield return new WaitForSeconds(3f);
 
-        // 공격 후 이전 상태로 복귀
+        SetAttackState(false, AttackType.None);
         state.ReturnToPreviousState();
     }
 
+    #region AttackDash
     private void AttackDash()
     {
         if (player == null) return;
@@ -84,17 +118,24 @@ public class Elite1action : MonoBehaviour
 
     private IEnumerator AttackDashRoutine()
     {
-        // 0.5초 대기 (돌진 준비)
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f); // 준비 시간
 
-        if (player == null) yield break;
-
-        // 돌진 (플레이어 방향으로 빠르게 이동)
         Vector2 dir = (player.position - transform.position).normalized;
         rb.linearVelocity = new Vector2(dir.x * handler.attackDashSpeed, rb.linearVelocity.y);
+
+        yield return new WaitForSeconds(1.0f); // 돌진 유지 시간
+
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+
+        OnDashEnded?.Invoke();
+        // Dash 종료 신호
+        SetAttackState(false, AttackType.Dash);
     }
 
+    #endregion
 
+
+    #region AttackJump
     private void AttackJump()
     {
         if (player == null) return;
@@ -103,16 +144,56 @@ public class Elite1action : MonoBehaviour
 
     private IEnumerator AttackJumpRoutine()
     {
-        // 0.5초 대기 (점프 준비 모션 등)
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f); // 점프 준비
 
         if (player == null) yield break;
 
-        // 플레이어 방향 (x축 기준)
         Vector2 dir = (player.position - transform.position).normalized;
-
-        // 앞으로 + 위로 점프
         rb.linearVelocity = new Vector2(dir.x * handler.moveSpeed * 2f, handler.jumpForce);
+
+        // Jump 상태 시작 신호만 보냄
+        SetAttackState(true, AttackType.Jump);
+
+        while (!isGrounded)
+        {
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 착지 시 X축 속도만 0으로
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
     }
+    #endregion
+
+
+    private void LookAtPlayer()
+    {
+        if (player == null) return;
+
+        if (player.position.x < transform.position.x)
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        else
+            transform.localScale = new Vector3(1f, 1f, 1f);
+    }
+
+    private void SetAttackState(bool attacking, AttackType type)
+    {
+        isAttacking = attacking;
+        currentAttack = type;
+        OnAttackStateChanged?.Invoke(isAttacking, currentAttack);
+    }
+
+    private void HandleLanded()
+    {
+        // 착지 시 X축 속도를 0으로 설정
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+
+        // Jump 공격이 끝났다면 공격 상태도 해제
+        if (currentAttack == AttackType.Jump)
+        {
+            SetAttackState(false, AttackType.None);
+            state.ReturnToPreviousState();
+        }
+    }
+
 
 }
