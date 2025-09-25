@@ -3,7 +3,7 @@ using UnityEngine;
 public class Following_Player : MonoBehaviour
 {
     public Transform player;
-    public BoxCollider2D cameraBounds;
+    public Collider2D cameraBounds;
     public GameObject boundParent;
 
     private float halfWidth, halfHeight, moveSpeed = 18f;
@@ -53,7 +53,7 @@ public class Following_Player : MonoBehaviour
         }
     }
 
-    public void TransitionToNewRoom(BoxCollider2D newBounds)
+    public void TransitionToNewRoom(Collider2D newBounds)
     {
         cameraBounds = newBounds;
 

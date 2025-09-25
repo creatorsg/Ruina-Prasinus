@@ -21,7 +21,7 @@ public class PlayerRoomDetector : MonoBehaviour
         if (!other.CompareTag("RoomBound")) return;
         if (playerCollider == null) return;
 
-        BoxCollider2D roomBounds = other.GetComponent<BoxCollider2D>();
+        Collider2D roomBounds = other.GetComponent<Collider2D>();
         Bounds rb = roomBounds.bounds;
 
  
