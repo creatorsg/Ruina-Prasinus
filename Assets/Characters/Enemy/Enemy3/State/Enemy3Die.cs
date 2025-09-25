@@ -6,8 +6,11 @@ public class Enemy3Die : State<PurpleMushroom>
     private Phase _currentPhase;
     private float _timer;
 
+    
     public override void Enter(PurpleMushroom enemy3)
     {
+
+        
         Debug.Log("Æø¹ß ÁøÀÔ");
         if(enemy3.Enemy3StateHandler.IsHitWall)
         {

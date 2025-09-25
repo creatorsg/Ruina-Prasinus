@@ -17,6 +17,9 @@ public class Enemy3StateHandler : FindChildObject
     private float explodeAction = 0, _currentHp;
     private bool _isCliff, _isSlope, _playerCheck, _isMoving, _isGround, _isRush, _isHitWall;
 
+    //BugM0
+    private MushroomAnime mushroomAnime;
+
     public Vector2 Perp => _perp;
     public float Dir => _dir == Vector2.right ? 1 : -1;
     public bool IsMoving => _isMoving;
@@ -41,6 +44,9 @@ public class Enemy3StateHandler : FindChildObject
 
         _explosion = Resources.Load<GameObject>("Circle");
         _currentHp = 10f;
+
+        //BugM0
+        mushroomAnime = GetComponent<MushroomAnime>();
     }
 
     private void Update()
@@ -50,7 +56,18 @@ public class Enemy3StateHandler : FindChildObject
         DetectPlayer();
         RayCheck();
 
-        if(_isRush)
+        //BugM0
+        if (mushroomAnime != null)
+        {
+            if (_playerCheck)
+                mushroomAnime.currentState = MushroomAnime.MushroomState.Run;    // 플레이어 발견
+            else if (_isMoving)
+                mushroomAnime.currentState = MushroomAnime.MushroomState.Walk;   // 단순 이동
+            else
+                mushroomAnime.currentState = MushroomAnime.MushroomState.Idle;   // 정지
+        }
+
+        if (_isRush)
         {
             CheckExplode();
         }
@@ -95,6 +112,9 @@ public class Enemy3StateHandler : FindChildObject
         {
             _isRush = true;
         }
+
+       
+
     }
     public void RayCheck()
     {
@@ -137,6 +157,12 @@ public class Enemy3StateHandler : FindChildObject
         {
             explodeAction += 1;
             _enemy3.ChangeState(Enemy3Behaviour.Die);
+
+            //BugM0
+            if (mushroomAnime != null)
+            {
+                mushroomAnime.currentState = MushroomAnime.MushroomState.Charge;
+            }
             Debug.Log("진입 시도");
         }
         else if(_isHitWall)
