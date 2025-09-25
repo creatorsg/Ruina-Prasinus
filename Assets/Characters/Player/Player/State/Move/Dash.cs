@@ -74,6 +74,5 @@ public class Dash : State<MainPlayer>
     {
         player.MoveStatusHandler.StartDashCooltime();
         player.InputHandler.UseDashRequest();
-        Debug.Log("대쉬 종료");
     }
 }

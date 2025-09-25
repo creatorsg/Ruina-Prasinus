@@ -18,7 +18,7 @@ public class Jump : State<MainPlayer>
     {
         _currentSpeed = 5f;
         _jumpTimer = 0f;
-        _maxJumpTime = 0.15f;
+        _maxJumpTime = 0.13f;
         player.Rigidbody2D.linearVelocity = new Vector2(0, 0);
         player.Rigidbody2D.linearVelocity = new Vector2(player.Rigidbody2D.linearVelocity.x, 5f);
     }
@@ -37,6 +37,7 @@ public class Jump : State<MainPlayer>
 
             if (player.MoveStatusHandler.CanJump)
             {
+                Debug.Log("Walk로 이동");
                 player.ChangeMoveState(MoveBehavior.Walk);
             }
         }
@@ -46,18 +47,20 @@ public class Jump : State<MainPlayer>
             _currentSpeed = 0f;
         }
 
-        if (player.MoveStatusHandler.CanJump && !player.MoveHandler.IsWalking)
+        if (player.MoveStatusHandler.CanJump && !player.MoveHandler.IsWalking && !player.InputHandler.IsJumpHeld)
         {
+            Debug.Log("idle로 이동");
             player.ChangeMoveState(MoveBehavior.Idle);
         }
 
-        if(_jumpTimer > _maxJumpTime)
+        if(_jumpTimer > _maxJumpTime || !player.InputHandler.IsJumpHeld)
         {
             _isFalling = true;
         }
 
-        if(!player.YDeltaChecker.IsFalling && !player.PlayerHpHandler.IsHeating)
+        if(_isFalling = true && !player.PlayerHpHandler.IsHeating)
         {
+            Debug.Log("낙하");
             player.Rigidbody2D.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
         }
     }

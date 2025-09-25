@@ -5,7 +5,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject room;
     [SerializeField] private List<SpawnInfo> spawnInfos;
-    [SerializeField] private BoxCollider2D monsterSpawnCollider;
+    [SerializeField] private Collider2D monsterSpawnCollider;
     [SerializeField] private GameObject mosterRoom;
 
     private Following_Player playerCamera;

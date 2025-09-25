@@ -21,13 +21,23 @@ public class PlayerRoomDetector : MonoBehaviour
         if (!other.CompareTag("RoomBound")) return;
         if (playerCollider == null) return;
 
-        BoxCollider2D roomBounds = other.GetComponent<BoxCollider2D>();
+        Collider2D roomBounds = other.GetComponent<Collider2D>();
+        Bounds rb = roomBounds.bounds;
 
-        if (roomBounds.bounds.Contains(playerCollider.bounds.min) &&
-            roomBounds.bounds.Contains(playerCollider.bounds.max))
+ 
+        float centerX = rb.center.x;
+        float centerY = rb.center.y;
+
+        Vector3 playerPos = cameraFollow.player.position;
+
+
+        if (rb.Contains(playerCollider.bounds.min) &&
+            rb.Contains(playerCollider.bounds.max) &&
+            Mathf.Abs(playerPos.x - centerX) < rb.extents.x * 0.95f &&
+            Mathf.Abs(playerPos.y - centerY) < rb.extents.y * 0.95f)
         {
             cameraFollow.TransitionToNewRoom(roomBounds);
-            hasTriggered = true; 
+            hasTriggered = true;
         }
     }
 

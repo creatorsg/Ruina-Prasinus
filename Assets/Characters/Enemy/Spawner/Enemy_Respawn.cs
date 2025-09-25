@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoomEnemyRespawner : MonoBehaviour
 {
     [SerializeField] private GameObject _room;
-    [SerializeField] private BoxCollider2D monsterSpawnCollider;
+    [SerializeField] private Collider2D monsterSpawnCollider;
 
     [SerializeField] private List<SpawnInfo> _spawnInfos;
 
