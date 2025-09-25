@@ -18026,11 +18026,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 238229202667575383, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.7
+      value: 3.57
       objectReference: {fileID: 0}
     - target: {fileID: 238229202667575383, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.64
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 238229202667575383, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -18076,6 +18076,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4291364590092461761, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 7a8f5e003e5f5244586428618a04d981, type: 2}
     - target: {fileID: 4680855781318288117, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -18083,6 +18087,10 @@ PrefabInstance:
     - target: {fileID: 7887754496850227581, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9097817122300713907, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
+      propertyPath: m_AutoTiling
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -59351,7 +59359,7 @@ GameObject:
   - component: {fileID: 386392533}
   m_Layer: 0
   m_Name: Layer 1 (1)
-  m_TagString: Untagged
+  m_TagString: River
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111556,7 +111564,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1250732376
 Transform:
   m_ObjectHideFlags: 0
@@ -152228,9 +152236,11 @@ GameObject:
   - component: {fileID: 7978803531143257467}
   - component: {fileID: 4995536466775738273}
   - component: {fileID: 8279905439326226366}
-  m_Layer: 0
+  - component: {fileID: 8279905439326226368}
+  - component: {fileID: 8279905439326226367}
+  m_Layer: 3
   m_Name: Layer 3
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -327887,6 +327897,71 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!251 &8279905439326226367
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417074068612986972}
+  m_Enabled: 1
+  m_UseColliderMask: 0
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 1
+  m_UseSideBounce: 1
+  m_SideArc: 90
+--- !u!61 &8279905439326226368
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417074068612986972}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 7a8f5e003e5f5244586428618a04d981, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 1
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 27.509636, y: -1.9885229}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.0495148, y: 2.0157807}
+  m_EdgeRadius: 0
 --- !u!4 &8480170861941678999
 Transform:
   m_ObjectHideFlags: 0
