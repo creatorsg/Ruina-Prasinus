@@ -12207,11 +12207,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 238229202667575383, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 180.34
+      value: -2.19
       objectReference: {fileID: 0}
     - target: {fileID: 238229202667575383, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.28
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 238229202667575383, guid: c878c66e86ebf944f930ed84725dcae8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -101015,7 +101015,7 @@ Transform:
   m_GameObject: {fileID: 1256159921}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 180.1, y: -4.6, z: -10}
+  m_LocalPosition: {x: -1.3, y: -0.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101078,7 +101078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1041360201}
-  cameraBounds: {fileID: 292813379}
+  cameraBounds: {fileID: 1096993975}
   boundParent: {fileID: 0}
 --- !u!1 &1269895112
 GameObject:
