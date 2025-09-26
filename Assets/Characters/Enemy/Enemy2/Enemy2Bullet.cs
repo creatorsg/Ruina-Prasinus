@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -5,15 +6,25 @@ using UnityEngine.Tilemaps;
 public class DestroyOnHit : MonoBehaviour
 {
     // 트리거 충돌
+
+    public event Action<GameObject> OnDestroyed;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (ShouldDestroy(other)) Destroy(gameObject);
+        if (ShouldDestroy(other))
+        {
+            OnDestroyed?.Invoke(gameObject);
+            Destroy(gameObject);
+        }
     }
 
     // 일반(비트리거) 충돌
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (ShouldDestroy(collision.collider)) Destroy(gameObject);
+        if (ShouldDestroy(collision.collider))
+        {
+            OnDestroyed?.Invoke(gameObject);
+            Destroy(gameObject);
+        }
     }
 
     // 파괴 조건 판단

@@ -42,7 +42,7 @@ public class Enemy3StateHandler : FindChildObject
         _groundMask = LayerMask.GetMask("Ground");
         _playerMask = LayerMask.GetMask("Player");
 
-        _explosion = Resources.Load<GameObject>("Circle");
+        _explosion = Resources.Load<GameObject>("MushroomExplode");
         _currentHp = 10f;
 
     }
@@ -179,7 +179,7 @@ public class Enemy3StateHandler : FindChildObject
     {
         Destroy(gameObject);
         GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
-        Destroy(obj, 0.2f);
+        Destroy(obj, 0.6f);
     }
 
     private void OnDrawGizmos()
