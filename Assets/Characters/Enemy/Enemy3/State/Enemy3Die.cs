@@ -6,7 +6,7 @@ public class Enemy3Die : State<PurpleMushroom>
     private Phase _currentPhase;
     private float _timer;
 
-    
+    public event System.Action OnEnterDie;
     public override void Enter(PurpleMushroom enemy3)
     {
 
@@ -20,6 +20,8 @@ public class Enemy3Die : State<PurpleMushroom>
             _currentPhase = Phase.stand;
         }
         _timer = 0;
+
+        OnEnterDie?.Invoke();
     }
 
     public override void Execute(PurpleMushroom enemy3)

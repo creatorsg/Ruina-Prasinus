@@ -23,7 +23,13 @@
         public Enemy3StateHandler Enemy3StateHandler => _Enemy3State;
         public Enemy3MoveHandler Enemy3MoveHandler => _Enemy3Move;
         public Enemy3RushHandler Enemy3RushHandler => _Enemy3Rush;
-        protected override void Awake()
+        
+    //BugM0
+        public Enemy3Behaviour CurrentBehaviour { get; private set; }
+
+        public event System.Action<Enemy3Behaviour> OnStateChanged;
+
+    protected override void Awake()
         {
             _rigidBody2D = GetComponent<Rigidbody2D>();
 
@@ -66,8 +72,10 @@
                 _enemy3Machine.FixedExecute();
         }
 
-        public void ChangeState(Enemy3Behaviour state)
-        {
-            _enemy3Machine.ChangeState(_enemy3[(int)state]);
-        }
+    public void ChangeState(Enemy3Behaviour state)
+    {
+        CurrentBehaviour = state; // 현재 상태 기록
+        _enemy3Machine.ChangeState(_enemy3[(int)state]);
+        OnStateChanged?.Invoke(state); // 상태 변경 이벤트 발생
     }
+}

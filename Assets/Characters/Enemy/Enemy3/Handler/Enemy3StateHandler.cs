@@ -45,8 +45,6 @@ public class Enemy3StateHandler : FindChildObject
         _explosion = Resources.Load<GameObject>("Circle");
         _currentHp = 10f;
 
-        //BugM0
-        mushroomAnime = GetComponent<MushroomAnime>();
     }
 
     private void Update()
@@ -56,16 +54,7 @@ public class Enemy3StateHandler : FindChildObject
         DetectPlayer();
         RayCheck();
 
-        //BugM0
-        if (mushroomAnime != null)
-        {
-            if (_playerCheck)
-                mushroomAnime.currentState = MushroomAnime.MushroomState.Run;    // 플레이어 발견
-            else if (_isMoving)
-                mushroomAnime.currentState = MushroomAnime.MushroomState.Walk;   // 단순 이동
-            else
-                mushroomAnime.currentState = MushroomAnime.MushroomState.Idle;   // 정지
-        }
+        
 
         if (_isRush)
         {
@@ -158,11 +147,7 @@ public class Enemy3StateHandler : FindChildObject
             explodeAction += 1;
             _enemy3.ChangeState(Enemy3Behaviour.Die);
 
-            //BugM0
-            if (mushroomAnime != null)
-            {
-                mushroomAnime.currentState = MushroomAnime.MushroomState.Charge;
-            }
+            
             Debug.Log("진입 시도");
         }
         else if(_isHitWall)
