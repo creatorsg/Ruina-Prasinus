@@ -12,7 +12,7 @@ public class playerHpHandler : FindChildObject
     private SpriteRenderer spriteRenderer;
     private bool _isHeating = false, _isInvicible = false;
     private float _hp;
-
+    private GameObject _explosion;
     public bool IsHeating => _isHeating;
 
     public PolygonCollider2D Hitbox => _hitbox;
@@ -26,6 +26,7 @@ public class playerHpHandler : FindChildObject
     {
         _playerbody = FindChildWithTag(transform, "PlayerBody");
         spriteRenderer = _playerbody.GetComponent<SpriteRenderer>();
+        _explosion = Resources.Load<GameObject>("explosionEffect");
 
         _hitbox = gameObject.GetComponentInChildren<PolygonCollider2D>();
         _playerbody = FindChildWithTag(transform, "PlayerBody");
@@ -72,6 +73,12 @@ public class playerHpHandler : FindChildObject
 
         yield return new WaitForSeconds(0.5f);
         _isInvicible = false;
+    }
+    public void Explode()
+    {
+        Destroy(gameObject);
+        GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
+        Destroy(obj, 0.8f);
     }
 
     public IEnumerator Blink()
