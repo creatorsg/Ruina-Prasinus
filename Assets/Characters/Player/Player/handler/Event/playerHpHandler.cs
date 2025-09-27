@@ -78,7 +78,7 @@ public class playerHpHandler : FindChildObject
         _isInvicible = true;
         _isHeating = false;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         _isInvicible = false;
     }
     public void Explode()
