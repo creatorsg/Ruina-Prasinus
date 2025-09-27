@@ -16,11 +16,20 @@ public class Jump : State<MainPlayer>
 
     public override void Enter(MainPlayer player)
     {
-        _currentSpeed = 5f;
-        _jumpTimer = 0f;
+        if(player.MoveHandler.IsDashJump)
+        {
+            _currentSpeed = 10f;
+        }
+        else
+        {
+            _currentSpeed = 5f;
+        }
+
         _maxJumpTime = 0.13f;
+        _jumpTimer = 0f;
         _count = 0;
-        player.Rigidbody2D.linearVelocity = new Vector2(0, 0);
+
+        player.Rigidbody2D.linearVelocity = Vector2.zero;
         player.Rigidbody2D.linearVelocity = new Vector2(player.Rigidbody2D.linearVelocity.x, 5f);
     }
 
@@ -32,11 +41,13 @@ public class Jump : State<MainPlayer>
             _jumpTimer += Time.deltaTime;
         }
 
-        if (player.MoveHandler.IsWalking )
+        if (player.MoveHandler.IsWalking)
         {
-            _currentSpeed = 5f;
-
-            if (player.MoveStatusHandler.CanJump)
+            if (!player.MoveHandler.IsDashJump)
+            {
+                _currentSpeed = 5f;
+            }
+            if (player.MoveStatusHandler.CanJump && !player.MoveHandler.IsDashJump)
             {
                 Debug.Log("Walk로 이동");
                 player.ChangeMoveState(MoveBehavior.Walk);
@@ -48,6 +59,11 @@ public class Jump : State<MainPlayer>
             _currentSpeed = 0f;
         }
 
+        if(!player.MoveHandler.IsWalking)
+        {
+            player.MoveHandler.EndDash();
+        }
+
         if (player.MoveStatusHandler.CanJump && !player.MoveHandler.IsWalking && !player.InputHandler.IsJumpHeld)
         {
             Debug.Log("idle로 이동");
@@ -57,13 +73,20 @@ public class Jump : State<MainPlayer>
         if(_jumpTimer > _maxJumpTime || !player.InputHandler.IsJumpHeld)
         {
             _isFalling = true;
+            if(player.MoveStatusHandler.CanJump && player.MoveHandler.IsWalking)
+            {
+                player.ChangeMoveState(MoveBehavior.Walk);
+            }
         }
 
-        if (_isFalling = true && !player.PlayerHpHandler.IsHeating && _count != 130)
+        if (_isFalling == true && !player.PlayerHpHandler.IsHeating && _count != 130)
         {
-            Debug.Log("낙하");
             player.Rigidbody2D.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
             _count++;
+        }
+        else
+        {
+            _count = 0;
         }
     }
 
@@ -74,6 +97,7 @@ public class Jump : State<MainPlayer>
 
     public override void Exit(MainPlayer player)
     {
+        player.MoveHandler.EndDash();
         player.InputHandler.UseJumpRequest();
         Debug.Log("점프 종료");
         player.Rigidbody2D.linearVelocity = Vector2.zero;

@@ -14,10 +14,12 @@ public class MoveHandler : MonoBehaviour
     private int _moveDirection = 1;
     private RaycastHit _wallHit;
     private float _reaminSpeed;
+    private bool _dashJump;
     public int MoveDirection => _moveDirection;
     public bool IsWalking => _isWalking;
     public bool IsDashing => _isDashing;   
     public float ReaminSpeed => _reaminSpeed;
+    public bool IsDashJump => _dashJump;
     public void Initialize(MainPlayer player)
     {
         _player = player;
@@ -77,5 +79,15 @@ public class MoveHandler : MonoBehaviour
                                  _player.MoveStatusHandler.Perp.y * power * -_player.InputHandler.MoveInput * Time.deltaTime);
 
         return movePower;
+    }
+
+    public void DashJump()
+    {
+        _dashJump = true;
+    }
+
+    public void EndDash()
+    {
+        _dashJump = false;
     }
 }

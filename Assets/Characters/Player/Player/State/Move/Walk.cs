@@ -13,9 +13,12 @@ public class Walk : State<MainPlayer>
     {
         
     }
+
+    private float _count;
     public override void Enter(MainPlayer player)
     {
         _moveSpeed = 5f;
+        _count = 0;
     }
 
     public override void Execute(MainPlayer player)
@@ -37,10 +40,14 @@ public class Walk : State<MainPlayer>
         {
             player.ChangeMoveState(MoveBehavior.Dash);
         }
-
-        if (player.YDeltaChecker.IsFalling && !player.PlayerHpHandler.IsHeating)
+        if (!player.PlayerHpHandler.IsHeating && _count != 130 && !player.MoveStatusHandler.CanJump)
         {
             player.Rigidbody2D.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
+            _count++;
+        }
+        else
+        {
+            _count = 0;
         }
     }
 

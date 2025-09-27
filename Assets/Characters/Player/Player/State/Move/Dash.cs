@@ -28,17 +28,9 @@ public class Dash : State<MainPlayer>
             player.ChangeMoveState(MoveBehavior.Idle);
         }
 
-        if (player.InputHandler.IsDashHeld && player.MoveHandler.IsWalking)
+        if (player.InputHandler.IsDashHeld)
         {
-            if (_dashTimer < _dashRemainTime)
-            {
-                if(player.InputHandler.JumpRequested)
-                {
-                    movePower = Vector2.zero;
-                    player.ChangeMoveState(MoveBehavior.DashJump);
-                }
-            }
-            else if (_dashTimer > _dashRemainTime && player.MoveHandler.IsWalking)
+            if (_dashTimer > _dashRemainTime && player.MoveHandler.IsWalking)
             {
                 player.ChangeMoveState(MoveBehavior.Walk);
                 Debug.Log("walk로 이동");
@@ -53,6 +45,17 @@ public class Dash : State<MainPlayer>
         else
             player.ChangeMoveState(MoveBehavior.Idle);
 
+        if(!player.MoveStatusHandler.CanJump && !(player.InputHandler.MoveInput != 0))
+        {
+            player.ChangeMoveState(MoveBehavior.Idle);
+        }
+
+        if(player.InputHandler.JumpRequested)
+        {
+            player.MoveHandler.DashJump();
+            player.ChangeMoveState(MoveBehavior.Jump);
+        }
+
         if (!player.MoveStatusHandler.IsGround)
         {
             if (movePower.y != 0)
@@ -64,8 +67,8 @@ public class Dash : State<MainPlayer>
 
     public override void FixedExecute(MainPlayer player)
     {
-        movePower = new Vector2(player.MoveStatusHandler.Perp.x * _currentDashSpeed * -player.InputHandler.MoveInput * dt,
-                                 player.MoveStatusHandler.Perp.y * _currentDashSpeed * -player.InputHandler.MoveInput * dt);
+        movePower = new Vector2(player.MoveStatusHandler.Perp.x * _currentDashSpeed * -player.MoveHandler.MoveDirection * dt,
+                                 player.MoveStatusHandler.Perp.y * _currentDashSpeed * -player.MoveHandler.MoveDirection * dt);
 
         player.transform.Translate(movePower, Space.World);
     }

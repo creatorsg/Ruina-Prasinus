@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum MoveBehavior
 {
-    Idle, Walk, Dash, Jump, DashJump
+    Idle, Walk, Dash, Jump
 }
 
 public enum EventBehavior
@@ -69,14 +69,13 @@ public class MainPlayer : CharacterBase
 
     public override void SetUp()
     {
-        _move = new State<MainPlayer>[5];
+        _move = new State<MainPlayer>[4];
         _move[(int)MoveBehavior.Walk] = new Walk();
         _move[(int)MoveBehavior.Dash] = new Dash();
         _move[(int)MoveBehavior.Jump] = new Jump(_data.JumpPower, _data.JumpAccelPower, _data.JumpRemainTime);
-        _move[(int)MoveBehavior.DashJump] = new DashJump(_data.JumpPower, _data.JumpAccelPower, _data.JumpRemainTime);
         _move[(int)MoveBehavior.Idle] = new Idle();
         _moveMachine = new StateMachine<MainPlayer>();
-        _moveMachine.SetUp(this, _move[(int)MoveBehavior.Idle]);
+        _moveMachine.SetUp(this, _move[(int)MoveBehavior.Jump]);
 
         _event = new State<MainPlayer>[4];
         _event[(int)EventBehavior.None] = new None();
