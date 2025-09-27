@@ -13,6 +13,7 @@ public class Dash : State<MainPlayer>
     public override void Enter(MainPlayer player)
     {
         player.footsound.PlayDashSound();
+        player.MoveHandler.DashEffect();
         Debug.Log("대쉬 진입");
         _dashTimer = 0f;
         _currentDashSpeed = 10f;
@@ -31,10 +32,10 @@ public class Dash : State<MainPlayer>
         {
             if (_dashTimer < _dashRemainTime)
             {
-                if(Input.GetKeyDown(KeyCode.Space))
+                if(player.InputHandler.JumpRequested)
                 {
                     movePower = Vector2.zero;
-                    player.ChangeMoveState(MoveBehavior.Jump);
+                    player.ChangeMoveState(MoveBehavior.DashJump);
                 }
             }
             else if (_dashTimer > _dashRemainTime && player.MoveHandler.IsWalking)
@@ -59,7 +60,6 @@ public class Dash : State<MainPlayer>
                 movePower.y = 0;
             }
         }
-
     }
 
     public override void FixedExecute(MainPlayer player)

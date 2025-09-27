@@ -51,7 +51,7 @@ public class MoveStatusHandler : FindChildObject
         if (!_canDash)
         {
             _dashTimer += Time.deltaTime;
-            if (_dashTimer >= 3f)
+            if (_dashTimer >= 0.2f)
             {
                 _canDash = true;
             }

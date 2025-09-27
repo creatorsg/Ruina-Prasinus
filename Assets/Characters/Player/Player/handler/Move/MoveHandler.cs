@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -5,6 +6,9 @@ public class MoveHandler : MonoBehaviour
 {
     private MainPlayer _player;
     private InputHandler _inputHandler;
+    private GameObject _dashEffect;
+
+    public GameObject _dashposition;
 
     private bool _isWalking, _isDashing;
     private int _moveDirection = 1;
@@ -22,6 +26,7 @@ public class MoveHandler : MonoBehaviour
     private void Awake()
     {
         _inputHandler = GetComponent<InputHandler>();
+        _dashEffect = Resources.Load<GameObject>("dashEffect");
     }
 
     private void Update()
@@ -56,6 +61,14 @@ public class MoveHandler : MonoBehaviour
     public void RemainMoveSpeed(float speed)
     {
         _reaminSpeed = speed;
+    }
+
+
+    public void DashEffect()
+    {
+        Quaternion rot = Quaternion.Euler(0f, MoveDirection < 0 ? 180f : 0f, 0f);
+        GameObject obj = Instantiate(_dashEffect, _dashposition.transform.position, rot);
+        Destroy(obj, 0.3f);
     }
 
     public Vector2 MovePower(float power)
