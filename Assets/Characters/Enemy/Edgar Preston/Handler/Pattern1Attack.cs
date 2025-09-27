@@ -7,8 +7,8 @@ public class Pattern1Attack : MonoBehaviour
     private Preston _boss1;
     private playerHpHandler _playerHp;
     private Transform _pattern1, _pattern2, _pattern3, _pattern4, _player;
-    private CapsuleCollider2D _attack1;
-    private BoxCollider2D _attack2, _attack3, _attack4;
+    private BoxCollider2D _attack1, _attack2, _attack3, _attack4;
+    private Collider2D _attackCollider;
     private GameObject bossCrush;
 
     public void Initialize(Preston boss1)
@@ -26,69 +26,63 @@ public class Pattern1Attack : MonoBehaviour
         _pattern4 = transform.Find("pattern4");
         _player = transform.Find("Player");
 
-        _attack1 = _pattern1.GetComponentInChildren<CapsuleCollider2D>();
+        _attack1 = _pattern1.GetComponentInChildren<BoxCollider2D>();
         _attack2 = _pattern2.GetComponentInChildren<BoxCollider2D>();
+        _attack3 = _pattern3.GetComponentInChildren<BoxCollider2D>();
         _attack4 = _pattern4.GetComponentInChildren<BoxCollider2D>();
-//        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
-//       _playerHp = playerObject.GetComponent<playerHpHandler>();
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        _playerHp = playerObject.GetComponent<playerHpHandler>();
     }
 
+    public void ActivatePattern(int patternNumber)
+    {
+        _attack1.enabled = false;
+        _attack2.enabled = false;
+        _attack3.enabled = false;
+        _attack4.enabled = false;
 
-    private void Update()
-    {
-        
-    }
-    /*
-    public void DashAttack()
-    {
-        Attack(_attack1, 20);
-    }
-
-    public void PoundAttack()
-    {
-        Attack(_attack2, 20);
-    }
-
-    public void CrashAttack()
-    {
-        Attack(_attack3, 20);
-    }
-
-    public void CargingPunch(float index)
-    {
-        if (index == 1)
-            Attack(_attack4, 20);
-        else if (index == 2)
-            Attack(_attack4, 40);
-        else if (index == 3)
-            Attack(_attack4, 60);
-    }
-
-    public void Attack(Collider2D _attackCollider, float _attackPower)
-    {
-        if (_playerHp == null)
+        switch (patternNumber)
         {
-            Debug.LogError("PlayerHpHandler를 찾을 수 없습니다!");
-            return;
+            case 1:
+                _attack1.enabled = true;
+                _attackCollider = _attack1;
+                break;
+            case 2:
+                _attack2.enabled = true;
+                _attackCollider = _attack2;
+                break;
+            case 3:
+                _attack3.enabled = true;
+                _attackCollider = _attack3;
+                break;
+            case 4:
+                _attack4.enabled = true;
+                _attackCollider = _attack4;
+                break;
+            default:
+                Debug.LogWarning("없는 패턴" + patternNumber);
+                break;
         }
+    }
 
+    public void Attack(float _attackPower)
+    {
         List<Collider2D> overlapResults = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D().NoFilter();
-        int hitCount = _attackCollider.Overlap(filter, overlapResults);
-        if (hitCount > 0)
+        _attackCollider.Overlap(filter, overlapResults);
+
+        foreach (var hitCollider in overlapResults)
         {
-            foreach (var hitCollider in overlapResults)
+            if (hitCollider == _playerHp.Hitbox)
             {
-                if (hitCollider.CompareTag("Player"))
-                {
-                    _playerHp.Damaged(_attackPower);
-                    break; 
-                }
+                Debug.Log("닿음");
+                _playerHp.Damaged(_attackPower);
+                break;
             }
         }
     }
-    */
+
     public int RandomPattern()
     {
         int index = 0;
@@ -105,14 +99,20 @@ public class Pattern1Attack : MonoBehaviour
         return index;
     }
 
+    public void DeactivateAllPatterns()
+    {
+        _attack1.enabled = false;
+        _attack2.enabled = false;
+        _attack3.enabled = false;
+        _attack4.enabled = false;
+    }
+
+
     public void ADDSize()
     {
         if (_attack4 != null)
         {
-            // 현재 크기 가져오기
             Vector2 currentSize = _attack4.size;
-
-            // 1.2배로 증가
             _attack4.size = currentSize * 1.2f;
 
             Debug.Log($"_attack4 size increased: {_attack4.size}");
@@ -126,7 +126,10 @@ public class Pattern1Attack : MonoBehaviour
     public void CrushAttack()
     {
         GameObject crush = Instantiate(bossCrush, _boss1.transform.position, Quaternion.identity);
-        
+        Vector3 scale = crush.transform.localScale;
+        scale.x = _boss1.DetectHandler.Dir == Vector2.right ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
+        crush.transform.localScale = scale;
+
         Destroy(crush, 0.5f);
     }
 }

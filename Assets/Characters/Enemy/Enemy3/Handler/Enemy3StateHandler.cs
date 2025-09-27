@@ -1,6 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Enemy3StateHandler : FindChildObject
 {
@@ -16,6 +18,7 @@ public class Enemy3StateHandler : FindChildObject
     private GameObject _explosion;
     private float explodeAction = 0, _currentHp;
     private bool _isCliff, _isSlope, _playerCheck, _isMoving, _isGround, _isRush, _isHitWall;
+    private SpriteRenderer _spriteRenderer;
 
     //BugM0
     private MushroomAnime mushroomAnime;
@@ -36,6 +39,7 @@ public class Enemy3StateHandler : FindChildObject
 
     private void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _realMovement = FindChildWithTag(transform, "SlopeCheck");
         _realMovement2 = FindChildWithTag(transform, "SlopeCheck2");
         attackHandler = GetComponent<EnemyAttackHandler>();
@@ -43,7 +47,7 @@ public class Enemy3StateHandler : FindChildObject
         _playerMask = LayerMask.GetMask("Player");
 
         _explosion = Resources.Load<GameObject>("MushroomExplode");
-        _currentHp = 10f;
+        _currentHp = 60f;
 
     }
 
@@ -170,6 +174,8 @@ public class Enemy3StateHandler : FindChildObject
         }
         else if(collision.CompareTag("Bullet"))
         {
+
+            StartCoroutine(Blink());
             attackHandler.Damaged(_currentHp, 5f);
             _currentHp = _currentHp - 5f;
         }
@@ -189,5 +195,14 @@ public class Enemy3StateHandler : FindChildObject
 
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, _dir * 10f);
+    }
+
+    public IEnumerator Blink()
+    {
+        Color originalColor = _spriteRenderer.color;
+        _spriteRenderer.color = new Color(3f, 3f, 3f, 1f);
+        yield return new WaitForSeconds(0.1f);
+
+        _spriteRenderer.color = new Color(1f,1f,1f,1f);
     }
 }

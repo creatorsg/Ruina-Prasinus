@@ -52,6 +52,7 @@ public class Attack3State : State<Preston>
     }
     public override void Exit(Preston boss)
     {
+        boss.Pattern1Attack.DeactivateAllPatterns();
         Debug.Log("3∆–≈œ ≈ª√‚");
     }
 }

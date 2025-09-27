@@ -11,7 +11,7 @@ public class CharacterPlayer : ScriptableObject
     [Header("dash")]
     private float _maxDashSpeed = 10f;
     private float _remainDashTime = 0.5f;
-    private float _dashCooltime = 0.2f;
+    private float _dashCooltime = 0.1f;
 
     [Header("jump")]
     private float _jumpPower = 2f;

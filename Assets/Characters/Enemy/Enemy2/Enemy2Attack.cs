@@ -1,7 +1,15 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Enemy2Attack : MonoBehaviour
 {
+    private EnemyAttackHandler _attackHandler;
+    private SpriteRenderer _spriteRenderer;
+    private float _hp;
+    private GameObject _explosion;
+    private float _timer;
+
     [Header("발사체 프리팹")]
     public GameObject projectilePrefab;
 
@@ -12,6 +20,15 @@ public class Enemy2Attack : MonoBehaviour
     public float gravity = 9.81f;
 
     private Transform player;
+
+    private void Awake()
+    {
+        _attackHandler = GetComponent<EnemyAttackHandler>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _explosion = Resources.Load<GameObject>("DieEffect");
+
+        _hp = 20f;
+    }
 
     void Start()
     {
@@ -63,4 +80,35 @@ public class Enemy2Attack : MonoBehaviour
         rb.gravityScale = gravity / Physics2D.gravity.magnitude;
         rb.linearVelocity = new Vector2(vX, vY); // linearVelocity → velocity로 수정
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+
+            StartCoroutine(Blink());
+            _attackHandler.Damaged(_hp, 5f);
+            _hp = _hp - 5f;
+            if (_hp <= 0f)
+            {
+                Explode();
+                Destroy(gameObject);
+            }
+        }
+    }
+    public IEnumerator Blink()
+    {
+        Color originalColor = _spriteRenderer.color;
+        _spriteRenderer.color = new Color(3f, 3f, 3f, 1f);
+        yield return new WaitForSeconds(0.1f);
+
+        _spriteRenderer.color = originalColor;
+    }
+    public void Explode()
+    {
+        _spriteRenderer.enabled = false;
+        GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
+        Destroy(obj, 0.8f);
+    }
+
 }

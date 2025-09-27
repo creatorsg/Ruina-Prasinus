@@ -52,7 +52,7 @@ public class JangpungController : MonoBehaviour
     {
         if (InputManager.GetKey("LookUP"))
             return Vector2.up;
-        if (InputManager.GetKey("LieDown") && !status.IsGround)
+        if (InputManager.GetKey("LieDown") && !status.CanJump)
         {
             
             return (Vector2.down + (facingDirection == 1 ? Vector2.right : Vector2.left)).normalized;
@@ -63,8 +63,12 @@ public class JangpungController : MonoBehaviour
 
     private void LaunchProjectile(Vector2 direction)
     {
+        Vector2 dir = CalculateLaunchDirection();
         _isAttack = true;
         GameObject obj = Instantiate(jangpung.projectilePrefab, transform.position, Quaternion.identity);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        obj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         if (obj.TryGetComponent<Rigidbody2D>(out var rb))
         {
             rb.linearVelocity = direction * jangpung.speed;

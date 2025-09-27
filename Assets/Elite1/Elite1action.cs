@@ -1,5 +1,7 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
 
 [RequireComponent(typeof(Elite1State))]
 [RequireComponent(typeof(Elite1Handler))]
@@ -8,6 +10,12 @@ using System.Collections;
 [RequireComponent(typeof(EliteAnime))]
 public class Elite1action : MonoBehaviour
 {
+    private EnemyAttackHandler _attackHandler;
+    private SpriteRenderer _spriteRenderer;
+    private float _hp;
+    private GameObject _explosion;
+    private float _timer;
+
     private Elite1State state;
     private Elite1Handler handler;
     private Rigidbody2D rb;
@@ -36,6 +44,13 @@ public class Elite1action : MonoBehaviour
 
     private void Awake()
     {
+        _attackHandler = GetComponent<EnemyAttackHandler>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _hp = 20f;
+
+        _explosion = Resources.Load<GameObject>("DieEffect");
+
+
         state = GetComponent<Elite1State>();
         handler = GetComponent<Elite1Handler>();
         rb = GetComponent<Rigidbody2D>();
@@ -195,5 +210,34 @@ public class Elite1action : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
 
+            StartCoroutine(Blink());
+            _attackHandler.Damaged(_hp, 5f);
+            _hp = _hp - 5f;
+            if (_hp <= 0f)
+            {
+                Explode();
+                Destroy(gameObject);
+            }
+        }
+    }
+    public IEnumerator Blink()
+    {
+        Color originalColor = _spriteRenderer.color;
+        _spriteRenderer.color = new Color(3f, 3f, 3f, 1f);
+        yield return new WaitForSeconds(0.1f);
+
+        _spriteRenderer.color = originalColor;
+    }
+
+    public void Explode()
+    {
+        _spriteRenderer.enabled = false;
+        GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
+        Destroy(obj, 0.8f);
+    }
 }
