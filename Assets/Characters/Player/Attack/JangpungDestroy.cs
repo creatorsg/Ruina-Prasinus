@@ -2,20 +2,62 @@ using UnityEngine;
 
 public class JangpungDestroy : MonoBehaviour
 {
-    [SerializeField] Animator _animator;
-    private float autoDestroyTime = 0.8f;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private float autoDestroyTime = 0.25f;
+    [SerializeField] private string energyBlastEndClipName = "energyBlastEnd";
 
-    void Start()
+    private bool hasHit = false;
+    private Rigidbody2D rb;
+
+    private void Awake()
     {
-        Destroy(gameObject, autoDestroyTime);
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
     {
+        // autoDestroyTime�� ������ energyBlastEnd ���
+        Invoke(nameof(AutoDestroy), autoDestroyTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (hasHit) return;
+
         if (collision.CompareTag("Ground") || collision.CompareTag("Enemy"))
         {
-            _animator.SetBool("hasHitWall", true);
-            Destroy(gameObject, 0.3f);
+            hasHit = true;
+            LockPositionAndPlayAnimation();
         }
+    }
+
+    private void AutoDestroy()
+    {
+        if (hasHit) return;
+
+        hasHit = true;
+        LockPositionAndPlayAnimation();
+    }
+
+    private void LockPositionAndPlayAnimation()
+    {
+        // ��ġ ����
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.isKinematic = true; // ���� ���� ����
+        }
+
+        // �ʿ� �� Transform �̵��� ���� �� ����
+        // transform.position = transform.position;
+
+        // �ִϸ��̼� ���
+        _animator.Play(energyBlastEndClipName, -1, 0f);
+    }
+
+    // �ִϸ��̼� �̺�Ʈ���� ȣ��
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }
