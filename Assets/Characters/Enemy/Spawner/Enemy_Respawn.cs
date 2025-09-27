@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomEnemyRespawner : MonoBehaviour
@@ -13,6 +12,11 @@ public class RoomEnemyRespawner : MonoBehaviour
 
     private Following_Player _playerCamera;
     private bool isPlayerInSpawnArea = false;
+
+    private bool _cleared = false;
+
+    public bool Cleared => _cleared; 
+
     private void Awake()
     {
         _playerCamera = UnityEngine.Object.FindFirstObjectByType<Following_Player>();
@@ -24,24 +28,20 @@ public class RoomEnemyRespawner : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
-        {
             isPlayerInSpawnArea = true;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
-        {
             isPlayerInSpawnArea = false;
-        }
     }
 
     private void Update()
     {
         bool inThisRoom = _playerCamera.boundParent == _room;
 
-        if (inThisRoom && isPlayerInSpawnArea)
+        if (inThisRoom && isPlayerInSpawnArea && !_cleared)
         {
             for (int i = 0; i < _spawnInfos.Count; i++)
             {
@@ -69,7 +69,7 @@ public class RoomEnemyRespawner : MonoBehaviour
                 if (_currentEnemies[i] != null)
                 {
                     Destroy(_currentEnemies[i]);
-                    _currentEnemies[i] = null; 
+                    _currentEnemies[i] = null;
                 }
             }
         }
@@ -78,6 +78,23 @@ public class RoomEnemyRespawner : MonoBehaviour
     public void MarkDestroyed(int index)
     {
         if (index >= 0 && index < _spawnInfos.Count)
+        {
             _spawnInfos[index].isDestroyed = true;
+
+            bool allDestroyed = true;
+            foreach (var info in _spawnInfos)
+            {
+                if (!info.isDestroyed)
+                {
+                    allDestroyed = false;
+                    break;
+                }
+            }
+
+            if (allDestroyed)
+            {
+                _cleared = true;
+            }
+        }
     }
 }

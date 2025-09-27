@@ -86,6 +86,6 @@ public class Attack4State : State<Preston>
     }
     public override void Exit(Preston boss)
     {
-        
+        boss.Pattern1Attack.DeactivateAllPatterns();
     }
 }

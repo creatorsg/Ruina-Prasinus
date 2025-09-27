@@ -36,15 +36,7 @@ public class playerHpHandler : FindChildObject
 
     private void Update()
     {
-        if (_isHeating)
-        {
-            _player.ChangeMoveState(MoveBehavior.Idle);
-        }
 
-        if(_hp <= 0)
-        {
-            _player.ChangeEventState(EventBehavior.Die);
-        }
     }
 
 
@@ -60,6 +52,14 @@ public class playerHpHandler : FindChildObject
             float damagejump = _player.MoveStatusHandler.CanJump ? 3f : 5f;
             _player.Rigidbody2D.linearVelocity = new Vector2(0f, damagejump);
 
+            if(_hp <= 0)
+            {
+                _player.ChangeEventState(EventBehavior.Die);
+            }
+            else
+            {
+                _player.ChangeMoveState(MoveBehavior.Idle);
+            }
             StartCoroutine(HitRoutine());
         }
     }
@@ -76,7 +76,7 @@ public class playerHpHandler : FindChildObject
     }
     public void Explode()
     {
-        Destroy(gameObject);
+        spriteRenderer.enabled = false;
         GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
         Destroy(obj, 0.8f);
     }

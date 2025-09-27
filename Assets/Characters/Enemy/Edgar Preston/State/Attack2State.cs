@@ -46,7 +46,8 @@ public class Attack2State : State<Preston>
                 if (_phaseTimer >= 0.5f)
                 {
                     Debug.Log("패턴 2 종료");
-                    boss.ChangeState(BossBehaviour.Stun);
+                    if(boss.DetectHandler.IsGround) 
+                        boss.ChangeState(BossBehaviour.Stun);
                 }
                 break;
         }
@@ -72,15 +73,15 @@ public class Attack2State : State<Preston>
                 break;
 
             case Phase.Attack:
-                boss.Rigidbody2D.AddForce(Vector2.down * 20f, ForceMode2D.Force);
-                break;
-
-
-                
+                if (!boss.DetectHandler.IsGround)
+                {
+                    boss.Rigidbody2D.AddForce(Vector2.down * 20f, ForceMode2D.Force);
+                }
+                break;   
         }
     }
     public override void Exit(Preston boss)
     {
-      
+        boss.Pattern1Attack.DeactivateAllPatterns();
     }
 }

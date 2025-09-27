@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
 {
-    private PolygonCollider2D _enemyCollider;
-    private playerHpHandler _playerHp;
+    private Collider2D _enemyCollider;
+    private SpriteRenderer _spriteRenderer;
+
+    protected playerHpHandler _playerHp;
     private float _enemyHp; 
     private bool _heatTerm;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        _enemyCollider = GetComponent<PolygonCollider2D>();
-
+        _enemyCollider = GetComponent<Collider2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
         {
@@ -32,6 +34,7 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
         {
             if (hitCollider == _playerHp.Hitbox)
             {
+                Debug.Log("¥Í¿Ω");
                 _playerHp.Damaged(_attackPower);
                 break;
             }
@@ -42,6 +45,7 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
     {
         if (_heatTerm)
         {
+            StartCoroutine(Blink());
             _enemyHp -= _playerAttack;
             _heatTerm = false;
             StartCoroutine(DamageTerm());
@@ -54,4 +58,15 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
         yield return new WaitForSeconds(0.5f);
         _heatTerm = true;
     }
+
+    public IEnumerator Blink()
+    {
+        Color originalColor = _spriteRenderer.color;
+
+        _spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.3f);
+        yield return new WaitForSeconds(0.1f);
+
+        _spriteRenderer.color = originalColor;
+    }
+
 }

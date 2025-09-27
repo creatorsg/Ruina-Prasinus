@@ -68,6 +68,7 @@ public class Attack1State : State<Preston>
     }
     public override void Exit(Preston boss)
     {
+        boss.Pattern1Attack.DeactivateAllPatterns();
         if (boss.Rigidbody2D != null)
         {
             boss.Rigidbody2D.linearVelocity = Vector2.zero;

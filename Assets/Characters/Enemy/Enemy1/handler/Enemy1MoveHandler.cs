@@ -21,8 +21,11 @@ public class Enemy1MoveHandler : MonoBehaviour
 
     public void FixedUpdate()
     {
-        Vector2 diff = _player.transform.position - transform.position;
-        _dist = diff.sqrMagnitude;
+        if (_player != null)
+        {
+            Vector2 diff = _player.transform.position - transform.position;
+            _dist = diff.sqrMagnitude;
+        }
     }
     
     public void IdleMove(float speed)
@@ -32,11 +35,14 @@ public class Enemy1MoveHandler : MonoBehaviour
 
     public void FollowPlayer(float speed)
     {
-        Vector2 nextPos = Vector2.MoveTowards(
-                transform.position,
-                _player.transform.position,
-                speed * Time.deltaTime
-            );
-        transform.position = nextPos;
+        if (_player != null)
+        {
+            Vector2 nextPos = Vector2.MoveTowards(
+                    transform.position,
+                    _player.transform.position,
+                    speed * Time.deltaTime
+                );
+            transform.position = nextPos;
+        }
     }
 }

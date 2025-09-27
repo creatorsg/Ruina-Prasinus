@@ -7,18 +7,24 @@ public class IdleState : State<Preston>
     public override void Enter(Preston boss)
     {
         _timer = 0f;
-
+        boss.DetectHandler.DetectPlayer();
         int pattern = boss.Pattern1Attack.RandomPattern();
+        boss.Pattern1Attack.ActivatePattern(pattern);
         _nextPattern = (BossBehaviour)pattern;
     }
 
     public override void Execute(Preston boss)
     {
-        _timer += Time.deltaTime;
+        Debug.Log(boss.DetectHandler.IsGround);
 
-        if (_timer >= 0.5f)
+        if (boss.DetectHandler.IsGround)
         {
-            boss.ChangeState(_nextPattern);
+            _timer += Time.deltaTime;
+
+            if (_timer >= 0.5f)
+            {
+                boss.ChangeState(_nextPattern);
+            }
         }
     }
 

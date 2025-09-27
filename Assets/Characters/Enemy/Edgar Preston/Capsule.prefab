@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 789211786078133814}
   - component: {fileID: 3125206102891093937}
   - component: {fileID: 7524612828614439957}
+  - component: {fileID: 8253588950724114793}
   m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
@@ -366,6 +367,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53767b53a3254b241859778595662b70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8253588950724114793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105917623084799228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce2683bf431decb4ea753315917caccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6436140588045007556

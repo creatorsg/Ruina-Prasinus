@@ -1,9 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy1AttackHandler : MonoBehaviour
 {
     private playerHpHandler _playerHp;
+    private SpriteRenderer _spriteRenderer;
     private Collider2D _attackCollider;
     private Butterflymon _enemy1;
     private PauseManager PauseManager;
@@ -25,6 +27,7 @@ public class Enemy1AttackHandler : MonoBehaviour
     private void Awake()
     {
         GameObject obj = GameObject.FindGameObjectWithTag("PauseManager");
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         PauseManager = obj.GetComponent<PauseManager>();
         _attackCollider = GetComponent<Collider2D>();
 
@@ -88,6 +91,7 @@ public class Enemy1AttackHandler : MonoBehaviour
     {
         if (other.CompareTag("Bullet") && !_isHeating)
         {
+            StartCoroutine(Blink());
             _hp -= 10; 
             _isHeating = true;
             Debug.Log($"적 HP: {_hp}");
@@ -97,5 +101,17 @@ public class Enemy1AttackHandler : MonoBehaviour
                 _enemy1.ChangeState(EnemyBehavior.Die);
             }
         }
+    }
+
+    public IEnumerator Blink()
+    {
+        Color originalColor = _spriteRenderer.color;
+
+        // 흰색으로 반짝
+        _spriteRenderer.color = new Color(3f, 3f, 3f, 1f);
+        yield return new WaitForSeconds(0.1f);
+
+        // 원래 색상 복구
+        _spriteRenderer.color = originalColor;
     }
 }

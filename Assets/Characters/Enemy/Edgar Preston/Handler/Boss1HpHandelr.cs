@@ -5,7 +5,8 @@ public class Boss1HpHandelr : MonoBehaviour
 {
     private Preston _boss1;
     private float _initialHp, _currentHp;
-    private bool _page2;
+    private BossRoom _room;
+    private bool _page2 = false;
     
     public bool Page2 => _page2;
 
@@ -16,6 +17,10 @@ public class Boss1HpHandelr : MonoBehaviour
         _currentHp = _initialHp;
     }
 
+    private void Awake()
+    {
+        
+    }
     public void Damaged(float attackPower)
     {
 
@@ -28,5 +33,11 @@ public class Boss1HpHandelr : MonoBehaviour
         {
             _page2 = true;
         }
+    }
+
+    public void ClearBossRoom()
+    {
+        _room.BossClear();
+        Destroy(gameObject);
     }
 }
