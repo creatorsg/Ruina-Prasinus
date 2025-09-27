@@ -8,8 +8,7 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
     private SpriteRenderer _spriteRenderer;
 
     protected playerHpHandler _playerHp;
-    private float _enemyHp; 
-    private bool _heatTerm;
+    private float _enemyHp;
 
     protected virtual void Awake()
     {
@@ -20,8 +19,6 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
         {
             _playerHp = playerObject.GetComponent<playerHpHandler>();
         }
-
-        _heatTerm = true;
     }
 
     public void Attack(float _attackPower)
@@ -41,20 +38,9 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
         }
     }
 
-    public void Damaged(float _enemyHp,float _playerAttack)
+    public void Damaged(float _enemyHp, float _playerAttack)
     {
-        if (_heatTerm)
-        {
-            _enemyHp -= _playerAttack;
-            _heatTerm = false;
-            StartCoroutine(DamageTerm());
-            Debug.Log(_enemyHp);
-        }
-    }
-
-    private IEnumerator DamageTerm()
-    {
-        yield return new WaitForSeconds(0.5f);
-        _heatTerm = true;
+        _enemyHp -= _playerAttack; // 무적 없이 즉시 피해 적용
+        Debug.Log(_enemyHp);
     }
 }

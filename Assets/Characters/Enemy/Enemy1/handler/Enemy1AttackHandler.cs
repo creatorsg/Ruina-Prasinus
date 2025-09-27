@@ -11,8 +11,7 @@ public class Enemy1AttackHandler : MonoBehaviour
     private Butterflymon _enemy1;
     private PauseManager PauseManager;
     private float _hp, _attackPower;
-    private float _heatTimer;
-    private bool _isHeating, _attacking;
+    private bool _attacking;
     private GameObject _explosion;
     public bool Attacking => _attacking;
 
@@ -42,28 +41,17 @@ public class Enemy1AttackHandler : MonoBehaviour
 
     public void Update()
     {
-        if (_isHeating)
-        {
-            _heatTimer += Time.deltaTime;
-            if (_heatTimer >= 0.5f)
-            {
-                _isHeating = false;
-                _heatTimer = 0;
-            }
-        }
-
-        if(PauseManager.Pause)
+        if (PauseManager.Pause)
         {
             Pause();
             _enemy1.ChangeState(EnemyBehavior.Idle);
         }
     }
 
-
     public void Attack()
     {
         List<Collider2D> overlapResults = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D().NoFilter(); 
+        ContactFilter2D filter = new ContactFilter2D().NoFilter();
         _attackCollider.Overlap(filter, overlapResults);
 
         foreach (var hitCollider in overlapResults)
@@ -73,7 +61,7 @@ public class Enemy1AttackHandler : MonoBehaviour
                 Debug.Log("´êÀ½");
                 _playerHp.Damaged(_attackPower);
                 _attacking = true;
-                break; 
+                break;
             }
         }
     }
@@ -84,6 +72,7 @@ public class Enemy1AttackHandler : MonoBehaviour
         _enemy1.Enemy1SpawnHandler.enabled = false;
         _enemy1.Rigidbody2D.linearVelocity = Vector2.zero;
     }
+
     public void AttackEnd()
     {
         _attacking = false;
@@ -91,11 +80,10 @@ public class Enemy1AttackHandler : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Bullet") && !_isHeating)
+        if (other.CompareTag("Bullet"))
         {
             StartCoroutine(Blink());
-            _hp -= 10; 
-            _isHeating = true;
+            _hp -= 10;
             Debug.Log($"Àû HP: {_hp}");
 
             if (_hp <= 0)
