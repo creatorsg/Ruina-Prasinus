@@ -4,19 +4,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterEnemy1", menuName = "Scriptable Objects/CharacterEnemy1")]
 public class CharacterEnemy1 : ScriptableObject
 {
-    [Header("Àû ±âº» ½ºÅÈ")]
+    [Header("ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½")]
     private float _enemyHp = 30f;
 
-    [Header("None »óÅÂÀÏ ¶§")]
+    [Header("None ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½")]
     private float _spawnDistance = 5f;
 
-    [Header("Move »óÅÂÀÏ ¶§")]
+    [Header("Move ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½")]
     private float _moveSpeed = 3f;
 
-    [Header("Idle »óÅÂÀÏ ¶§")]
-    private float _detectDistance = 5f;
+    [Header("Idle ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½")]
+    private float _detectDistance = 50f;
 
-    [Header("Attack »óÅÂÀÏ ¶§")]
+    [Header("Attack ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½")]
     private float _attackDistance = 2f;
     private float _attackPoewr = 10f;
 
