@@ -5,7 +5,7 @@ public class Jump : State<MainPlayer>
     private float _jumpPower, _jumpAccelPower, _jumpRemainTime, _maxJumpTime;
     private float _moveSpeed, _moveDirection;
     private float _currentSpeed, _walkTimer, _jumpTimer;
-    private float _walkAccelTime, _maxWalkSpeed, dt = Time.deltaTime;
+    private float _walkAccelTime, _maxWalkSpeed, dt = Time.deltaTime, _count;
     private bool _isFalling;
     public Jump(float jumpPower, float jumpAccelPower, float jumpRemainTime)
     {
@@ -19,6 +19,7 @@ public class Jump : State<MainPlayer>
         _currentSpeed = 5f;
         _jumpTimer = 0f;
         _maxJumpTime = 0.13f;
+        _count = 0;
         player.Rigidbody2D.linearVelocity = new Vector2(0, 0);
         player.Rigidbody2D.linearVelocity = new Vector2(player.Rigidbody2D.linearVelocity.x, 5f);
     }
@@ -58,10 +59,11 @@ public class Jump : State<MainPlayer>
             _isFalling = true;
         }
 
-        if(_isFalling = true && !player.PlayerHpHandler.IsHeating)
+        if (_isFalling = true && !player.PlayerHpHandler.IsHeating && _count != 130)
         {
             Debug.Log("³«ÇÏ");
             player.Rigidbody2D.AddForce(Vector2.down * 20f * Time.deltaTime, ForceMode2D.Impulse);
+            _count++;
         }
     }
 
