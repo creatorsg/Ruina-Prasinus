@@ -8,16 +8,15 @@ public class footsound : MonoBehaviour
     [SerializeField] EventReference _dashSound;
     [SerializeField] EventReference _Jumpsound;
     [SerializeField] EventReference _attackSound;
-    [SerializeField] EventReference _attackSound2;  
-    [SerializeField] EventReference _riverSound;
+    [SerializeField] EventReference _attackSound2;
     [SerializeField] EventReference explodeSound;
+    [SerializeField] EventReference BGM;
     [SerializeField] EventReference HitSound;
     [SerializeField] float _rate, _riverRate;
 
     private bool _riverSoundPlayed;
     private BoxCollider2D _boxCollider2D;
     private GameObject _player;
-    private GameObject _river;
     private MoveHandler _playermove;
     private float _time, _riverTime;
 
@@ -34,14 +33,7 @@ public class footsound : MonoBehaviour
         {
             _playermove = _player.GetComponent<MoveHandler>();
         }
-
-        _river = GameObject.FindGameObjectWithTag("River");
-        RuntimeManager.PlayOneShotAttached(_riverSound, _river);
-
-        if(_river == null)
-        {
-            Debug.Log("_river를 찾을 수 없습니다.");
-        }
+        RuntimeManager.PlayOneShotAttached(BGM, _player);
     }
 
     private void Update()
