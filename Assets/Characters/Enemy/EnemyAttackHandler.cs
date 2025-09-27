@@ -45,7 +45,6 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
     {
         if (_heatTerm)
         {
-            StartCoroutine(Blink());
             _enemyHp -= _playerAttack;
             _heatTerm = false;
             StartCoroutine(DamageTerm());
@@ -58,15 +57,4 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
         yield return new WaitForSeconds(0.5f);
         _heatTerm = true;
     }
-
-    public IEnumerator Blink()
-    {
-        Color originalColor = _spriteRenderer.color;
-
-        _spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.3f);
-        yield return new WaitForSeconds(0.1f);
-
-        _spriteRenderer.color = originalColor;
-    }
-
 }

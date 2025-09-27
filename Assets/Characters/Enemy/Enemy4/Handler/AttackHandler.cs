@@ -1,14 +1,19 @@
-using Mono.Cecil;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackHandler : FindChildObject
 {
     private FlowerCannon _enemy4;
     private Transform _bulletSpawner;
-    private Bullet _bullet;
+    public MonsterBullet _bullet;
     private float _bulletSpeed, _cooltime;
     private bool _isCooltime;
-
+    private EnemyAttackHandler _attackHandler;
+    private SpriteRenderer _spriteRenderer;
+    private float _hp;
+    private GameObject _explosion;
+    private float _timer;
     public bool IsCooltime => _isCooltime;
     public void Initialize(FlowerCannon enemy4, float bulletSpeed)
     {
@@ -19,8 +24,13 @@ public class AttackHandler : FindChildObject
     private void Awake()
     {
         _bulletSpawner = FindChildWithTag(this.transform, "bulletSpawner");
-        _bullet = new Bullet();
+        _bullet = new MonsterBullet();
         _bullet.projectile = Resources.Load<GameObject>("Circle");
+        _attackHandler = GetComponent<EnemyAttackHandler>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _explosion = Resources.Load<GameObject>("DieEffect");
+
+        _hp = 50f;
     }
 
     private void Update()
@@ -35,6 +45,22 @@ public class AttackHandler : FindChildObject
             }
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+
+            StartCoroutine(Blink());
+            _attackHandler.Damaged(_hp, 5f);
+            _hp = _hp - 5f;
+            if (_hp <= 0f)
+            {
+                Explode();
+                Destroy(gameObject);
+            }
+        }
+    }
     public void ShootBullet()
     {
         Vector2 dir = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
@@ -44,9 +70,24 @@ public class AttackHandler : FindChildObject
             rb.linearVelocity = dir * _bulletSpeed;
         }
     }
+    public IEnumerator Blink()
+    {
+        Color originalColor = _spriteRenderer.color;
+        _spriteRenderer.color = new Color(3f, 3f, 3f, 1f);
+        yield return new WaitForSeconds(0.1f);
+
+        _spriteRenderer.color = originalColor;
+    }
 
     public void CoolTimer()
     {
         _isCooltime = true;
+    }
+
+    public void Explode()
+    {
+        _spriteRenderer.enabled = false;
+        GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
+        Destroy(obj, 0.8f);
     }
 }

@@ -13,7 +13,11 @@ public class attackPlayer : MonoBehaviour
         _attackCollider = GetComponent<Collider2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Update()
+    {
+        Attack();
+    }
+    public void Attack()
     {
         List<Collider2D> overlapResults = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D().NoFilter();
