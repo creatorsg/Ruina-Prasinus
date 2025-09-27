@@ -6,7 +6,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private initialState state;
     [SerializeField] private InputComponent input;
     [SerializeField] private MovePlayerView view;
-    
+
     private PlayerStatus status;
     private ModelMove model;
 

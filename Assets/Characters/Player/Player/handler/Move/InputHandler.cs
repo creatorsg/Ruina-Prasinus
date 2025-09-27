@@ -4,7 +4,7 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     private MainPlayer _player;
-    
+
     private event Action<float> OnMove;
     private event Action OnDash;
     private event Action OnJump;
@@ -56,7 +56,7 @@ public class InputHandler : MonoBehaviour
         MoveEvent();
 
         _isDashHeld = InputManager.GetKey("Dash");
-        _isJumpHeld = Input.GetKey(KeyCode.Z);
+        _isJumpHeld = Input.GetKey(KeyCode.Space);
         _dashcoolTimer = Mathf.Min(_dashcoolTimer + Time.deltaTime, _dashCooltime);
 
         _canDash = _dashcoolTimer >= _dashCooltime;
@@ -90,7 +90,7 @@ public class InputHandler : MonoBehaviour
             OnDash?.Invoke();
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             OnJump?.Invoke();
         }
@@ -104,7 +104,7 @@ public class InputHandler : MonoBehaviour
     public void UseJumpRequest()
     {
         _jumpRequested = false;
-        _jumpBufferTimer = 0f; 
+        _jumpBufferTimer = 0f;
     }
 
 }

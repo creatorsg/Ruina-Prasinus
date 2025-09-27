@@ -19,7 +19,7 @@ public class Following_Player : MonoBehaviour
 
         if (player != null && cameraBounds != null)
         {
-  
+
             Bounds b = cameraBounds.bounds;
             float minX = b.min.x + halfWidth, maxX = b.max.x - halfWidth;
             float minY = b.min.y + halfHeight, maxY = b.max.y - halfHeight;

@@ -3,7 +3,7 @@ using UnityEngine;
 public class Attack : State<MainPlayer>
 {
     private float attackMode, attackTimer, exitTimer;
-    private enum Phase {  attack1, attack2 }
+    private enum Phase { attack1, attack2 }
     private Phase _currentPhase;
 
     public override void Enter(MainPlayer player)
@@ -17,7 +17,7 @@ public class Attack : State<MainPlayer>
     {
         exitTimer += Time.deltaTime;
 
-        switch(_currentPhase)
+        switch (_currentPhase)
         {
             case Phase.attack1:
                 if (attackTimer == 0)
@@ -25,7 +25,7 @@ public class Attack : State<MainPlayer>
 
                 attackTimer += Time.deltaTime;
 
-                if(InputManager.GetKeyDown("Attack") && attackTimer <= 1f)
+                if (InputManager.GetKeyDown("Attack") && attackTimer <= 1f)
                 {
                     attackMode = 1;
                     _currentPhase = Phase.attack2;
@@ -36,12 +36,12 @@ public class Attack : State<MainPlayer>
                 break;
 
             case Phase.attack2:
-                if(attackTimer == 0)
+                if (attackTimer == 0)
                     player.footsound.PlayAttackSound(attackMode);
 
                 attackTimer += Time.deltaTime;
 
-                if (InputManager.GetKeyDown("Attack") && attackTimer <= 1f   )
+                if (InputManager.GetKeyDown("Attack") && attackTimer <= 1f)
                 {
                     attackMode = 0;
                     _currentPhase = Phase.attack1;
@@ -51,7 +51,7 @@ public class Attack : State<MainPlayer>
                 break;
         }
 
-        if(exitTimer > 1.5f)
+        if (exitTimer > 1.5f)
         {
             player.ChangeEventState(EventBehavior.None);
         }

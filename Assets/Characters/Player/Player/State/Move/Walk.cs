@@ -8,7 +8,7 @@ public class Walk : State<MainPlayer>
     private Vector2 movePower;
     public Walk()
     {
-        
+
     }
 
     private float _count;

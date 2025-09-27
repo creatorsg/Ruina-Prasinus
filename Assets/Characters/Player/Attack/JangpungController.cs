@@ -54,11 +54,11 @@ public class JangpungController : MonoBehaviour
             return Vector2.up;
         if (InputManager.GetKey("LieDown") && !status.CanJump)
         {
-            
+
             return (Vector2.down + (facingDirection == 1 ? Vector2.right : Vector2.left)).normalized;
         }
 
-        return facingDirection == 1 ? Vector2.right : Vector2.left;  
+        return facingDirection == 1 ? Vector2.right : Vector2.left;
     }
 
     private void LaunchProjectile(Vector2 direction)
