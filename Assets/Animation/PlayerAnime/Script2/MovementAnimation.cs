@@ -36,7 +36,8 @@ public class MovementAnimation : MonoBehaviour
         isGround = animationTotal.isGround;
 
         // Dash, Attack, Intermediate 재생 중이면 Update에서 애니메이션 변경 금지
-        if (isIntermediatePlaying || (attackNotifier != null && attackNotifier.IsAttacking)) return;
+        if (isIntermediatePlaying || (attackNotifier != null && attackNotifier.IsAttacking) || dashCoroutine != null)
+            return;
 
         // 착지 시 Land 재생
         if (!wasGround && isGround)
@@ -110,7 +111,6 @@ public class MovementAnimation : MonoBehaviour
 
     private IEnumerator PlayStopIntermediate(float duration)
     {
-        // Stop 재생
         if (isIntermediatePlaying) yield break;
 
         isIntermediatePlaying = true;
@@ -120,7 +120,6 @@ public class MovementAnimation : MonoBehaviour
         float timer = 0f;
         while (timer < duration)
         {
-            // Walk, Dash, Attack 입력이 들어오면 즉시 캔슬
             if (animationTotal.isWalk || animationTotal.isDash || (attackNotifier != null && attackNotifier.IsAttacking))
                 break;
 
@@ -130,7 +129,6 @@ public class MovementAnimation : MonoBehaviour
 
         isIntermediatePlaying = false;
 
-        // Stop 종료 후 안전하게 Idle로 전환
         if (!animationTotal.isWalk && !animationTotal.isDash && !(attackNotifier != null && attackNotifier.IsAttacking))
         {
             ChangeAnimation("Idle", force: true);
@@ -140,6 +138,14 @@ public class MovementAnimation : MonoBehaviour
 
     private IEnumerator PlayDashSequence()
     {
+        // Intermediate가 재생 중이면 강제로 종료
+        if (intermediateCoroutine != null)
+        {
+            StopCoroutine(intermediateCoroutine);
+            intermediateCoroutine = null;
+            isIntermediatePlaying = false;
+        }
+
         animator.Play("ToDash");
         currentState = "ToDash";
 
@@ -158,15 +164,17 @@ public class MovementAnimation : MonoBehaviour
         // Dash 종료 후 상태 판단
         if (isGround)
         {
-            if (!animationTotal.isWalk)
+            if (animationTotal.isWalk)
             {
-                StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.5f));
-            }
-            else
-            {
+                // 걷기 입력이 있으면 바로 Running으로
                 animator.Play("Running", 0, 0f);
                 currentState = "Running";
                 lastCalculatedState = "Running";
+            }
+            else
+            {
+                // 걷기 입력 없으면 Idle로
+                StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.5f));
             }
         }
         else
