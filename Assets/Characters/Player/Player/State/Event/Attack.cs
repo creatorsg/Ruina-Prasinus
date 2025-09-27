@@ -25,7 +25,7 @@ public class Attack : State<MainPlayer>
 
                 attackTimer += Time.deltaTime;
 
-                if (InputManager.GetKeyDown("Attack") && attackTimer <= 1f)
+                if (Input.GetKeyDown(KeyCode.X) && attackTimer <= 1f)
                 {
                     attackMode = 1;
                     _currentPhase = Phase.attack2;
