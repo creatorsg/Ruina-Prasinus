@@ -6,9 +6,12 @@ public class footsound : MonoBehaviour
     private MainPlayer _Mainplayer;
     string _walkSound = MusicStorage.GetSE("WalkSound");
     [SerializeField] EventReference _dashSound;
+    [SerializeField] EventReference _Jumpsound;
     [SerializeField] EventReference _attackSound;
     [SerializeField] EventReference _attackSound2;  
     [SerializeField] EventReference _riverSound;
+    [SerializeField] EventReference explodeSound;
+    [SerializeField] EventReference HitSound;
     [SerializeField] float _rate, _riverRate;
 
     private bool _riverSoundPlayed;
@@ -78,5 +81,20 @@ public class footsound : MonoBehaviour
         {
             RuntimeManager.PlayOneShotAttached(_attackSound2, _player);
         }
+    }
+
+    public void PlayExplodeSound()
+    {
+        RuntimeManager.PlayOneShotAttached(explodeSound, _player);
+    }
+
+    public void PlayHitSound()
+    {
+        RuntimeManager.PlayOneShotAttached(HitSound, _player);
+    }
+
+    public void PlayJumpSound()
+    {
+        RuntimeManager.PlayOneShotAttached(_Jumpsound, _player);
     }
 }

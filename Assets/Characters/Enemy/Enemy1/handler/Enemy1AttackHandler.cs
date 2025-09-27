@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMOD;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy1AttackHandler : MonoBehaviour
 {
+    private MonsterSound _sound;
+
     private playerHpHandler _playerHp;
     private SpriteRenderer _spriteRenderer;
     private Collider2D _attackCollider;
@@ -26,6 +29,8 @@ public class Enemy1AttackHandler : MonoBehaviour
 
     private void Awake()
     {
+        _sound = GetComponent<MonsterSound>();
+
         GameObject obj = GameObject.FindGameObjectWithTag("PauseManager");
         _spriteRenderer = GetComponent<SpriteRenderer>();
         PauseManager = obj.GetComponent<PauseManager>();
@@ -58,7 +63,6 @@ public class Enemy1AttackHandler : MonoBehaviour
         {
             if (hitCollider == _playerHp.Hitbox)
             {
-                Debug.Log("´êÀ½");
                 _playerHp.Damaged(_attackPower);
                 _attacking = true;
                 break;
@@ -84,10 +88,10 @@ public class Enemy1AttackHandler : MonoBehaviour
         {
             StartCoroutine(Blink());
             _hp -= 10;
-            Debug.Log($"Àû HP: {_hp}");
 
             if (_hp <= 0)
             {
+                _sound.PlayExplodeSound();
                 Explode();
                 _enemy1.ChangeState(EnemyBehavior.Die);
             }

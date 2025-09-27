@@ -1,7 +1,5 @@
 using System.Collections;
-using Player;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class playerHpHandler : FindChildObject
 {
@@ -58,6 +56,7 @@ public class playerHpHandler : FindChildObject
     {
         if (_isHeating == false && _isInvicible == false)
         {
+            _player.footsound.PlayHitSound();
             _hp -= damage;
             OnHpChanged?.Invoke(_hp);
             _isHeating = true;

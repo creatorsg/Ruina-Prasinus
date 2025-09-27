@@ -10,6 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(EliteAnime))]
 public class Elite1action : MonoBehaviour
 {
+    private MonsterSound _sound;
     private EnemyAttackHandler _attackHandler;
     private SpriteRenderer _spriteRenderer;
     private float _hp;
@@ -46,6 +47,7 @@ public class Elite1action : MonoBehaviour
     {
         _attackHandler = GetComponent<EnemyAttackHandler>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _sound = GetComponent<MonsterSound>();
         _hp = 20f;
 
         _explosion = Resources.Load<GameObject>("DieEffect");
@@ -220,6 +222,7 @@ public class Elite1action : MonoBehaviour
             _hp = _hp - 5f;
             if (_hp <= 0f)
             {
+                _sound.PlayExplodeSound();
                 Explode();
                 Destroy(gameObject);
             }

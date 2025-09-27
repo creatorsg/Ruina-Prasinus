@@ -1,9 +1,6 @@
-using JetBrains.Annotations;
-using Player;
+
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class Walk : State<MainPlayer>
 {

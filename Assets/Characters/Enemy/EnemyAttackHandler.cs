@@ -40,7 +40,7 @@ public class EnemyAttackHandler : MonoBehaviour, EnemyCombatInterface
 
     public void Damaged(float _enemyHp, float _playerAttack)
     {
-        _enemyHp -= _playerAttack; // 무적 없이 즉시 피해 적용
+        _enemyHp -= _playerAttack;
         Debug.Log(_enemyHp);
     }
 }

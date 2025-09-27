@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Attack : State<MainPlayer>
 {
-    private float attackMode, attackTimer;
+    private float attackMode, attackTimer, exitTimer;
     private enum Phase {  attack1, attack2 }
     private Phase _currentPhase;
 
@@ -15,6 +15,8 @@ public class Attack : State<MainPlayer>
 
     public override void Execute(MainPlayer player)
     {
+        exitTimer += Time.deltaTime;
+
         switch(_currentPhase)
         {
             case Phase.attack1:
@@ -23,12 +25,14 @@ public class Attack : State<MainPlayer>
 
                 attackTimer += Time.deltaTime;
 
-                if(Input.GetKeyDown(KeyCode.Mouse0) && attackTimer <= 1f)
+                if(InputManager.GetKeyDown("Attack") && attackTimer <= 1f)
                 {
                     attackMode = 1;
                     _currentPhase = Phase.attack2;
                     attackTimer = 0;
+                    exitTimer = 0;
                 }
+
                 break;
 
             case Phase.attack2:
@@ -37,13 +41,19 @@ public class Attack : State<MainPlayer>
 
                 attackTimer += Time.deltaTime;
 
-                if (Input.GetKeyDown(KeyCode.Mouse0) && attackTimer <= 1f   )
+                if (InputManager.GetKeyDown("Attack") && attackTimer <= 1f   )
                 {
                     attackMode = 0;
                     _currentPhase = Phase.attack1;
                     attackTimer = 0;
+                    exitTimer = 0;
                 }
                 break;
+        }
+
+        if(exitTimer > 1.5f)
+        {
+            player.ChangeEventState(EventBehavior.None);
         }
     }
     public override void FixedExecute(MainPlayer player)

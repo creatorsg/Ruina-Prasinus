@@ -1,13 +1,10 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using System.Collections;
-using System.Collections.Generic;
 
 public class Enemy3StateHandler : FindChildObject
 {
     private EnemyAttackHandler attackHandler;
-
+    private MonsterSound _sound;
     private PurpleMushroom _enemy3;
 
     private RaycastHit2D _hit, _hit2;
@@ -45,7 +42,7 @@ public class Enemy3StateHandler : FindChildObject
         attackHandler = GetComponent<EnemyAttackHandler>();
         _groundMask = LayerMask.GetMask("Ground");
         _playerMask = LayerMask.GetMask("Player");
-
+        _sound = GetComponent<MonsterSound>();
         _explosion = Resources.Load<GameObject>("MushroomExplode");
         _currentHp = 60f;
 
@@ -67,6 +64,7 @@ public class Enemy3StateHandler : FindChildObject
 
         if(_currentHp <= 0)
         {
+            _sound.PlayExplodeSound();
             Destroy(gameObject);
         }
 
@@ -184,6 +182,7 @@ public class Enemy3StateHandler : FindChildObject
     public void Explode()
     {
         Destroy(gameObject);
+        _sound.PlayExplodeSound();
         GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
         Destroy(obj, 0.6f);
     }

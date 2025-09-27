@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 7051351479889506614}
   - component: {fileID: 4773585895500883028}
   - component: {fileID: 3184763233137245560}
+  - component: {fileID: 7400997345174951826}
   m_Layer: 7
   m_Name: enemy3_0 1
   m_TagString: Untagged
@@ -338,6 +339,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+--- !u!114 &7400997345174951826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459051639576280577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9103bed03623a8448c29e8edc2a131c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explodeSound:
+    Guid:
+      Data1: -1787368371
+      Data2: 1330383613
+      Data3: -912790116
+      Data4: 1534062071
+    Path: event:/SE/explosion
+  HitSound:
+    Guid:
+      Data1: 1133986120
+      Data2: 1132437519
+      Data3: -1973581426
+      Data4: -911625203
+    Path: event:/SE/Hit
 --- !u!1 &5702255835419959628
 GameObject:
   m_ObjectHideFlags: 0

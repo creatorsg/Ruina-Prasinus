@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 7995994965152961092}
   - component: {fileID: 7296335612407141454}
   - component: {fileID: 6497704899865018}
+  - component: {fileID: 4481748037767803153}
   m_Layer: 7
   m_Name: Elite1
   m_TagString: Untagged
@@ -281,3 +282,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b07440c60f7af41bcf1aa3c4a995ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4481748037767803153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652898763095677729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9103bed03623a8448c29e8edc2a131c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explodeSound:
+    Guid:
+      Data1: -1787368371
+      Data2: 1330383613
+      Data3: -912790116
+      Data4: 1534062071
+    Path: event:/SE/explosion
+  HitSound:
+    Guid:
+      Data1: 1133986120
+      Data2: 1132437519
+      Data3: -1973581426
+      Data4: -911625203
+    Path: event:/SE/Hit

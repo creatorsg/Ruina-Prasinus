@@ -1,6 +1,4 @@
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Enemy1MoveHandler : MonoBehaviour
 {

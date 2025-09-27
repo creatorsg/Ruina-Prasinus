@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Attack2State : State<Preston>
 {
@@ -63,7 +62,7 @@ public class Attack2State : State<Preston>
             case Phase.Teleport:
                 if (_teleportIndex == 0)
                 {
-                    boss.transform.position = new Vector2(boss.DetectHandler.Player.transform.position.x, 2);
+                    //boss.transform.position = new Vector2(boss.DetectHandler.Player.transform.position.x, 2);
                     _teleportIndex++;
                 }
                 else
@@ -85,3 +84,4 @@ public class Attack2State : State<Preston>
         boss.Pattern1Attack.DeactivateAllPatterns();
     }
 }
+

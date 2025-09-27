@@ -5,8 +5,9 @@ using UnityEngine;
 public class AttackHandler : FindChildObject
 {
     private FlowerCannon _enemy4;
+    private MonsterSound _monsterSound;
     private Transform _bulletSpawner;
-    public MonsterBullet _bullet;
+    private GameObject bullet;
     private float _bulletSpeed, _cooltime;
     private bool _isCooltime;
     private EnemyAttackHandler _attackHandler;
@@ -23,14 +24,14 @@ public class AttackHandler : FindChildObject
 
     private void Awake()
     {
+        _monsterSound = GetComponent<MonsterSound>();
         _bulletSpawner = FindChildWithTag(this.transform, "bulletSpawner");
-        _bullet = new MonsterBullet();
-        _bullet.projectile = Resources.Load<GameObject>("Circle");
         _attackHandler = GetComponent<EnemyAttackHandler>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        bullet = Resources.Load<GameObject>("Bullet2");
         _explosion = Resources.Load<GameObject>("DieEffect");
 
-        _hp = 50f;
+        _hp = 20f;
     }
 
     private void Update()
@@ -50,12 +51,12 @@ public class AttackHandler : FindChildObject
     {
         if (collision.CompareTag("Bullet"))
         {
-
             StartCoroutine(Blink());
             _attackHandler.Damaged(_hp, 5f);
             _hp = _hp - 5f;
             if (_hp <= 0f)
             {
+                _monsterSound.PlayExplodeSound();
                 Explode();
                 Destroy(gameObject);
             }
@@ -64,7 +65,7 @@ public class AttackHandler : FindChildObject
     public void ShootBullet()
     {
         Vector2 dir = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
-        GameObject obj = Instantiate(_bullet.projectile, _bulletSpawner.position, Quaternion.identity);
+        GameObject obj = Instantiate(bullet, _bulletSpawner.position, Quaternion.identity);
         if (obj.TryGetComponent<Rigidbody2D>(out var rb))
         {
             rb.linearVelocity = dir * _bulletSpeed;

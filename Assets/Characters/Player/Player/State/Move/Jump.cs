@@ -16,6 +16,8 @@ public class Jump : State<MainPlayer>
 
     public override void Enter(MainPlayer player)
     {
+        player.footsound.PlayJumpSound();
+
         if(player.MoveHandler.IsDashJump)
         {
             _currentSpeed = 10f;

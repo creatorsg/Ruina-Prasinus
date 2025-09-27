@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 7437837650635845770}
   - component: {fileID: 7623673505987783547}
   - component: {fileID: 5508299247636272705}
+  - component: {fileID: 1056410060844812983}
+  - component: {fileID: 8563723048329213558}
   m_Layer: 7
   m_Name: Enemy2 1 1
   m_TagString: Untagged
@@ -280,5 +282,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1b07440c60f7af41bcf1aa3c4a995ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1056410060844812983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2886354355215197720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9103bed03623a8448c29e8edc2a131c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explodeSound:
+    Guid:
+      Data1: -1787368371
+      Data2: 1330383613
+      Data3: -912790116
+      Data4: 1534062071
+    Path: event:/SE/explosion
+  HitSound:
+    Guid:
+      Data1: 1133986120
+      Data2: 1132437519
+      Data3: -1973581426
+      Data4: -911625203
+    Path: event:/SE/Hit
+--- !u!114 &8563723048329213558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2886354355215197720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 338cacc1e8446e743b932f7378a72f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

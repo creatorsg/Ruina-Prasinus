@@ -1,10 +1,6 @@
 using System;
-using System.Drawing;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
-using static UnityEngine.UI.Image;
 
 public class MoveStatusHandler : FindChildObject
 {

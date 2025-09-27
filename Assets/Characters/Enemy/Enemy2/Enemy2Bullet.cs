@@ -6,8 +6,13 @@ using UnityEngine.Tilemaps;
 public class DestroyOnHit : MonoBehaviour
 {
     // 트리거 충돌
-
+    private MonsterSound _sound;
     public event Action<GameObject> OnDestroyed;
+
+    private void Awake()
+    {
+        _sound = GetComponent<MonsterSound>();
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (ShouldDestroy(other))
@@ -23,6 +28,7 @@ public class DestroyOnHit : MonoBehaviour
         if (ShouldDestroy(collision.collider))
         {
             OnDestroyed?.Invoke(gameObject);
+            _sound.PlayExplodeSound();
             Destroy(gameObject);
         }
     }
@@ -30,7 +36,7 @@ public class DestroyOnHit : MonoBehaviour
     // 파괴 조건 판단
     private bool ShouldDestroy(Collider2D col)
     {
-        // 1) realplayer 태그와 충돌
+
         if (col.CompareTag("PlayerBody")) return true;
 
         // 2) ground 태그의 TilemapCollider2D와 충돌
