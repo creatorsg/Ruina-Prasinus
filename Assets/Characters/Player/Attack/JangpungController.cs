@@ -25,15 +25,15 @@ public class JangpungController : MonoBehaviour
     {
         UpdateFacingDirection();
 
-        bool isDown = InputManager.GetKey("LieDown");
+        bool isDown = Input.GetKey(KeyCode.DownArrow);
         OnLieDown?.Invoke(isDown);
 
-        bool isUp = InputManager.GetKey("LookUP");
+        bool isUp = Input.GetKey(KeyCode.UpArrow);
         OnLookUp?.Invoke(isUp);
 
 
 
-        if (!isOnCooldown && InputManager.GetKeyDown("Attack"))
+        if (!isOnCooldown && Input.GetKeyDown(KeyCode.X))
         {
             Vector2 dir = CalculateLaunchDirection();
             LaunchProjectile(dir);
@@ -44,15 +44,15 @@ public class JangpungController : MonoBehaviour
 
     private void UpdateFacingDirection()
     {
-        if (InputManager.GetKeyDown("MoveLeft")) facingDirection = -1;
-        else if (InputManager.GetKeyDown("MoveRight")) facingDirection = 1;
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) facingDirection = -1;
+        else if (Input.GetKeyDown(KeyCode.RightArrow)) facingDirection = 1;
     }
 
     private Vector2 CalculateLaunchDirection()
     {
-        if (InputManager.GetKey("LookUP"))
+        if (Input.GetKey(KeyCode.UpArrow))
             return Vector2.up;
-        if (InputManager.GetKey("LieDown") && !status.CanJump)
+        if (Input.GetKey(KeyCode.DownArrow) && !status.CanJump)
         {
             
             return (Vector2.down + (facingDirection == 1 ? Vector2.right : Vector2.left)).normalized;

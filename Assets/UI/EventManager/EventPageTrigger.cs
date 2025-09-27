@@ -17,14 +17,14 @@ public class EventPageTrigger
     {
         if (_triggerType == TriggerType.ActionButton)
         {
-            if (InputManager.GetKey("LookUP") && !_pushKey)
+            if (Input.GetKey(KeyCode.UpArrow) && !_pushKey)
             {
                 _pushKey = true;
                 if (!moveStatusHandler.CanJump)
                     return false;
                 return true;
             }
-            else if (!InputManager.GetKey("LookUP") && _pushKey)
+            else if (!Input.GetKey(KeyCode.UpArrow) && _pushKey)
                 _pushKey = false;
             return false;
         }

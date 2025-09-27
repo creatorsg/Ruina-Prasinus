@@ -42,7 +42,7 @@ public class MovementController : MonoBehaviour
 
     void Update()
     {
-        bool dashHeld = InputManager.GetKey("Dash");
+        bool dashHeld = Input.GetKey(KeyCode.LeftShift);
 
         hit = Physics2D.Raycast(Player.position, Vector2.down, distance, groundMask);
         fronthit = Physics2D.Raycast(frontCheck.position, transform.right, 0.1f, groundMask);

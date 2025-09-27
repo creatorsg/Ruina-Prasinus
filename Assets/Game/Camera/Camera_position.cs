@@ -31,6 +31,11 @@ public class Following_Player : MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        boundParent  = cameraBounds.transform.parent.gameObject;
+    }
     void LateUpdate()
     {
         if (isTransitioning)
