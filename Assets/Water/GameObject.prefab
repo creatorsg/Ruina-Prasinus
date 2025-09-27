@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _quality: 100
-  _waveDecay: 0.1
+  _waveDecay: 0.3
   _timeScale: 1.2
   _horizontalForceMultiplier: 0.05
   smallWaveForce: 0.015

@@ -106,7 +106,13 @@ public class Enemy1AttackHandler : MonoBehaviour
     public void Explode()
     {
         _spriteRenderer.enabled = false;
+
         GameObject obj = Instantiate(_explosion, transform.position, Quaternion.identity);
-        Destroy(obj, 0.8f);
+
+        // 크기 변경
+        obj.transform.localScale = new Vector2(0.3f, 0.3f); // X, Y, Z 축 비율
+
+        Destroy(obj, 0.6f);
     }
+
 }
