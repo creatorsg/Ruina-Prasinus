@@ -71,10 +71,10 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638946392974970573
+  lastModified: 638946374367880173
   FileSizes:
   - Name: Desktop
-    Value: 2924864
+    Value: 2925760
   Exists: 1
 --- !u!114 &-5180058962063824726
 MonoBehaviour:
@@ -166,7 +166,7 @@ MonoBehaviour:
   - {fileID: -5291251528705020870}
   - {fileID: 7758416496569281871}
   IsStream: 0
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -236,7 +236,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 3039121402449710161}
   cacheVersion: 131848
-  cacheTime: 638946392975256912
+  cacheTime: 638946374368180904
   SerializableEventsDict:
   - key: event:/SE/Dash
     index: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638946392974990580
+  lastModified: 638946374367900308
   FileSizes:
   - Name: Desktop
     Value: 1488
@@ -425,10 +425,10 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/SE.bank
   Name: SE
   StudioPath: bank:/SE
-  lastModified: 638946392975256912
+  lastModified: 638946374368180904
   FileSizes:
   - Name: Desktop
-    Value: 79648
+    Value: 80544
   Exists: 1
 --- !u!114 &8171697585673743685
 MonoBehaviour:

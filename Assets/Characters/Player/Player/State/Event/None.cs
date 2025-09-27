@@ -9,7 +9,7 @@ public class None : State<MainPlayer>
 
     public override void Execute(MainPlayer player)
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (InputManager.GetKeyDown("Attack"))
         {
             player.ChangeEventState(EventBehavior.Attack);
         }

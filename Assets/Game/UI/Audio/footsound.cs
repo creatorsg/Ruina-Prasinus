@@ -4,7 +4,7 @@ using UnityEngine;
 public class footsound : MonoBehaviour
 {
     private MainPlayer _Mainplayer;
-    [SerializeField] EventReference _walkSound;
+    string _walkSound = MusicStorage.GetSE("WalkSound");
     [SerializeField] EventReference _dashSound;
     [SerializeField] EventReference _Jumpsound;
     [SerializeField] EventReference _attackSound;

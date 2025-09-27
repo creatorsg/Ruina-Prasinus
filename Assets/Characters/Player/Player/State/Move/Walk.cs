@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Walk : State<MainPlayer>
 {
-    private float _moveSpeed, dt = Time.deltaTime, _time;
+    private float _moveSpeed, dt = Time.deltaTime;
     private Vector2 movePower;
     public Walk()
     {
@@ -20,17 +20,6 @@ public class Walk : State<MainPlayer>
 
     public override void Execute(MainPlayer player)
     {
-        _time += Time.deltaTime;
-
-        if (player.MoveHandler.IsWalking && player.MoveStatusHandler.CanJump)
-        {
-            if (_time >= 0.3)
-            {
-                player.footsound.PlayWalkSound();
-                _time = 0f;
-            }
-        }
-
         if (player.MoveHandler.IsWalking)
         {
             {
