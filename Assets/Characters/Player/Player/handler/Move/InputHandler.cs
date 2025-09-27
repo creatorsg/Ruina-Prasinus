@@ -56,7 +56,7 @@ public class InputHandler : MonoBehaviour
         MoveEvent();
 
         _isDashHeld = InputManager.GetKey("Dash");
-        _isJumpHeld = Input.GetKey(KeyCode.Space);
+        _isJumpHeld = Input.GetKey(KeyCode.Z);
         _dashcoolTimer = Mathf.Min(_dashcoolTimer + Time.deltaTime, _dashCooltime);
 
         _canDash = _dashcoolTimer >= _dashCooltime;
@@ -90,7 +90,7 @@ public class InputHandler : MonoBehaviour
             OnDash?.Invoke();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             OnJump?.Invoke();
         }
