@@ -47,8 +47,8 @@ MonoBehaviour:
     Data3: -774956359
     Data4: 957826931
   Banks:
-  - {fileID: 7758416496569281871}
   - {fileID: -5291251528705020870}
+  - {fileID: 7758416496569281871}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -71,7 +71,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638946366805134938
+  lastModified: 638946374367880173
   FileSizes:
   - Name: Desktop
     Value: 2925760
@@ -135,8 +135,8 @@ MonoBehaviour:
     Data3: -1973581426
     Data4: -911625203
   Banks:
-  - {fileID: 7758416496569281871}
   - {fileID: -5291251528705020870}
+  - {fileID: 7758416496569281871}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -163,8 +163,8 @@ MonoBehaviour:
     Data3: -1012727166
     Data4: -1718460427
   Banks:
-  - {fileID: 7758416496569281871}
   - {fileID: -5291251528705020870}
+  - {fileID: 7758416496569281871}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -191,8 +191,8 @@ MonoBehaviour:
     Data3: 1938362556
     Data4: -978168224
   Banks:
-  - {fileID: 7758416496569281871}
   - {fileID: -5291251528705020870}
+  - {fileID: 7758416496569281871}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -236,7 +236,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 3039121402449710161}
   cacheVersion: 131848
-  cacheTime: 638946366805175203
+  cacheTime: 638946374368180904
   SerializableEventsDict:
   - key: event:/SE/Dash
     index: 0
@@ -277,8 +277,8 @@ MonoBehaviour:
     Data3: 2088694154
     Data4: 808045647
   Banks:
-  - {fileID: 7758416496569281871}
   - {fileID: -5291251528705020870}
+  - {fileID: 7758416496569281871}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -301,7 +301,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638946366805175203
+  lastModified: 638946374367900308
   FileSizes:
   - Name: Desktop
     Value: 1488
@@ -381,8 +381,8 @@ MonoBehaviour:
     Data3: -912790116
     Data4: 1534062071
   Banks:
-  - {fileID: 7758416496569281871}
   - {fileID: -5291251528705020870}
+  - {fileID: 7758416496569281871}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -425,7 +425,7 @@ MonoBehaviour:
   Path: ../OneDrive/LuniaDemo/Build/Desktop/SE.bank
   Name: SE
   StudioPath: bank:/SE
-  lastModified: 638946366405783196
+  lastModified: 638946374368180904
   FileSizes:
   - Name: Desktop
     Value: 80544
@@ -449,8 +449,8 @@ MonoBehaviour:
     Data3: -281053518
     Data4: -885772765
   Banks:
-  - {fileID: 7758416496569281871}
   - {fileID: -5291251528705020870}
+  - {fileID: 7758416496569281871}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
