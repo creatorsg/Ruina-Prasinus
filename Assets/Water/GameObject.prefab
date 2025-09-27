@@ -147,12 +147,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _quality: 100
-  _waveDecay: 0.1
+  _waveDecay: 0.4
   _timeScale: 1.2
   _horizontalForceMultiplier: 0.05
   smallWaveForce: 0.015
   smallWaveInterval: 0.2
   waveThreshold: 0.01
   _waveSpreadRange: 2
-  _waveSpreadSpeed: 1
-  _waveHeightLimit: 0.5
+  _waveSpreadSpeed: 2
+  _waveHeightLimit: 1.3
