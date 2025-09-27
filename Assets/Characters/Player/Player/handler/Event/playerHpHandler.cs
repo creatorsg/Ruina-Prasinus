@@ -15,11 +15,15 @@ public class playerHpHandler : FindChildObject
     private GameObject _explosion;
     public bool IsHeating => _isHeating;
 
+    public event System.Action OnPlayerDead;
+    public event System.Action<float> OnHpChanged;
+
     public PolygonCollider2D Hitbox => _hitbox;
     public void Initialize(MainPlayer player, float hp)
     {
         _player = player;
         _hp = hp;
+        OnHpChanged?.Invoke(_hp); // 초기값도 알림
     }
 
     public void Awake()
@@ -43,7 +47,9 @@ public class playerHpHandler : FindChildObject
 
         if(_hp <= 0)
         {
+            OnPlayerDead?.Invoke();
             _player.ChangeEventState(EventBehavior.Die);
+            
         }
     }
 
@@ -53,6 +59,7 @@ public class playerHpHandler : FindChildObject
         if (_isHeating == false && _isInvicible == false)
         {
             _hp -= damage;
+            OnHpChanged?.Invoke(_hp);
             _isHeating = true;
 
             _player.ChangeMoveState(MoveBehavior.Idle);

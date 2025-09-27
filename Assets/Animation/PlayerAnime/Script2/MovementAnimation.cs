@@ -10,12 +10,13 @@ public class MovementAnimation : MonoBehaviour
     [SerializeField] private JangpungController jangpungController;
 
     private bool isGround;
-    private bool wasGround;             // 이전 프레임의 착지 여부 체크
-    private string currentState;        // 현재 재생 중인 애니메이션 상태
-    private string calculatedState;     // 매 프레임 계산된 상태
-    private bool isIntermediatePlaying; // Land, Stop 등 사이 상태 재생중 여부
-
+    private bool wasGround;
+    private string currentState;
+    private bool isIntermediatePlaying;
     private Coroutine dashCoroutine;
+
+    private string lastCalculatedState;
+    private Coroutine intermediateCoroutine;
 
     private void Awake()
     {
@@ -31,97 +32,67 @@ public class MovementAnimation : MonoBehaviour
     {
         if (animationTotal == null) return;
 
-        // -------------------------
-        // 1. 상태 계산 (계속 갱신)
-        // -------------------------
         wasGround = isGround;
         isGround = animationTotal.isGround;
-        var upDownState = yDeltaChecker.CurrentState;
 
-        // 사이상태 재생중이면 상위 상태 계산 무시
-        if (isIntermediatePlaying) return;
+        // Dash, Attack, Intermediate 재생 중이면 Update에서 애니메이션 변경 금지
+        if (isIntermediatePlaying || (attackNotifier != null && attackNotifier.IsAttacking)) return;
 
-        if (isGround)
+        // 착지 시 Land 재생
+        if (!wasGround && isGround)
         {
-            if (!wasGround && isGround)
-            {
-                StartCoroutine(PlayIntermediate("Land", "Idle", 0.3f));
-                return;
-            }
-
-            if (animationTotal.isWalk)
-            {
-                if (calculatedState != "Running" && calculatedState != "RunningStart")
-                {
-                    StartCoroutine(PlayRunningStartOneFrame(0.1f));
-                }
-            }
-            else if (animationTotal.isDash)
-            {
-                if (dashCoroutine == null)
-                {
-                    dashCoroutine = StartCoroutine(PlayDashSequence());
-                }
-            }
-            else
-            {
-                if (!isIntermediatePlaying)   // ⭐ Idle 계산 막기
-                {
-                    if (currentState == "Running" || currentState == "RunningStart")
-                    {
-                        StartCoroutine(PlayIntermediate("Stop", "Idle", 0.2f));
-                        return;
-                    }
-
-                    if (currentState.StartsWith("Dash"))
-                    {
-                        StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.2f));
-                        return;
-                    }
-
-                    calculatedState = "Idle";
-                }
-            }
-
-        }
-        else
-        {
-            if (upDownState == YDeltaChecker.UpDownState.Up)
-            {
-                // 현재 Down이 아니라면 Up 유지
-                if (currentState != "Down")
-                    calculatedState = "Up";
-            }
-            else if (upDownState == YDeltaChecker.UpDownState.Down)
-            {
-                // 현재가 Up이거나 Down일 때만 Down으로 전환
-                if (currentState == "Up" || currentState == "Down")
-                    calculatedState = "Down";
-            }
-        }
-
-        if (attackNotifier != null && attackNotifier.IsAttacking)
-        {
-            // 현재 공격 중이라면 Animator.Play 호출 금지
-            // 대신 논리적 상태만 기록
-            currentState = "Attack";
-
-            // Update에서 calculatedState 적용 금지
+            StartCoroutine(PlayIntermediate("Land", "Idle", 0.3f));
             return;
         }
 
-
-
-        if (!string.IsNullOrEmpty(calculatedState) && currentState != calculatedState)
+        // Dash 시작
+        if (animationTotal.isDash && dashCoroutine == null)
         {
-            ChangeAnimation(calculatedState);
+            dashCoroutine = StartCoroutine(PlayDashSequence());
+            return;
         }
+
+        // Stop 조건: Running -> 멈춤
+        if ((currentState == "Running" || currentState == "RunningStart") && !animationTotal.isWalk)
+        {
+            StartCoroutine(PlayStopIntermediate(0.2f));
+            return;
+        }
+
+        // 현재 상태 계산
+        string newState = CalculateState();
+
+        // 상태가 바뀌었을 때만 애니메이션 재생
+        if (newState != lastCalculatedState)
+        {
+            ChangeAnimation(newState);
+            lastCalculatedState = newState;
+        }
+    }
+
+    private string CalculateState()
+    {
+        if (!isGround)
+        {
+            return yDeltaChecker.CurrentState == YDeltaChecker.UpDownState.Up ? "Up" : "Down";
+        }
+
+        if (animationTotal.isWalk)
+        {
+            if (currentState != "Running" && currentState != "RunningStart")
+            {
+                StartCoroutine(PlayRunningStartOneFrame(0.1f));
+                return "RunningStart";
+            }
+            return "Running";
+        }
+
+        return "Idle";
     }
 
     private IEnumerator PlayRunningStartOneFrame(float duration)
     {
         animator.Play("RunningStart");
-        calculatedState = "RunningStart";
         currentState = "RunningStart";
 
         yield return new WaitForSeconds(duration);
@@ -129,128 +100,127 @@ public class MovementAnimation : MonoBehaviour
         if (animationTotal.isWalk && isGround)
         {
             animator.Play("Running");
-            calculatedState = "Running";
             currentState = "Running";
         }
         else
         {
-            // duration 안에 멈춰버리면 Stop 실행
-            StartCoroutine(PlayIntermediate("Stop", "Idle", 0.2f));
+            StartCoroutine(PlayStopIntermediate(0.2f));
         }
     }
 
+    private IEnumerator PlayStopIntermediate(float duration)
+    {
+        // Stop 재생
+        if (isIntermediatePlaying) yield break;
 
-    /// <summary>
-    /// Land, Stop 같은 사이 상태 실행
-    /// </summary>
-    private Coroutine intermediateCoroutine; // 현재 사이 상태 코루틴 저장
+        isIntermediatePlaying = true;
+        animator.Play("Stop");
+        currentState = "Stop";
+
+        float timer = 0f;
+        while (timer < duration)
+        {
+            // Walk, Dash, Attack 입력이 들어오면 즉시 캔슬
+            if (animationTotal.isWalk || animationTotal.isDash || (attackNotifier != null && attackNotifier.IsAttacking))
+                break;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isIntermediatePlaying = false;
+
+        // Stop 종료 후 안전하게 Idle로 전환
+        if (!animationTotal.isWalk && !animationTotal.isDash && !(attackNotifier != null && attackNotifier.IsAttacking))
+        {
+            ChangeAnimation("Idle", force: true);
+            lastCalculatedState = "Idle";
+        }
+    }
+
+    private IEnumerator PlayDashSequence()
+    {
+        animator.Play("ToDash");
+        currentState = "ToDash";
+
+        yield return null;
+        float toDashLength = animator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(toDashLength);
+
+        animator.Play("DashRepeat");
+        currentState = "DashRepeat";
+
+        while (animationTotal.isDash && isGround)
+        {
+            yield return null;
+        }
+
+        // Dash 종료 후 상태 판단
+        if (isGround)
+        {
+            if (!animationTotal.isWalk)
+            {
+                StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.5f));
+            }
+            else
+            {
+                animator.Play("Running", 0, 0f);
+                currentState = "Running";
+                lastCalculatedState = "Running";
+            }
+        }
+        else
+        {
+            var upState = yDeltaChecker.CurrentState == YDeltaChecker.UpDownState.Up ? "Up" : "Down";
+            animator.Play(upState, 0, 0f);
+            currentState = upState;
+            lastCalculatedState = upState;
+        }
+
+        dashCoroutine = null;
+    }
 
     private IEnumerator PlayIntermediate(string intermediate, string nextState, float duration)
     {
-        // Stop은 중복 실행 허용 → 이전 코루틴 강제 중지
-        if (intermediate == "Stop" && intermediateCoroutine != null)
+        if (intermediateCoroutine != null)
         {
             StopCoroutine(intermediateCoroutine);
             isIntermediatePlaying = false;
         }
 
-        // 이미 다른 사이상태 재생중이라면 그냥 무시
-        if (isIntermediatePlaying)
-            yield break;
+        if (isIntermediatePlaying) yield break;
 
         isIntermediatePlaying = true;
+        intermediateCoroutine = StartCoroutine(IntermediateRoutine(intermediate, nextState, duration));
+    }
 
+    private IEnumerator IntermediateRoutine(string intermediate, string nextState, float duration)
+    {
         animator.Play(intermediate);
         currentState = intermediate;
 
         yield return new WaitForSeconds(duration);
 
         ChangeAnimation(nextState, force: true);
+        lastCalculatedState = nextState;
 
         isIntermediatePlaying = false;
         intermediateCoroutine = null;
     }
 
-    private IEnumerator PlayDashSequence()
-    {
-        // 1. ToDash 재생
-        animator.Play("ToDash");
-        currentState = "ToDash";
-
-        // 한 프레임 대기 후 길이 가져오기
-        yield return null;
-        float toDashLength = animator.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(toDashLength);
-
-        // 2. DashRepeat 재생
-        animator.Play("DashRepeat");
-        currentState = "DashRepeat";
-
-        // DashRepeat 지속 중
-        while (animationTotal.isDash && isGround)
-        {
-            yield return null;
-        }
-
-        // 3. Dash 종료 후 상태 판단
-        if (isGround)
-        {
-            if (!animationTotal.isWalk)
-            {
-                // 걷지 않고 멈춰있다면 ToIdle 재생
-                StartCoroutine(PlayIntermediate("ToIdle", "Idle", 0.5f));
-                Debug.Log("Dash -> ToIdle");
-            }
-            else
-            {
-                // 걷고 있다면 바로 Running으로
-                animator.Play("Running", 0, 0f);
-                currentState = "Running";
-                calculatedState = "Running";
-            }
-        }
-        else
-        {
-            // 공중이면 Up/Down 판단
-            var upState = yDeltaChecker.CurrentState == YDeltaChecker.UpDownState.Up ? "Up" : "Down";
-            animator.Play(upState, 0, 0f);
-            currentState = upState;
-            calculatedState = upState;
-        }
-
-        dashCoroutine = null;
-    }
-
-
-
-
     public void OnAttackAnimationEnd()
     {
-        if (isGround)
+        if (animationTotal.isDash)
         {
-            if (animationTotal.isWalk)
-            {
-                // RunningStart → Running 처리
-                StartCoroutine(PlayRunningStartOneFrame(0.1f));
-            }
-            else if (animationTotal.isDash)
-            {
-                StartCoroutine(PlayDashSequence());
-            }
-            else
-            {
-                if (calculatedState != "Running")
-                    StartCoroutine(PlayIntermediate("Stop", "Idle", 0.2f));
-            }
+            if (dashCoroutine == null)
+                dashCoroutine = StartCoroutine(PlayDashSequence());
+            return;
         }
-        else
-        {
-            calculatedState = yDeltaChecker.CurrentState == YDeltaChecker.UpDownState.Up ? "Up" : "Down";
-            ChangeAnimation(calculatedState, force: true);
-        }
+
+        string newState = CalculateState();
+        ChangeAnimation(newState, force: true);
+        lastCalculatedState = newState;
     }
-
-
 
     private void ChangeAnimation(string newState, bool force = false)
     {
@@ -266,26 +236,19 @@ public class MovementAnimation : MonoBehaviour
         currentState = newState;
     }
 
-
-
     private void LookUp(bool up)
     {
         if (!isGround) return;
-
-        // 움직이는 중(Running, RunningStart, Dash)에는 실행 금지
-        if (currentState == "Running" || currentState == "RunningStart" || currentState.StartsWith("Dash"))
-            return;
+        if (currentState == "Running" || currentState == "RunningStart" || currentState.StartsWith("Dash")) return;
 
         if (up)
             animator.Play("LookUp");
     }
 
-
     private void SitDown(bool down)
     {
         if (!isGround) return;
 
-        if (isGround)
-            animator.SetBool("isSitting", down);
+        animator.SetBool("isSitting", down);
     }
 }
