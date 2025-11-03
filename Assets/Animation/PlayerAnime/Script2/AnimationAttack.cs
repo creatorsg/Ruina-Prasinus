@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AnimationAttack : MonoBehaviour
 {
@@ -8,8 +8,10 @@ public class AnimationAttack : MonoBehaviour
     private bool isUp;
     private bool isDown;
     private bool isWalk;
-
     private bool isGround;
+
+    // ✅ 공격 중 여부 (Notifier 기능 통합)
+    public bool IsAttacking { get; private set; }
 
     public int AttackNum { get; private set; } = 0;
 
@@ -22,6 +24,7 @@ public class AnimationAttack : MonoBehaviour
         jangpungController.OnAttack += Attack;
         jangpungController.OnLookUp += HandleLookUp;
         jangpungController.OnLieDown += HandleLieDown;
+
         animator = GetComponent<Animator>();
     }
 
@@ -32,10 +35,17 @@ public class AnimationAttack : MonoBehaviour
             isGround = animationTotal.isGround;
             isWalk = animationTotal.isWalk;
         }
+
+        // 예: 공격 중일 때 다른 입력 무시 가능
+        // if (IsAttacking) Debug.Log("공격 중...");
     }
 
     private void Attack()
     {
+        // ✅ 공격 중일 땐 중복 공격 방지
+        if (IsAttacking)
+            return;
+
         // Ground
         if (isGround)
         {
@@ -63,11 +73,9 @@ public class AnimationAttack : MonoBehaviour
                 {
                     animator.Play("GroundAttack2");
                     AttackNum = 0;
-
                 }
             }
         }
-
         else
         {
             // Air
@@ -84,20 +92,23 @@ public class AnimationAttack : MonoBehaviour
                 animator.Play("JumpAttack");
             }
         }
-
-        
-
     }
 
-    private void HandleLookUp(bool up)
+    private void HandleLookUp(bool up) => isUp = up;
+    private void HandleLieDown(bool down) => isDown = down;
+
+    // ✅ 애니메이션 이벤트에서 호출할 함수
+    // 공격 애니메이션 첫 프레임에서 실행
+    public void AttackStart()
     {
-        isUp = up;
+        IsAttacking = true;
+        // Debug.Log("공격 시작");
     }
 
-    private void HandleLieDown(bool down)
+    // 공격 애니메이션 마지막 프레임에서 실행
+    public void AttackEnd()
     {
-        isDown = down;
+        IsAttacking = false;
+        // Debug.Log("공격 종료");
     }
-
-    
 }

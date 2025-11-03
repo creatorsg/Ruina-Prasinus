@@ -6,7 +6,7 @@ public class MovementAnimation : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private YDeltaChecker yDeltaChecker;
     [SerializeField] private AnimationTotal animationTotal;
-    [SerializeField] private AnimationAttackNotifier attackNotifier;
+    [SerializeField] private AnimationAttack attackNotifier;
     [SerializeField] private JangpungController jangpungController;
 
     private bool isGround;

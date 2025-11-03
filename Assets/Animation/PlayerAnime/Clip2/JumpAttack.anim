@@ -88,14 +88,14 @@ AnimationClip:
   - time: 0
     functionName: AttackStart
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: a24cd6b57e15dc14b9a133882d273223, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: e23830bc1877368458ebd400495ff617, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.41666666
     functionName: AttackEnd
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: a24cd6b57e15dc14b9a133882d273223, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: e23830bc1877368458ebd400495ff617, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
