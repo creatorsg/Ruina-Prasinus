@@ -165,7 +165,7 @@ Grid:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8761887151282837854}
   m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 0}
+  m_CellSize: {x: 0.5, y: 0.5, z: 0}
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
@@ -231,7 +231,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6664450003911394975, guid: 2f63ef938a891964a9f6fd0c81a75401, type: 3}
   m_PrefabInstance: {fileID: 5322261701668942846}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7785206500038348214
+--- !u!114 &721504941435948985
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
